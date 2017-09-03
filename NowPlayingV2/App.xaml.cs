@@ -22,7 +22,10 @@ namespace NowPlayingV2
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
             }
-
+        }
+        protected override void OnExit(ExitEventArgs e)
+        {
+            
         }
     }
 }
