@@ -13,7 +13,7 @@ namespace NowPlayingV2UTest
     public class MusicBeePluginTest
     {
         [TestMethod]
-        public void getJsonTest()
+        public void GetJsonTest()
         {
             var stream = new NamedPipeServerStream("NowPlayingTunesV2PIPE");
             var memstream = new MemoryStream();

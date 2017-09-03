@@ -8,7 +8,7 @@ namespace NowPlayingV2.Core
 {
     public class ConfigStore
     {
-        public static bool configExists()
+        public static bool ConfigExists()
         {
             return System.IO.File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/config.xml");
         }

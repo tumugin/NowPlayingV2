@@ -13,7 +13,7 @@ namespace NowPlayingV2
         protected override void OnStartup(StartupEventArgs e)
         {
             //Load config
-            if (Core.ConfigStore.configExists())
+            if (Core.ConfigStore.ConfigExists())
             {
 
             }
