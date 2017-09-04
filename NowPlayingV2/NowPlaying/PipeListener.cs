@@ -57,7 +57,7 @@ namespace NowPlayingV2.NowPlaying
                             {
                                 var buffer = new byte[1024];
                                 readret = stream.Read(buffer, 0, buffer.Length);
-                                memstream.Write(buffer, 0, buffer.Length);
+                                memstream.Write(buffer, 0, readret);
                             }
                             stream.Close();
                             aresetev.Set();
