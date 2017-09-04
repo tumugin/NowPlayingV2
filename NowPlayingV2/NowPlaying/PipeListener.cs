@@ -24,35 +24,31 @@ namespace NowPlayingV2.NowPlaying
             }
         }
 
-        //set values to SongInfo
-        private class MKSongInfo : SongInfo
-        {
-            public void SetProp(string propname, object value)
-            {
-                var prop = this.GetType().GetProperty(propname);
-                prop.SetValue(this, value);
-            }
-        }
-
         //delegate
         public delegate void OnMusicPlayDelegate(SongInfo songInfo);
         public event OnMusicPlayDelegate OnMusicPlay = (songinfo) => { };
 
         //pipe listener
-        private AutoResetEvent resetevent = new AutoResetEvent(false);
+        private ManualResetEvent stopevent = new ManualResetEvent(false);
+        private AutoResetEvent taskstopwait = new AutoResetEvent(false);
         private void startPipeListener()
         {
-            new Thread(() =>
+            Task.Run(() =>
             {
                 while (true)
                 {
                     try
                     {
                         var aresetev = new AutoResetEvent(false);
-                        var stream = new NamedPipeServerStream("NowPlayingTunesV2PIPE",PipeDirection.InOut,1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
+                        var stream = new NamedPipeServerStream("NowPlayingTunesV2PIPE", PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
                         stream.BeginWaitForConnection((IAsyncResult ar) =>
                         {
-                            //TODO: stopPipeListener()呼び出し時にここで絶対に例外が発生するので発生しないコードにする
+                            if (stopevent.WaitOne(0))
+                            {
+                                //WaitOne(0) returns true when state is set
+                                taskstopwait.Set();
+                                return;
+                            }
                             stream.EndWaitForConnection(ar);
                             if (!stream.IsConnected) return;
                             var memstream = new MemoryStream();
@@ -67,17 +63,10 @@ namespace NowPlayingV2.NowPlaying
                             aresetev.Set();
                             var bary = memstream.ToArray();
                             var rawjson = System.Text.Encoding.UTF8.GetString(bary);
-                            dynamic json = JsonConvert.DeserializeObject(rawjson);
-                            MKSongInfo sinfo = new MKSongInfo();
-                            sinfo.SetProp(nameof(sinfo.Album), json["album"].Value);
-                            sinfo.SetProp(nameof(sinfo.AlbumArtBase64), json["albumart"].Value);
-                            sinfo.SetProp(nameof(sinfo.AlbumArtist), json["albumartist"].Value);
-                            sinfo.SetProp(nameof(sinfo.Title), json["title"].Value);
-                            sinfo.SetProp(nameof(sinfo.TrackCount), json["trackcount"].Value);
-                            sinfo.SetProp(nameof(sinfo.Artist), json["artist"].Value);
+                            var sinfo = JsonConvert.DeserializeObject<SongInfo>(rawjson);
                             OnMusicPlay(sinfo);
                         }, null);
-                        if (WaitHandle.WaitAny(new WaitHandle[] { aresetev, resetevent }) == 1)
+                        if (WaitHandle.WaitAny(new WaitHandle[] { aresetev, stopevent }) == 1)
                         {
                             stream.Close();
                             return;
@@ -85,12 +74,14 @@ namespace NowPlayingV2.NowPlaying
                     }
                     catch { }
                 }
-            }).Start();
+            });
         }
 
         public void stopPipeListener()
         {
-            resetevent.Set();
+            stopevent.Set();
+            taskstopwait.WaitOne(Timeout.Infinite);
+            stopevent.Reset();
         }
     }
 }

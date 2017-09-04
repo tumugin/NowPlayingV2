@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using NowPlayingV2.NowPlaying;
 using System.Threading;
+using System.Linq;
+using System.Reflection;
 
 namespace NowPlayingV2UTest
 {
@@ -50,7 +52,7 @@ namespace NowPlayingV2UTest
                 Assert.IsNotNull(songinfo.AlbumArtist);
                 Assert.IsNotNull(songinfo.Title);
                 Assert.IsNotNull(songinfo.TrackCount);
-                Console.WriteLine(songinfo.ToString());
+                songinfo.GetType().GetProperties().ToList().ForEach(itm => Console.WriteLine($"{itm.Name} : {itm.GetValue(songinfo)}"));
                 waitHandle.Set();
             };
             waitHandle.WaitOne(Timeout.Infinite);
