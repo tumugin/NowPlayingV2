@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,5 +23,30 @@ namespace NowPlayingV2.NowPlaying
         public string AlbumArtBase64 { get; protected set; }
         [JsonProperty("artist")]
         public string Artist { get; protected set; }
+
+        private Bitmap cachebitmap = null;
+
+        public Bitmap GetAlbumArt()
+        {
+            if (cachebitmap != null) return cachebitmap;
+            var bary = Convert.FromBase64String(AlbumArtBase64);
+            var ms = new MemoryStream(bary);
+            return new Bitmap(ms);
+        }
+
+        public bool IsAlbumArtAvaliable()
+        {
+            if (AlbumArtBase64.Length == 0) return false;
+            try
+            {
+                var bary = Convert.FromBase64String(AlbumArtBase64);
+                var ms = new MemoryStream(bary);
+                cachebitmap = new Bitmap(ms);
+                return true;
+            }
+            catch {
+                return false;
+            }
+        }
     }
 }

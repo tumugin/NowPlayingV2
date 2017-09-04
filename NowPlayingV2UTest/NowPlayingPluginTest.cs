@@ -58,5 +58,25 @@ namespace NowPlayingV2UTest
             waitHandle.WaitOne(Timeout.Infinite);
             PipeListener.staticpipelistener.stopPipeListener();
         }
+
+        [TestMethod]
+        public void TestImageDecoder()
+        {
+            var waitHandle = new ManualResetEvent(false);
+            PipeListener.MkStaticInstance();
+            PipeListener.staticpipelistener.OnMusicPlay += (songinfo) =>
+            {
+                if (songinfo.IsAlbumArtAvaliable())
+                {
+                    Console.WriteLine($"Image Width : {songinfo.GetAlbumArt().Width}");
+                    Console.WriteLine($"Image Height : {songinfo.GetAlbumArt().Height}");
+                }
+                Assert.IsTrue(songinfo.AlbumArtBase64.Length == 0 || songinfo.IsAlbumArtAvaliable());
+                songinfo.GetType().GetProperties().ToList().ForEach(itm => Console.WriteLine($"{itm.Name} : {itm.GetValue(songinfo)}"));
+                waitHandle.Set();
+            };
+            waitHandle.WaitOne(Timeout.Infinite);
+            PipeListener.staticpipelistener.stopPipeListener();
+        }
     }
 }
