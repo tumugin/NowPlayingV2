@@ -39,7 +39,7 @@ namespace NowPlayingV2.NowPlaying
         public void startPipeListener()
         {
             //do not start more than 1 task.
-            if (!new []{ TaskStatus.RanToCompletion, TaskStatus.Faulted, TaskStatus.WaitingForChildrenToComplete }.Any(i => i == listenertask?.Status)) return;
+            if (!new TaskStatus?[] { TaskStatus.RanToCompletion, TaskStatus.Faulted, TaskStatus.WaitingForChildrenToComplete, null }.Contains(listenertask?.Status)) return;
             listenertask = Task.Run(() =>
             {
                 while (true)
