@@ -12,6 +12,8 @@ namespace NowPlayingV2
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            //Start Pipe Listener
+            NowPlaying.PipeListener.MkStaticInstance();
             //Load config
             if (Core.ConfigStore.ConfigExists())
             {
@@ -25,7 +27,8 @@ namespace NowPlayingV2
         }
         protected override void OnExit(ExitEventArgs e)
         {
-            
+            //Stop Pipe Listener
+            NowPlaying.PipeListener.staticpipelistener?.stopPipeListener();
         }
     }
 }

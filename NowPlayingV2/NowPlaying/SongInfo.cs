@@ -37,6 +37,7 @@ namespace NowPlayingV2.NowPlaying
         public bool IsAlbumArtAvaliable()
         {
             if (AlbumArtBase64.Length == 0) return false;
+            if (cachebitmap != null) return true;
             try
             {
                 var bary = Convert.FromBase64String(AlbumArtBase64);

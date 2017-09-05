@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
@@ -28,12 +29,18 @@ namespace NowPlayingV2.NowPlaying
         public delegate void OnMusicPlayDelegate(SongInfo songInfo);
         public event OnMusicPlayDelegate OnMusicPlay = (songinfo) => { };
 
+        //property
+        public SongInfo LastPlayedSong { get; private set; } = null;
+
         //pipe listener
         private ManualResetEvent stopevent = new ManualResetEvent(false);
         private AutoResetEvent taskstopwait = new AutoResetEvent(false);
-        private void startPipeListener()
+        private Task listenertask = null;
+        public void startPipeListener()
         {
-            Task.Run(() =>
+            //do not start more than 1 task.
+            if (!new []{ TaskStatus.RanToCompletion, TaskStatus.Faulted, TaskStatus.WaitingForChildrenToComplete }.Any(i => i == listenertask?.Status)) return;
+            listenertask = Task.Run(() =>
             {
                 while (true)
                 {
@@ -64,6 +71,7 @@ namespace NowPlayingV2.NowPlaying
                             var bary = memstream.ToArray();
                             var rawjson = System.Text.Encoding.UTF8.GetString(bary);
                             var sinfo = JsonConvert.DeserializeObject<SongInfo>(rawjson);
+                            LastPlayedSong = sinfo;
                             OnMusicPlay(sinfo);
                         }, null);
                         if (WaitHandle.WaitAny(new WaitHandle[] { aresetev, stopevent }) == 1)
@@ -79,9 +87,12 @@ namespace NowPlayingV2.NowPlaying
 
         public void stopPipeListener()
         {
-            stopevent.Set();
-            taskstopwait.WaitOne(Timeout.Infinite);
-            stopevent.Reset();
+            if (listenertask?.Status == TaskStatus.Running)
+            {
+                stopevent.Set();
+                taskstopwait.WaitOne(Timeout.Infinite);
+                stopevent.Reset();
+            }
         }
     }
 }
