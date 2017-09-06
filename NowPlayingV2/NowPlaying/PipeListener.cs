@@ -21,7 +21,7 @@ namespace NowPlayingV2.NowPlaying
             if (staticpipelistener == null)
             {
                 staticpipelistener = new PipeListener();
-                staticpipelistener.startPipeListener();
+                staticpipelistener.StartPipeListener();
             }
         }
 
@@ -36,7 +36,7 @@ namespace NowPlayingV2.NowPlaying
         private ManualResetEvent stopevent = new ManualResetEvent(false);
         private AutoResetEvent taskstopwait = new AutoResetEvent(false);
         private Task listenertask = null;
-        public void startPipeListener()
+        public void StartPipeListener()
         {
             //do not start more than 1 task.
             if (!new TaskStatus?[] { TaskStatus.RanToCompletion, TaskStatus.Faulted, TaskStatus.WaitingForChildrenToComplete, null }.Contains(listenertask?.Status)) return;
@@ -85,7 +85,7 @@ namespace NowPlayingV2.NowPlaying
             });
         }
 
-        public void stopPipeListener()
+        public void StopPipeListener()
         {
             if (listenertask?.Status == TaskStatus.Running)
             {

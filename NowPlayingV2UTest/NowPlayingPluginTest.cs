@@ -56,7 +56,7 @@ namespace NowPlayingV2UTest
                 waitHandle.Set();
             };
             waitHandle.WaitOne(Timeout.Infinite);
-            PipeListener.staticpipelistener.stopPipeListener();
+            PipeListener.staticpipelistener.StopPipeListener();
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace NowPlayingV2UTest
                 waitHandle.Set();
             };
             waitHandle.WaitOne(Timeout.Infinite);
-            PipeListener.staticpipelistener.stopPipeListener();
+            PipeListener.staticpipelistener.StopPipeListener();
         }
     }
 }

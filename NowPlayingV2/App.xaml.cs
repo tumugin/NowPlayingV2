@@ -28,7 +28,7 @@ namespace NowPlayingV2
         protected override void OnExit(ExitEventArgs e)
         {
             //Stop Pipe Listener
-            NowPlaying.PipeListener.staticpipelistener?.stopPipeListener();
+            NowPlaying.PipeListener.staticpipelistener?.StopPipeListener();
         }
     }
 }

@@ -73,6 +73,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\Config.cs" />
     <Compile Include="Core\ConfigStore.cs" />
     <Compile Include="NowPlaying\PipeListener.cs" />
     <Compile Include="NowPlaying\SongInfo.cs" />
