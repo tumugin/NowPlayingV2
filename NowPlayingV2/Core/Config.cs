@@ -8,5 +8,6 @@ namespace NowPlayingV2.Core
 {
     public class Config
     {
+        List<CoreTweet.Tokens> accountList = new List<CoreTweet.Tokens>();
     }
 }
