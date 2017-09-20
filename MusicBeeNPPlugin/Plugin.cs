@@ -92,8 +92,9 @@ namespace MusicBeePlugin
                     sendmap.Add("trackcount", mbApiInterface.NowPlaying_GetFileProperty(FilePropertyType.PlayCount));
                     sendmap.Add("album", mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Album));
                     sendmap.Add("albumart", mbApiInterface.NowPlaying_GetArtwork());
+                    sendmap.Add("composer", mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Composer));
                     var json = new JavaScriptSerializer().Serialize(sendmap.ToDictionary(item => item.Key.ToString(), item => item.Value.ToString()));
-                    new Thread(() =>
+                    Task.Run(() =>
                     {
                         try
                         {
@@ -104,7 +105,7 @@ namespace MusicBeePlugin
                             pipe.Close();
                         }
                         catch { }
-                    }).Start();
+                    });
                     break;
             }
         }

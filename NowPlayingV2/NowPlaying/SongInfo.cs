@@ -23,6 +23,8 @@ namespace NowPlayingV2.NowPlaying
         public string AlbumArtBase64 { get; protected set; }
         [JsonProperty("artist")]
         public string Artist { get; protected set; }
+        [JsonProperty("composer")]
+        public string Composer { get; protected set; }
 
         private Bitmap cachebitmap = null;
 
