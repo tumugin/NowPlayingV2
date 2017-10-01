@@ -68,6 +68,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="UI\AccountListUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -78,8 +82,12 @@
     </Compile>
     <Compile Include="Core\Config.cs" />
     <Compile Include="Core\ConfigStore.cs" />
+    <Compile Include="Matsuri\ImageTool.cs" />
     <Compile Include="NowPlaying\PipeListener.cs" />
     <Compile Include="NowPlaying\SongInfo.cs" />
+    <Compile Include="UI\AccountListUI.xaml.cs">
+      <DependentUpon>AccountListUI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

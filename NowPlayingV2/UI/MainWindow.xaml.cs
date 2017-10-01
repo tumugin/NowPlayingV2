@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using NowPlayingV2.Matsuri;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,31 @@ namespace NowPlayingV2
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            NowPlaying.PipeListener.staticpipelistener.OnMusicPlay += UpdatePlayingSongView;
+        }
+
+        private void UpdatePlayingSongView(NowPlaying.SongInfo songInfo)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var isource = new Func<BitmapSource>(() =>
+                {
+                    try
+                    {
+                        if (!songInfo.IsAlbumArtAvaliable()) return null;
+                        return ImageTool.ToImageSource(songInfo.GetAlbumArt());
+                    }
+                    catch { return null; }
+                })();
+                SongImage.Source = isource;
+                SongTitleLabel.Content = songInfo.Title;
+                SongArtistLabel.Content = songInfo.Artist;
+                SongAlbumLabel.Content = songInfo.Album;
+            });
         }
     }
 }

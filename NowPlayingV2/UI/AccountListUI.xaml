@@ -1,0 +1,12 @@
+﻿<GridView x:Class="NowPlayingV2.UI.AccountListUI"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NowPlayingV2.UI"
+             mc:Ignorable="d" >
+    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}" Width="200"/>
+    <GridViewColumn Header="名前" DisplayMemberBinding="{Binding Name}" Width="200"/>
+    <GridViewColumn Header="トークン" DisplayMemberBinding="{Binding Token}" Width="100"/>
+    <GridViewColumn Header="秘密トークン" DisplayMemberBinding="{Binding TokenSecret}" Width="100"/>
+</GridView>

@@ -4,11 +4,37 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NowPlayingV2"
+        xmlns:UI="clr-namespace:NowPlayingV2.UI"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         GlowBrush="{DynamicResource AccentColorBrush}"
         mc:Ignorable="d"
-        Title="なうぷれTunesV2" Height="350" Width="525">
+        Title="なうぷれTunesV2" Height="486.207" Width="810.345" Loaded="Window_Loaded">
+    <Window.Resources>
+        <UI:AccountListUI x:Key="alistui"/>
+    </Window.Resources>
     <Grid>
-
+        <DockPanel>
+            <TabControl>
+                <TabItem Header="再生中">
+                    <DockPanel>
+                        <Grid>
+                            <Image x:Name="SongImage" HorizontalAlignment="Left" Height="250" Margin="30,30,0,0" VerticalAlignment="Top" Width="250"/>
+                            <Label x:Name="SongTitleLabel" Content="Song title" HorizontalAlignment="Left" Margin="298,30,0,0" VerticalAlignment="Top" FontSize="24"/>
+                            <Label x:Name="SongArtistLabel" Content="Song artist" HorizontalAlignment="Left" Margin="298,101,0,0" VerticalAlignment="Top" FontSize="14"/>
+                            <Label x:Name="SongAlbumLabel" Content="Song album" HorizontalAlignment="Left" Margin="298,72,0,0" VerticalAlignment="Top" FontSize="14"/>
+                        </Grid>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="アカウント">
+                    <DockPanel>
+                        <Grid Height="100px" DockPanel.Dock="Bottom"></Grid>
+                        <ListView View="{DynamicResource alistui}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="基本設定">
+                    <Grid/>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
     </Grid>
 </Controls:MetroWindow>
