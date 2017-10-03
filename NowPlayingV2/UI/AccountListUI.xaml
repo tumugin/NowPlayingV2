@@ -9,4 +9,5 @@
     <GridViewColumn Header="名前" DisplayMemberBinding="{Binding Name}" Width="200"/>
     <GridViewColumn Header="トークン" DisplayMemberBinding="{Binding Token}" Width="100"/>
     <GridViewColumn Header="秘密トークン" DisplayMemberBinding="{Binding TokenSecret}" Width="100"/>
+    <GridViewColumn Header="状態" DisplayMemberBinding="{Binding Enabled,Converter={StaticResource BooleanToNString}}" Width="100"/>
 </GridView>

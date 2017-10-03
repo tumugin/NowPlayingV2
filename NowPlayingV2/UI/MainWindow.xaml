@@ -27,7 +27,9 @@
                 </TabItem>
                 <TabItem Header="アカウント">
                     <DockPanel>
-                        <Grid Height="100px" DockPanel.Dock="Bottom"></Grid>
+                        <Grid Height="40" DockPanel.Dock="Bottom">
+                            <Button Content="アカウント追加" Margin="0,2,689,3" FontSize="12" Style="{StaticResource AccentedSquareButtonStyle}"/>
+                        </Grid>
                         <ListView View="{DynamicResource alistui}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
                     </DockPanel>
                 </TabItem>
