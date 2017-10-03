@@ -7,17 +7,22 @@
         xmlns:local="clr-namespace:NowPlayingV2.UI"
         mc:Ignorable="d"
         GlowBrush="{DynamicResource AccentColorBrush}"
-        Title="OAuthWindow" Height="471.498" Width="828.604">
+        Title="アカウント追加" Height="471.498" Width="828.604">
     <DockPanel>
         <TabControl>
             <TabItem Header="ログイン">
-                <StackPanel Margin="5">
-                    <Label Content="以下の「ブラウザを開いて認証」ボタンをクリックしてTwitterへログインしてアプリへの権限を許可してください。" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Button Content="ブラウザを開いて認証する" Width="180" Style="{StaticResource AccentedSquareButtonStyle}"/>
+                <StackPanel Margin="10">
+                    <Label Content="以下の「ブラウザを開いて認証」ボタンをクリックしてTwitterへログインしてアプリへの権限を許可してください。&#10;次のステップで表示されるPIN番号が必要になるのでメモをしてください。" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button Content="ブラウザを開いて認証する" Width="180" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10,0,0"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="PINの入力">
-                <Grid/>
+                <StackPanel Margin="10">
+                    <Label Content="表示されたPIN番号を以下のテキストボックスに入力してください。" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Width="200" FontSize="24" Margin="0,10" Controls:TextBoxHelper.Watermark="PIN番号をここ入力"/>
+                    <Label Content="入力が完了したら以下のボタンをクリックしてアカウントを追加してください。" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button Content="認証してアカウントを追加する" Width="180" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10,0,0"/>
+                </StackPanel>
             </TabItem>
         </TabControl>
     </DockPanel>

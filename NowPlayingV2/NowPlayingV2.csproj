@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Tsumugi\AccountManager.cs" />
     <Compile Include="UI\OAuthWindow.xaml.cs">
       <DependentUpon>OAuthWindow.xaml</DependentUpon>
     </Compile>
