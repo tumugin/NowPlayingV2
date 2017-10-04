@@ -21,7 +21,7 @@ namespace NowPlayingV2
             }
             else
             {
-                MainWindow mainWindow = new MainWindow();
+                UI.MainWindow mainWindow = new UI.MainWindow();
                 mainWindow.Show();
             }
         }

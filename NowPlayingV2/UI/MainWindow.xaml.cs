@@ -1,21 +1,11 @@
-﻿using MahApps.Metro.Controls;
-using NowPlayingV2.Matsuri;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using NowPlayingV2.Core;
+using NowPlayingV2.Matsuri;
 
-namespace NowPlayingV2
+namespace NowPlayingV2.UI
 {
     public partial class MainWindow
     {
@@ -26,7 +16,9 @@ namespace NowPlayingV2
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            BindingOperations.EnableCollectionSynchronization(ConfigStore.StaticConfig.accountList,new object());
             NowPlaying.PipeListener.staticpipelistener.OnMusicPlay += UpdatePlayingSongView;
+            AccountListView.DataContext = ConfigStore.StaticConfig.accountList;
         }
 
         private void UpdatePlayingSongView(NowPlaying.SongInfo songInfo)

@@ -23,7 +23,7 @@ namespace NowPlayingV2.UI
     /// </summary>
     public partial class OAuthWindow : MetroWindow
     {
-        OAuthSession session;
+        private OAuthSession session;
 
         public OAuthWindow()
         {
@@ -64,6 +64,7 @@ namespace NowPlayingV2.UI
                     var container = new Core.AccountContainer(token);
                     Core.ConfigStore.StaticConfig.accountList.Add(container);
                 });
+                await progdiag.CloseAsync();
                 this.Close();
             }
             catch(Exception ex)
@@ -71,9 +72,6 @@ namespace NowPlayingV2.UI
                 await this.ShowMessageAsync("エラー", "正常に認証できませんでした。PINコードが間違っている可能性があります\n\n" + ex.Message + "\n" + ex.StackTrace);
                 WindowTab.SelectedIndex = 0;
                 PinCodeTextBox.Text = "";
-            }
-            finally
-            {
                 await progdiag.CloseAsync();
             }
         }

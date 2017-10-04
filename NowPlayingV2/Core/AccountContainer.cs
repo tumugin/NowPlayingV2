@@ -24,13 +24,7 @@ namespace NowPlayingV2.Core
 
         public bool Enabled { get; set; } = true;
 
-        public string ID
-        {
-            get
-            {
-                return AuthToken.ScreenName;
-            }
-        }
+        public string ID => AuthToken.ScreenName;
 
         private string _Name;
         public string Name
@@ -40,10 +34,7 @@ namespace NowPlayingV2.Core
                 if (AuthToken.UserId == 0) UpdateCache();
                 return _Name?.Length == 0 ? AuthToken.Users.Show(user_id: AuthToken.UserId).Name : _Name;
             }
-            set
-            {
-                _Name = Name;
-            }
+            set => _Name = Name;
         }
 
         public void UpdateCache()

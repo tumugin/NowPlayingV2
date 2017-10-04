@@ -1,4 +1,4 @@
-﻿<Controls:MetroWindow x:Class="NowPlayingV2.MainWindow"
+﻿<Controls:MetroWindow x:Class="NowPlayingV2.UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -30,7 +30,7 @@
                         <Grid Height="40" DockPanel.Dock="Bottom">
                             <Button Content="アカウント追加" Margin="0,2,689,3" FontSize="12" Style="{StaticResource AccentedSquareButtonStyle}" Click="OnAddAccountClick"/>
                         </Grid>
-                        <ListView View="{DynamicResource alistui}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                        <ListView x:Name="AccountListView" View="{DynamicResource alistui}" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
                     </DockPanel>
                 </TabItem>
                 <TabItem Header="基本設定">
