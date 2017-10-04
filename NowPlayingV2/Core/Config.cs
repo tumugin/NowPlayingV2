@@ -9,6 +9,6 @@ namespace NowPlayingV2.Core
 {
     public class Config
     {
-        ObservableCollection<CoreTweet.Tokens> accountList = new ObservableCollection<CoreTweet.Tokens>();
+        public ObservableCollection<AccountContainer> accountList = new ObservableCollection<AccountContainer>();
     }
 }

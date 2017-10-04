@@ -5,23 +5,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NowPlayingV2.UI"
+        xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+        Dialog:DialogParticipation.Register="{Binding}"
         mc:Ignorable="d"
         GlowBrush="{DynamicResource AccentColorBrush}"
         Title="アカウント追加" Height="471.498" Width="828.604">
     <DockPanel>
-        <TabControl>
+        <TabControl x:Name="WindowTab" SelectionChanged="TabControlSelectionChanged">
             <TabItem Header="ログイン">
                 <StackPanel Margin="10">
                     <Label Content="以下の「ブラウザを開いて認証」ボタンをクリックしてTwitterへログインしてアプリへの権限を許可してください。&#10;次のステップで表示されるPIN番号が必要になるのでメモをしてください。" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Button Content="ブラウザを開いて認証する" Width="180" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10,0,0"/>
+                    <Button Content="ブラウザを開いて認証する" Width="180" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10,0,0" Click="OnOpenBrowserAuthAsync"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="PINの入力">
                 <StackPanel Margin="10">
                     <Label Content="表示されたPIN番号を以下のテキストボックスに入力してください。" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Width="200" FontSize="24" Margin="0,10" Controls:TextBoxHelper.Watermark="PIN番号をここ入力"/>
+                    <TextBox x:Name="PinCodeTextBox" Width="200" FontSize="24" Margin="0,10" Controls:TextBoxHelper.Watermark="PIN番号をここ入力"/>
                     <Label Content="入力が完了したら以下のボタンをクリックしてアカウントを追加してください。" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Button Content="認証してアカウントを追加する" Width="180" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10,0,0"/>
+                    <Button Content="認証してアカウントを追加する" Width="180" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10,0,0" Click="OnAddAccountClickAsync"/>
                 </StackPanel>
             </TabItem>
         </TabControl>

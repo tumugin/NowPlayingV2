@@ -48,5 +48,10 @@ namespace NowPlayingV2
                 SongAlbumLabel.Content = songInfo.Album;
             });
         }
+
+        private void OnAddAccountClick(object sender, RoutedEventArgs e)
+        {
+            (new UI.OAuthWindow()).ShowDialog();
+        }
     }
 }
