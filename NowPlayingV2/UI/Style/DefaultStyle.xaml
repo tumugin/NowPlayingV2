@@ -5,5 +5,7 @@
         <Setter Property="FontSize" Value="15" />
     </Style>
     <Style TargetType="{x:Type Label}" BasedOn="{StaticResource baseStyle}"></Style>
-    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseStyle}"></Style>
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseStyle}">
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
 </ResourceDictionary>

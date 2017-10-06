@@ -42,9 +42,10 @@ namespace NowPlayingV2.UI
                 });
                 WindowTab.SelectedIndex = 1;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                await this.ShowMessageAsync("エラー", "何らかのエラーで認証を開始することが出来ませんでした。\n\n" + ex.Message + "\n" + ex.StackTrace);
+                await this.ShowMessageAsync("エラー",
+                    "何らかのエラーで認証を開始することが出来ませんでした。\n\n" + ex.Message + "\n" + ex.StackTrace);
             }
             finally
             {
@@ -67,9 +68,10 @@ namespace NowPlayingV2.UI
                 await progdiag.CloseAsync();
                 this.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                await this.ShowMessageAsync("エラー", "正常に認証できませんでした。PINコードが間違っている可能性があります\n\n" + ex.Message + "\n" + ex.StackTrace);
+                await this.ShowMessageAsync("エラー",
+                    $"正常に認証できませんでした。PINコードが間違っている可能性があります\n\n{ex.Message}\n{ex.StackTrace}");
                 WindowTab.SelectedIndex = 0;
                 PinCodeTextBox.Text = "";
                 await progdiag.CloseAsync();
@@ -78,9 +80,9 @@ namespace NowPlayingV2.UI
 
         private void TabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(session == null && WindowTab.SelectedIndex == 1)
+            if (session == null && WindowTab.SelectedIndex == 1)
             {
-                ((TabControl)sender).SelectedItem = e.RemovedItems[0];
+                ((TabControl) sender).SelectedItem = e.RemovedItems[0];
             }
         }
     }

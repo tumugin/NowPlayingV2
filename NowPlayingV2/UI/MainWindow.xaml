@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NowPlayingV2"
         xmlns:UI="clr-namespace:NowPlayingV2.UI"
+        xmlns:CV="clr-namespace:NowPlayingV2.UI.View"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         GlowBrush="{DynamicResource AccentColorBrush}"
         mc:Ignorable="d"
         Title="なうぷれTunesV2" Height="486.207" Width="810.345" Loaded="Window_Loaded">
     <Window.Resources>
         <UI:AccountListUI x:Key="alistui"/>
+        <CV:AccountListViewModel x:Key="alvm"/>
     </Window.Resources>
     <Grid>
         <DockPanel>
@@ -27,10 +29,11 @@
                 </TabItem>
                 <TabItem Header="アカウント">
                     <DockPanel>
-                        <Grid Height="40" DockPanel.Dock="Bottom">
-                            <Button Content="アカウント追加" Margin="0,2,689,3" FontSize="12" Style="{StaticResource AccentedSquareButtonStyle}" Click="OnAddAccountClick"/>
-                        </Grid>
-                        <ListView x:Name="AccountListView" View="{DynamicResource alistui}" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                        <StackPanel Height="40" DockPanel.Dock="Bottom" Orientation="Horizontal">
+                            <Button Content="アカウント追加" FontSize="12" Style="{StaticResource AccentedSquareButtonStyle}" Click="OnAddAccountClick" Margin="5" Padding="10,6"/>
+                            <Button Content="アカウント情報更新" FontSize="12" Click="OnUpdateAccountClick" Margin="5" Padding="10,1"/>
+                        </StackPanel>
+                        <ListView x:Name="AccountListView" View="{DynamicResource alistui}" ItemsSource="{Binding StarryMelody}" DataContext="{DynamicResource alvm}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
                     </DockPanel>
                 </TabItem>
                 <TabItem Header="基本設定">

@@ -69,10 +69,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\AccountContainer.cs" />
+    <Compile Include="Core\AccountManager.cs" />
     <Compile Include="Tsumugi\APIKey.cs" />
     <Compile Include="UI\OAuthWindow.xaml.cs">
       <DependentUpon>OAuthWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\View\AccountListViewModel.cs" />
     <Page Include="UI\AccountListUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

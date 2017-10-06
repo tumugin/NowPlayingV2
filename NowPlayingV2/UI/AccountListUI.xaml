@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NowPlayingV2.UI"
-             mc:Ignorable="d" >
+             mc:Ignorable="d">
     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}" Width="200"/>
     <GridViewColumn Header="名前" DisplayMemberBinding="{Binding Name}" Width="200"/>
     <GridViewColumn Header="トークン" DisplayMemberBinding="{Binding AuthToken.AccessToken}" Width="100"/>
