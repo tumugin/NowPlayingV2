@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using NowPlayingV2.UI.NotifyIcon;
 
 namespace NowPlayingV2
 {
@@ -12,6 +13,8 @@ namespace NowPlayingV2
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            //Init Notify Icon
+            NotifyIconManager.NotifyIconSingleton.InitIcon();
             //Start Pipe Listener
             NowPlaying.PipeListener.MkStaticInstance();
             //Load config
