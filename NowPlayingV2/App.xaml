@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
                 <!--Default UI Style-->
                 <ResourceDictionary Source="UI/Style/DefaultStyle.xaml"/>
+                <ResourceDictionary Source="UI/NotifyIcon/NotifyIconDic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

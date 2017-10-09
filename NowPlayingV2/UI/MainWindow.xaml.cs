@@ -73,5 +73,10 @@ namespace NowPlayingV2.UI
             }
             (AccountListView.DataContext as AccountListViewModel)?.OnPropertyChanged("");
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            NowPlaying.PipeListener.staticpipelistener.OnMusicPlay -= UpdatePlayingSongView;
+        }
     }
 }

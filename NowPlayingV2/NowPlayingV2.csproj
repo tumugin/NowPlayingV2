@@ -75,9 +75,6 @@
     <Compile Include="Core\AccountManager.cs" />
     <Compile Include="Tsumugi\APIKey.cs" />
     <Compile Include="UI\NotifyIcon\NotifyIconManager.cs" />
-    <Compile Include="UI\NotifyIcon\NPNotifyIcon.xaml.cs">
-      <DependentUpon>NPNotifyIcon.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\OAuthWindow.xaml.cs">
       <DependentUpon>OAuthWindow.xaml</DependentUpon>
     </Compile>
@@ -107,7 +104,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UI\NotifyIcon\NPNotifyIcon.xaml">
+    <Page Include="UI\NotifyIcon\NotifyIconDic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,6 +146,8 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="UI\NotifyIcon\maturi.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:NowPlayingV2.UI.NotifyIcon"
+                    xmlns:tb="http://www.hardcodet.net/taskbar">
+    <tb:TaskbarIcon
+        IconSource="./maturi.ico"
+        MenuActivation="RightClick"
+        ToolTipText="なうぷれTunesV2"
+        x:Key="NPIcon">
+        <tb:TaskbarIcon.ContextMenu>
+            <ContextMenu>
+                <MenuItem x:Name="OnOpenSetting" Header="設定画面を開く" />
+                <MenuItem x:Name="OnAppExit" Header="なうぷれTunesV2を終了する" />
+            </ContextMenu>
+        </tb:TaskbarIcon.ContextMenu>
+    </tb:TaskbarIcon>
+</ResourceDictionary>

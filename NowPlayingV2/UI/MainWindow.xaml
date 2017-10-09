@@ -9,7 +9,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         GlowBrush="{DynamicResource AccentColorBrush}"
         mc:Ignorable="d"
-        Title="なうぷれTunesV2" Height="486.207" Width="810.345" Loaded="Window_Loaded">
+        Title="なうぷれTunesV2" Height="486.207" Width="810.345" Loaded="Window_Loaded" Closed="Window_Closed">
     <Window.Resources>
         <UI:AccountListUI x:Key="alistui"/>
         <CV:AccountListViewModel x:Key="alvm"/>
