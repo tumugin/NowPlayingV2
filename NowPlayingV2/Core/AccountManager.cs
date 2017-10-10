@@ -14,9 +14,13 @@ namespace NowPlayingV2.Core
             tklst.ToList().ForEach(i => i?.Account.VerifyCredentials());
         }
 
-        public static Task UpdateAccountAsync(IEnumerable<Tokens> tklst)
+        public static Task UpdateAccountAsync(IEnumerable<AccountContainer> tklst)
         {
-            return Task.Run(() => UpdateAccounts(tklst));
+            return Task.Run(() =>
+            {
+                UpdateAccounts(tklst.Select(konomi => konomi.AuthToken));
+                tklst.ToList().ForEach(acc => acc.UpdateName());
+            });
         }
     }
 }

@@ -21,7 +21,7 @@ namespace NowPlayingV2.UI.NotifyIcon
             (LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnOpenSetting") as MenuItem).Click +=
                 (sender, e) =>
                 {
-                    (new UI.MainWindow()).Show();
+                    UI.MainWindow.OpenSigletonWindow();
                 };
             (LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnAppExit") as MenuItem).Click +=
                 (sender, e) =>

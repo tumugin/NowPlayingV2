@@ -1,13 +1,15 @@
 ﻿using CoreTweet;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NowPlayingV2.Core
 {
-    public class AccountContainer
+    public class AccountContainer : INotifyPropertyChanged
     {
         public AccountContainer()
         {
@@ -17,7 +19,7 @@ namespace NowPlayingV2.Core
         public AccountContainer(Tokens tk)
         {
             AuthToken = tk;
-            UpdateCache();
+            UpdateName();
         }
 
         public Tokens AuthToken { get; set; }
@@ -26,21 +28,23 @@ namespace NowPlayingV2.Core
 
         public string ID => AuthToken.ScreenName;
 
-        private string _Name;
-        public string Name
-        {
-            get
-            {
-                if (AuthToken.UserId == 0) UpdateCache();
-                return _Name?.Length == 0 ? AuthToken.Users.Show(user_id: AuthToken.UserId).Name : _Name;
-            }
-            set => _Name = Name;
-        }
+        public string Name { get; set; }
 
         public void UpdateCache()
         {
             AuthToken.Account.VerifyCredentials();
-            _Name = AuthToken.Users.Show(user_id: AuthToken.UserId).Name;
-        } 
+            UpdateName();
+        }
+
+        public void UpdateName() => Name = AuthToken.Users.Show(user_id: AuthToken.UserId).Name;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void ReDrawAllProperty() => OnPropertyChanged("");
     }
 }

@@ -20,16 +20,17 @@ namespace NowPlayingV2
             //Load config
             if (Core.ConfigStore.ConfigExists())
             {
-
+                Core.ConfigStore.LoadStaticConfig();
             }
             else
             {
-                var mainWindow = new UI.MainWindow();
-                mainWindow.Show();
+                UI.MainWindow.OpenSigletonWindow();
             }
         }
         protected override void OnExit(ExitEventArgs e)
         {
+            //Save Config
+            Core.ConfigStore.SaveConfig(Core.ConfigStore.StaticConfig);
             //Stop Pipe Listener
             NowPlaying.PipeListener.staticpipelistener?.StopPipeListener();
         }

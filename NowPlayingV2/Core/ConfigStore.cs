@@ -11,31 +11,31 @@ namespace NowPlayingV2.Core
     {
         public static Config StaticConfig { get; private set; } = new Config();
 
-        public static string ConfigPath
-        {
-            get
-            {
-                return AppDomain.CurrentDomain.BaseDirectory + "/config.json";
-            }
-        }
+        public static string ConfigPath => AppDomain.CurrentDomain.BaseDirectory + "/config.json";
 
         public static bool ConfigExists()
         {
             return System.IO.File.Exists(ConfigPath);
         }
 
-        public static void LoadConfig(Config cfg)
+        public static Config LoadConfig()
         {
             var bary = System.IO.File.ReadAllBytes(ConfigPath);
             var rawjson = Encoding.UTF8.GetString(bary);
-            cfg = JsonConvert.DeserializeObject<Config>(rawjson);
+            return JsonConvert.DeserializeObject<Config>(rawjson);
         }
 
         public static void SaveConfig(Config cfg)
         {
-            var rawjson = JsonConvert.SerializeObject(cfg);
+            var rawjson = JsonConvert.SerializeObject(cfg, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
             var bary = Encoding.UTF8.GetBytes(rawjson);
             System.IO.File.WriteAllBytes(ConfigPath, bary);
         }
+
+        public static void LoadStaticConfig() => StaticConfig = LoadConfig();
     }
 }

@@ -12,6 +12,20 @@ namespace NowPlayingV2.UI
 {
     public partial class MainWindow
     {
+        private static MainWindow windowinstance;
+
+        public static void OpenSigletonWindow()
+        {
+            if (windowinstance == null)
+            {
+                (new MainWindow()).Show();
+            }
+            else
+            {
+                windowinstance.Activate();
+            }
+        }
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -19,6 +33,7 @@ namespace NowPlayingV2.UI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            windowinstance = this;
             BindingOperations.EnableCollectionSynchronization(ConfigStore.StaticConfig.accountList, new object());
             NowPlaying.PipeListener.staticpipelistener.OnMusicPlay += UpdatePlayingSongView;
         }
@@ -59,8 +74,7 @@ namespace NowPlayingV2.UI
             var waitdiag = await this.ShowProgressAsync("アカウント情報を取得中...", "アカウント情報を取得しています。しばらくお待ちください。");
             try
             {
-                await AccountManager.UpdateAccountAsync(
-                    ConfigStore.StaticConfig.accountList.Select(konomi => konomi.AuthToken));
+                await AccountManager.UpdateAccountAsync(ConfigStore.StaticConfig.accountList);
             }
             catch (Exception ex)
             {
@@ -71,12 +85,13 @@ namespace NowPlayingV2.UI
             {
                 await waitdiag.CloseAsync();
             }
-            (AccountListView.DataContext as AccountListViewModel)?.OnPropertyChanged("");
+            ConfigStore.StaticConfig.accountList.ToList().ForEach(itm => itm.ReDrawAllProperty());
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             NowPlaying.PipeListener.staticpipelistener.OnMusicPlay -= UpdatePlayingSongView;
+            windowinstance = null;
         }
     }
 }
