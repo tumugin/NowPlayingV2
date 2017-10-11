@@ -14,7 +14,7 @@
         <GridViewColumn.CellTemplate>
             <DataTemplate>
                 <Grid>
-                    <Button x:Name="AccDelButton" Content="削除" Background="#FFA02222"/>
+                    <Button x:Name="AccDelButton" Content="削除" Background="#FFA02222" Foreground="White" Click="AccDelButtonClick"/>
                 </Grid>
             </DataTemplate>
         </GridViewColumn.CellTemplate>
