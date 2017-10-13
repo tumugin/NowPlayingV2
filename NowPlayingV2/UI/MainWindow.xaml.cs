@@ -29,6 +29,7 @@ namespace NowPlayingV2.UI
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = ConfigStore.StaticConfig;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -58,6 +59,7 @@ namespace NowPlayingV2.UI
                 SongTitleLabel.Content = songInfo.Title;
                 SongArtistLabel.Content = songInfo.Artist;
                 SongAlbumLabel.Content = songInfo.Album;
+                NothingPlayingGrid.Visibility = Visibility.Hidden;
             });
         }
 

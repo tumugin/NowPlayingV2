@@ -10,5 +10,8 @@ namespace NowPlayingV2.Core
     public class Config
     {
         public ObservableCollection<AccountContainer> accountList = new ObservableCollection<AccountContainer>();
+        public bool CheckUpdate { get; set; } = true;
+        public bool EnableAutoTweet { get; set; } = false;
+        public string TweetFormat { get; set; } = "Nowplaing $Title - $Artist #NowPlaying";
     }
 }
