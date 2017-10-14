@@ -1,0 +1,29 @@
+﻿<controls:MetroWindow x:Class="NowPlayingV2.UI.TweetDialog"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:NowPlayingV2.UI"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:serica ="clr-namespace:NowPlayingV2.UI.Extension"
+                      mc:Ignorable="d"
+                      GlowBrush="{DynamicResource AccentColorBrush}"
+                      ResizeMode="CanMinimize"
+                      Title="TweetDialog" Height="231.343" Width="620.549" Loaded="WindowLoaded">
+    <Window.Resources>
+        <serica:AccountListConv x:Key="AListConv"/>
+    </Window.Resources>
+    <Grid >
+        <Image x:Name="AlbumArtImage" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
+        <TextBox HorizontalAlignment="Left" Height="145" Margin="115,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="488"/>
+        <Button Content="ツイート" HorizontalAlignment="Left" Margin="528,162,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource AccentedSquareButtonStyle}"/>
+        <ComboBox x:Name="AccountListComboBox" HorizontalAlignment="Left" Margin="10,164,0,0" VerticalAlignment="Top" Width="242" ItemsSource="{Binding}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource AListConv}}"></TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <CheckBox Content="アルバムアートを添付してツイートする" HorizontalAlignment="Left" Margin="262,168,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</controls:MetroWindow>

@@ -9,6 +9,7 @@
         x:Key="NPIcon">
         <tb:TaskbarIcon.ContextMenu>
             <ContextMenu>
+                <MenuItem x:Name="OnTweetDialog" Header="ツイート画面を表示する" />
                 <MenuItem x:Name="OnOpenSetting" Header="設定画面を開く" />
                 <MenuItem x:Name="OnAppExit" Header="なうぷれTunesV2を終了する" />
             </ContextMenu>

@@ -43,5 +43,19 @@ namespace NowPlayingV2.UI
             var list = (parentlistview.DataContext as AccountListViewModel).StarryMelody;
             list.Remove(parentitem.DataContext as AccountContainer);
         }
+
+        private void AccEnableButtonClick(object sender, RoutedEventArgs e)
+        {
+            //get parent item
+            var parentitem = Matsuri.SeaSlug.GetAncestorOfType<ListViewItem>(sender as Button);
+            //get list view
+            var parentlistview = Matsuri.SeaSlug.GetAncestorOfType<ListView>(sender as Button);
+            var listmodel = (parentlistview.DataContext as AccountListViewModel);
+            //update
+            var item = parentitem.DataContext as AccountContainer;
+            item.Enabled = !item.Enabled;
+            //refresh view
+            item.ReDrawAllProperty();
+        }
     }
 }

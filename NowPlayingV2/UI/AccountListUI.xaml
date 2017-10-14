@@ -7,9 +7,16 @@
              mc:Ignorable="d">
     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}" Width="200"/>
     <GridViewColumn Header="名前" DisplayMemberBinding="{Binding Name}" Width="200"/>
-    <GridViewColumn Header="トークン" DisplayMemberBinding="{Binding AuthToken.AccessToken}" Width="100"/>
-    <GridViewColumn Header="秘密トークン" DisplayMemberBinding="{Binding AuthToken.AccessTokenSecret}" Width="100"/>
     <GridViewColumn Header="状態" DisplayMemberBinding="{Binding Enabled,Converter={StaticResource BooleanToNString}}" Width="50"/>
+    <GridViewColumn>
+        <GridViewColumn.CellTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Button Content="有効・無効切り替え" Foreground="White" Background="{DynamicResource AccentColorBrush}" Click="AccEnableButtonClick"/>
+                </Grid>
+            </DataTemplate>
+        </GridViewColumn.CellTemplate>
+    </GridViewColumn>
     <GridViewColumn>
         <GridViewColumn.CellTemplate>
             <DataTemplate>

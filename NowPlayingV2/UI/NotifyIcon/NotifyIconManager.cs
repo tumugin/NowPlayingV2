@@ -28,6 +28,13 @@ namespace NowPlayingV2.UI.NotifyIcon
                 {
                     Application.Current.Shutdown();
                 };
+            (LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnTweetDialog") as MenuItem).Click +=
+                (sender, e) =>
+                {
+                    (new TweetDialog()).Show();
+                };
         }
+
+        public void DeleteIcon() => NPIcon.Dispose();
     }
 }

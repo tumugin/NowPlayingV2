@@ -33,6 +33,8 @@ namespace NowPlayingV2
             Core.ConfigStore.SaveConfig(Core.ConfigStore.StaticConfig);
             //Stop Pipe Listener
             NowPlaying.PipeListener.staticpipelistener?.StopPipeListener();
+            //Delete Icon
+            NotifyIconManager.NotifyIconSingleton.DeleteIcon();
         }
     }
 }
