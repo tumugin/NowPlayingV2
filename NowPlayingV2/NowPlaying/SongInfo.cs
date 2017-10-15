@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NowPlayingV2.NowPlaying
 {
-    public class SongInfo
+    [Serializable()]
+    public class SongInfo : ICloneable
     {
         [JsonProperty("title")]
         public string Title { get; protected set; }
@@ -49,6 +51,17 @@ namespace NowPlayingV2.NowPlaying
             }
             catch {
                 return false;
+            }
+        }
+
+        public object Clone()
+        {
+            using (var ms = new MemoryStream())
+            {
+                var bformatter = new BinaryFormatter();
+                bformatter.Serialize(ms,this);
+                ms.Position = 0;
+                return bformatter.Deserialize(ms);
             }
         }
     }

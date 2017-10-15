@@ -75,7 +75,9 @@
     <Compile Include="Core\AccountManager.cs" />
     <Compile Include="Matsuri\SeaSlug.cs" />
     <Compile Include="Tsumugi\APIKey.cs" />
+    <Compile Include="Tsumugi\TweetConverter.cs" />
     <Compile Include="UI\Extension\AccountListConv.cs" />
+    <Compile Include="UI\Extension\TweetCounter.cs" />
     <Compile Include="UI\NotifyIcon\NotifyIconManager.cs" />
     <Compile Include="UI\OAuthWindow.xaml.cs">
       <DependentUpon>OAuthWindow.xaml</DependentUpon>
