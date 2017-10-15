@@ -77,6 +77,9 @@
     <Compile Include="Tsumugi\APIKey.cs" />
     <Compile Include="Tsumugi\TweetConverter.cs" />
     <Compile Include="UI\Extension\AccountListConv.cs" />
+    <Compile Include="UI\Extension\CombiningConverter.cs" />
+    <Compile Include="UI\Extension\IsGreaterThanConverter.cs" />
+    <Compile Include="UI\Extension\IsLessThanConverter.cs" />
     <Compile Include="UI\Extension\TweetCounter.cs" />
     <Compile Include="UI\NotifyIcon\NotifyIconManager.cs" />
     <Compile Include="UI\OAuthWindow.xaml.cs">

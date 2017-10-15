@@ -62,6 +62,7 @@ namespace NowPlayingV2.UI
         private async void OnTweetClick(object sender, RoutedEventArgs e)
         {
             var loadingview = await this.ShowProgressAsync("Please wait...", "つぶやいています.....");
+            loadingview.SetIndeterminate();
             //get current account
             var acc = (AccountListComboBox.SelectedItem as AccountContainer).AuthToken;
             var tweetext = TweetTextBox.Text;

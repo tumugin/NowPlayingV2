@@ -13,7 +13,8 @@ namespace NowPlayingV2.UI.Extension
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var tboxtext = value as string;
-            return (140 - tboxtext.Length).ToString();
+            var sinfo = new StringInfo(tboxtext);
+            return (140 - sinfo.LengthInTextElements).ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
