@@ -2,9 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
                     xmlns:local="clr-namespace:NowPlayingV2.UI.Theme.vivid_rabbit">
-    <Color x:Key="HighlightColor">#FF5133AB</Color>
+    <Color x:Key="HighlightColor">#FF7E6CA8</Color>
 
-    <Color x:Key="AccentBaseColor">#FF6459DF</Color>
+    <Color x:Key="AccentBaseColor">#FF7A61D7</Color>
     <!--  80%  -->
     <Color x:Key="AccentColor">#CC6459DF</Color>
     <!--  60%  -->
