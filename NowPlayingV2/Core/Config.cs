@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NowPlayingV2.UI.Theme;
 
 namespace NowPlayingV2.Core
 {
@@ -13,5 +14,6 @@ namespace NowPlayingV2.Core
         public bool CheckUpdate { get; set; } = true;
         public bool EnableAutoTweet { get; set; } = false;
         public string TweetFormat { get; set; } = "Nowplaing $Title - $Artist #NowPlaying";
-    }
+        public ThemeManager Theme {get; set;} = new ThemeManager();
+}
 }

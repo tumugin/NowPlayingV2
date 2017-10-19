@@ -85,6 +85,8 @@
     <Compile Include="UI\OAuthWindow.xaml.cs">
       <DependentUpon>OAuthWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Theme\NPTheme.cs" />
+    <Compile Include="UI\Theme\ThemeManager.cs" />
     <Compile Include="UI\TweetDialog.xaml.cs">
       <DependentUpon>TweetDialog.xaml</DependentUpon>
     </Compile>
@@ -123,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Style\DefaultStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Theme\dark\dark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
