@@ -9,7 +9,8 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       GlowBrush="{DynamicResource AccentColorBrush}"
                       mc:Ignorable="d"
-                      Title="なうぷれTunesV2" Height="486.207" Width="810.345" Loaded="Window_Loaded" ResizeMode="CanMinimize"
+                      Title="なうぷれTunesV2" Height="486.207" Width="810.345" Loaded="Window_Loaded"
+                      ResizeMode="CanMinimize"
                       Closed="Window_Closed" ShowMaxRestoreButton="False">
     <Window.Resources>
         <UI:AccountListUI x:Key="alistui" />
@@ -63,6 +64,18 @@
                                         Content="$Artist:アーティスト名  $AlbumArtist:アルバムアーティスト  $Album:アルバム  $Title:タイトル  $PCount:再生回数" />
                                     <Label Content="自動ツイートの設定" FontSize="20" FontWeight="Bold" />
                                     <CheckBox Content="自動ツイートを有効化する" IsChecked="{Binding EnableAutoTweet}" />
+                                    <Label Content="アプリケーションのスタイル" FontSize="20" FontWeight="Bold" />
+                                    <ComboBox x:Name="ThemeSelector" Width="400" HorizontalAlignment="Left"
+                                              DataContext="{Binding Theme}"
+                                              ItemsSource="{Binding Themes}"
+                                              SelectedItem="{Binding CurrentTheme, Mode=TwoWay}"
+                                              SelectionChanged="ThemeSelector_Changed">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Name}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
                                 </StackPanel>
                             </Border>
                         </ScrollViewer>

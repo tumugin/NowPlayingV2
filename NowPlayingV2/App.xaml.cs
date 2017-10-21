@@ -21,9 +21,11 @@ namespace NowPlayingV2
             if (Core.ConfigStore.ConfigExists())
             {
                 Core.ConfigStore.LoadStaticConfig();
+                Core.ConfigStore.StaticConfig.Theme.CurrentTheme.ApplyTheme();
             }
             else
             {
+                Core.ConfigStore.StaticConfig.Theme.CurrentTheme.ApplyTheme();
                 UI.MainWindow.OpenSigletonWindow();
             }
         }

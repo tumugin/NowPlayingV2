@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using MahApps.Metro.Controls.Dialogs;
 using NowPlayingV2.Core;
 using NowPlayingV2.Matsuri;
+using NowPlayingV2.UI.Theme;
 using NowPlayingV2.UI.View;
 
 namespace NowPlayingV2.UI
@@ -94,6 +96,11 @@ namespace NowPlayingV2.UI
         {
             NowPlaying.PipeListener.staticpipelistener.OnMusicPlay -= UpdatePlayingSongView;
             windowinstance = null;
+        }
+
+        private void ThemeSelector_Changed(object sender, SelectionChangedEventArgs e)
+        {
+            ((sender as ComboBox)?.SelectedItem as NPTheme)?.ApplyTheme();
         }
     }
 }
