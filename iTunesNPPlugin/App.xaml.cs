@@ -15,6 +15,7 @@ namespace iTunesNPPlugin
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            ITunesWatcher.CreateWatcherTask();
             base.OnStartup(e);
         }
     }
