@@ -13,7 +13,13 @@ namespace NowPlayingV2.Core
         public ObservableCollection<AccountContainer> accountList = new ObservableCollection<AccountContainer>();
         public bool CheckUpdate { get; set; } = true;
         public bool EnableAutoTweet { get; set; } = false;
+        public bool EnablePostDelay { get; set; } = false;
+        public int PostDelaySecond { get; set; } = 30;
+        public bool EnableTweetWithAlbumArt { get; set; } = false;
+        public bool EnableNoAlbumArtworkOnSameAlbum { get; set; } = false;
+        public bool EnableNoTweetOnSameAlbum { get; set; } = false;
+        public bool EnableAutoDeleteText140 { get; set; } = false;
         public string TweetFormat { get; set; } = "Nowplaing $Title - $Artist #NowPlaying";
-        public ThemeManager Theme {get; set;} = new ThemeManager();
-}
+        public ThemeManager Theme { get; set; } = new ThemeManager();
+    }
 }
