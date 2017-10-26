@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,7 +12,7 @@ namespace NowPlayingV2.NowPlaying
 {
     public class AutoTweet
     {
-        public AutoTweet Autotweetsigleton = new AutoTweet();
+        public static AutoTweet Autotweetsigleton = new AutoTweet();
         private Config appconfig => ConfigStore.StaticConfig;
         private Task tweetTask;
         private AutoResetEvent resetevent = new AutoResetEvent(false);
@@ -28,12 +29,14 @@ namespace NowPlayingV2.NowPlaying
             Task.Run(() =>
             {
                 if (!appconfig.EnableAutoTweet) return;
-                if (appconfig.EnablePostDelay && !tweetTask.IsCompleted)
+                if (appconfig.EnablePostDelay && !(tweetTask?.IsCompleted ?? true))
                 {
                     //cancel tweet job
+                    Trace.WriteLine($"[AutoTweet PostDelay]Cancel tweet task start.");
                     cancellationToken.Cancel();
                     resetevent.Set();
                     tweetTask.Wait();
+                    Trace.WriteLine($"[AutoTweet PostDelay]Cancel tweet task OK.");
                 }
                 //can't reuse this
                 cancellationToken = new CancellationTokenSource();
@@ -43,21 +46,34 @@ namespace NowPlayingV2.NowPlaying
                     try
                     {
                         //make tweet string
-                        var tweettext = Tsumugi.TweetConverter.SongInfoToString(appconfig.TweetFormat, songInfo,appconfig.EnableAutoDeleteText140);
+                        var tweettext = Tsumugi.TweetConverter.SongInfoToString(appconfig.TweetFormat, songInfo,
+                            appconfig.EnableAutoDeleteText140);
                         if (SeaSlug.CountText(tweettext) > 140) throw new Exception("Tweet text was over 140 chars.");
                         //check for album art
                         var enablealbumart = appconfig.EnableTweetWithAlbumArt;
                         if (appconfig.EnableNoAlbumArtworkOnSameAlbum)
                         {
-                            if (songInfo.Album == lastplayedsong?.Album) enablealbumart = false;
+                            if (songInfo.Album == lastplayedsong?.Album)
+                            {
+                                Trace.WriteLine($"[AutoTweet]Disabled album art tweet.(reason=same album)");
+                                enablealbumart = false;
+                            }
                         }
                         //same album check
                         if (appconfig.EnableNoTweetOnSameAlbum)
                         {
-                            if (songInfo.Album == lastplayedsong?.Album) return;
+                            if (songInfo.Album == lastplayedsong?.Album)
+                            {
+                                Trace.WriteLine($"[AutoTweet]Canceled tweet.(reason=EnableNoTweetOnSameAlbum)");
+                                return;
+                            }
                         }
                         //post delay
-                        if(appconfig.EnablePostDelay) resetevent.WaitOne(appconfig.PostDelaySecond * 1000);
+                        if (appconfig.EnablePostDelay)
+                        {
+                            Trace.WriteLine($"[AutoTweet PostDelay]Waiting for {appconfig.PostDelaySecond * 1000}msec.");
+                            resetevent.WaitOne(appconfig.PostDelaySecond * 1000);
+                        }
                         cancellationToken.Token.ThrowIfCancellationRequested();
                         lastplayedsong = (SongInfo) songInfo.Clone();
                         //tweet it!
@@ -69,17 +85,31 @@ namespace NowPlayingV2.NowPlaying
                                 appconfig.accountList.Where(itm => itm.Enabled).ToList().ForEach((accCont) =>
                                 {
                                     var acc = accCont.AuthToken;
-                                    var imgresult = acc.Media.Upload(media_data: songInfo.AlbumArtBase64);
-                                    acc.Statuses.Update(status: tweettext, media_ids: new[] {imgresult.MediaId});
+                                    if (enablealbumart)
+                                    {
+                                        var imgresult = acc.Media.Upload(media_data: songInfo.AlbumArtBase64);
+                                        acc.Statuses.Update(status: tweettext, media_ids: new[] {imgresult.MediaId});
+                                    }
+                                    else
+                                    {
+                                        acc.Statuses.Update(status: tweettext);
+                                    }
+                                    Trace.WriteLine($"[AutoTweet]Sent tweet for account @{acc.ScreenName}.");
                                 });
                             }
-                            catch
+                            catch (Exception ex)
                             {
+                                Trace.WriteLine($"[AutoTweet]Tweet error.\n{ex.Message}");
                             }
                         });
                     }
                     catch (OperationCanceledException)
                     {
+                        Trace.WriteLine($"[AutoTweet] OperationCanceledException");
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine($"[AutoTweet] {ex.Message}");
                     }
                 });
             });

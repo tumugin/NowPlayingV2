@@ -17,6 +17,8 @@ namespace NowPlayingV2
             NotifyIconManager.NotifyIconSingleton.InitIcon();
             //Start Pipe Listener
             NowPlaying.PipeListener.MkStaticInstance();
+            //Start Auto Tweet
+            NowPlaying.AutoTweet.Autotweetsigleton.InitListner(NowPlaying.PipeListener.staticpipelistener);
             //Load config
             if (Core.ConfigStore.ConfigExists())
             {
@@ -35,6 +37,8 @@ namespace NowPlayingV2
             Core.ConfigStore.SaveConfig(Core.ConfigStore.StaticConfig);
             //Stop Pipe Listener
             NowPlaying.PipeListener.staticpipelistener?.StopPipeListener();
+            //Stop all tweet job
+            NowPlaying.AutoTweet.Autotweetsigleton.StopAllTask();
             //Delete Icon
             NotifyIconManager.NotifyIconSingleton.DeleteIcon();
         }

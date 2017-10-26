@@ -56,6 +56,12 @@
                         <ScrollViewer VerticalScrollBarVisibility="Visible">
                             <Border Padding="10">
                                 <StackPanel x:Name="MainSettingPanel">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}">
+                                            <Setter Property="Margin" Value="0,5,0,5"/>
+                                            <Setter Property="FontSize" Value="15"/>
+                                        </Style>
+                                    </StackPanel.Resources>
                                     <Label Content="ツイート形式の設定" FontSize="20" FontWeight="Bold" />
                                     <TextBox
                                         Controls:TextBoxHelper.Watermark="example) Nowplaying $Title - $Artist #NowPlaying"
@@ -64,6 +70,21 @@
                                         Content="$Artist:アーティスト名  $AlbumArtist:アルバムアーティスト  $Album:アルバム  $Title:タイトル  $PCount:再生回数" />
                                     <Label Content="自動ツイートの設定" FontSize="20" FontWeight="Bold" />
                                     <CheckBox Content="自動ツイートを有効化する" IsChecked="{Binding EnableAutoTweet}" />
+                                    <CheckBox Content="遅延ツイートを有効化する(途中で曲が変わった場合はツイートをキャンセルします)"
+                                              IsChecked="{Binding EnablePostDelay}" />
+                                    <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+                                        <Label Content="遅延させる秒数:" />
+                                        <Controls:NumericUpDown Minimum="0" Maximum="1000"
+                                                                Value="{Binding PostDelaySecond}" Width="150"
+                                                                StringFormat="{}{0:N0} sec" />
+                                    </StackPanel>
+                                    <CheckBox Content="ツイートにアルバムアートを添付する" IsChecked="{Binding EnableTweetWithAlbumArt}" />
+                                    <CheckBox Content="前回再生した曲とアルバムが同じだったらアルバムアートを添付しない"
+                                              IsChecked="{Binding EnableNoAlbumArtworkOnSameAlbum}" />
+                                    <CheckBox Content="前回再生した曲とアルバムが同じだったらツイートしない"
+                                              IsChecked="{Binding EnableNoTweetOnSameAlbum}" />
+                                    <CheckBox Content="ツイートする文字列の長さが140文字を超えた場合は自動的に削る"
+                                              IsChecked="{Binding EnableAutoDeleteText140}" />
                                     <Label Content="アプリケーションのスタイル" FontSize="20" FontWeight="Bold" />
                                     <ComboBox x:Name="ThemeSelector" Width="400" HorizontalAlignment="Left"
                                               DataContext="{Binding Theme}"
