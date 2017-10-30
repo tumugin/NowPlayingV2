@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Hardcodet.Wpf.TaskbarNotification;
+using Newtonsoft.Json;
 using NowPlayingV2.Core;
 using NowPlayingV2.UI.NotifyIcon;
 
@@ -14,26 +17,21 @@ namespace NowPlayingV2.Updater
     {
         private Config config => ConfigStore.StaticConfig;
         private NotifyIconManager nim;
-        private const string UpdateUrl =
-            "https://raw.githubusercontent.com/tumugin/NowPlayingV2/master/NowPlayingV2/Updater/version.json";
 
         public UpdateChecker(NotifyIconManager manager) => nim = manager;
 
-        public void CheckUpdate()
+        public async void CheckUpdateAsync()
         {
             if (!config.CheckUpdate) return;
             try
             {
-                var client = new WebClient();
-                Task.Run(() =>
-                {
-                    var rawjson = client.DownloadString(UpdateUrl);
-                    
-                });
+                var vc = await VersionClass.GetUpdaterAsync();
+                if (vc.IsUpdateAvaliable()) return;
+                nim.NPIcon.ShowBalloonTip(vc.UpdateTitle,vc.UpdateMessage,BalloonIcon.Info);
             }
             catch (Exception ex)
             {
-                
+                Trace.WriteLine($"[UpdateChecker]Could not check update.(Err={ex.Message})");
             }
         }
     }

@@ -13,7 +13,7 @@ namespace NowPlayingV2.UI.NotifyIcon
     {
         public static NotifyIconManager NotifyIconSingleton = new NotifyIconManager();
 
-        private TaskbarIcon NPIcon;
+        public TaskbarIcon NPIcon;
 
         public void InitIcon()
         {
