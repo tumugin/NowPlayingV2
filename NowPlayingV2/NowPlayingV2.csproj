@@ -107,6 +107,7 @@
       <DependentUpon>TweetDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\View\AccountListViewModel.cs" />
+    <Compile Include="Updater\UpdateChecker.cs" />
     <Page Include="UI\AccountListUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -188,6 +189,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Updater\version.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -210,4 +212,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties Updater_4version_1json__JSONSchema="https://json-stat.org/format/schema/2.0/" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
