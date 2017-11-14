@@ -215,7 +215,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Updater_4version_1json__JSONSchema="https://json-stat.org/format/schema/2.0/" />
+      <UserProperties Updater_4version_1json__JSONSchema="http://jsonapi.org/schema" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

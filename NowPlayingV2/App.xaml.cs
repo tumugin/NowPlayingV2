@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using NowPlayingV2.UI.NotifyIcon;
+using NowPlayingV2.Updater;
 
 namespace NowPlayingV2
 {
@@ -30,6 +31,8 @@ namespace NowPlayingV2
                 Core.ConfigStore.StaticConfig.Theme.CurrentTheme.ApplyTheme();
                 UI.MainWindow.OpenSigletonWindow();
             }
+            //Check update
+            new UpdateChecker(NotifyIconManager.NotifyIconSingleton).CheckUpdateAsync();
         }
         protected override void OnExit(ExitEventArgs e)
         {

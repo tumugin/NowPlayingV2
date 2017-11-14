@@ -54,7 +54,7 @@
                 <TabItem Header="基本設定">
                     <DockPanel>
                         <ScrollViewer VerticalScrollBarVisibility="Visible">
-                            <Border Padding="10">
+                            <Border Padding="10,0,10,10">
                                 <StackPanel x:Name="MainSettingPanel">
                                     <StackPanel.Resources>
                                         <Style TargetType="{x:Type CheckBox}"

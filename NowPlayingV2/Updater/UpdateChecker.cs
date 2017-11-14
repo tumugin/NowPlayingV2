@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using Hardcodet.Wpf.TaskbarNotification;
 using Newtonsoft.Json;
 using NowPlayingV2.Core;
@@ -27,7 +29,17 @@ namespace NowPlayingV2.Updater
             {
                 var vc = await VersionClass.GetUpdaterAsync();
                 if (vc.IsUpdateAvaliable()) return;
+                //Show message
                 nim.NPIcon.ShowBalloonTip(vc.UpdateTitle,vc.UpdateMessage,BalloonIcon.Info);
+                //Set menu item
+                var updatemenu = (LogicalTreeHelper.FindLogicalNode(nim.NPIcon.ContextMenu, "UpdateMenu") as MenuItem);
+                var updateseparetor =
+                    (LogicalTreeHelper.FindLogicalNode(nim.NPIcon.ContextMenu, "UpdateMenuSeparator") as Separator);
+                (new Control[] {updateseparetor,updatemenu}).ToList().ForEach(i => i.Visibility = Visibility.Visible);
+                updatemenu.Click += (sender, e) =>
+                {
+                    Process.Start(vc.UpdateNotifyUrl);
+                };
             }
             catch (Exception ex)
             {
