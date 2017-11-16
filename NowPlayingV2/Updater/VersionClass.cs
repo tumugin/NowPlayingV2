@@ -29,7 +29,8 @@ namespace NowPlayingV2.Updater
         public static async Task<VersionClass> GetUpdaterAsync()
         {
             var client = new WebClient();
-            var rawjson = client.DownloadString(UpdateUrl);
+            var rawjsonbary = client.DownloadData(UpdateUrl);
+            var rawjson = Encoding.UTF8.GetString(rawjsonbary);
             return JsonConvert.DeserializeObject<VersionClass>(rawjson);
         }
     }
