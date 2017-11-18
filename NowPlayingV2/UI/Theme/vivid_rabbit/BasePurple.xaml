@@ -4,7 +4,7 @@
                     xmlns:local="clr-namespace:NowPlayingV2.UI.Theme.vivid_rabbit">
 
     <Color x:Key="BlackColor">#FFFFFFFF</Color>
-    <Color x:Key="WhiteColor">#FF3D3451</Color>
+    <Color x:Key="WhiteColor">#FF1D1733</Color>
 
     <Color x:Key="Gray1">#FFF9F9F9</Color>
     <Color x:Key="Gray2">#FF7F7F7F</Color>
