@@ -19,6 +19,7 @@ namespace iTunesNPPlugin
                 if (Process.GetProcessesByName("iTunes").Count() > 0)
                 {
                     //connect to itunes
+                    Debug.WriteLine("[DEBUG]connect start.");
                     ITunesConnecter.CreateITunesInstance();
                     return;
                 }
