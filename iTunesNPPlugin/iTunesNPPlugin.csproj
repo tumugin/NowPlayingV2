@@ -59,6 +59,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ComRelease.cs" />
     <Compile Include="Win32API.cs" />
   </ItemGroup>
   <ItemGroup>

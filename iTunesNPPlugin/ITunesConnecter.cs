@@ -21,7 +21,6 @@ namespace iTunesNPPlugin
         private bool isITunesInitialized = false;
         private int lastTrackID;
         private SemaphoreSlim sem = new SemaphoreSlim(1, 1);
-        private bool itunesComOK = false;
         private Task songupdatewatchertask;
 
         public static void CreateITunesInstance()
@@ -37,34 +36,40 @@ namespace iTunesNPPlugin
 
         private void SongUpdateWatcher()
         {
+            Debug.WriteLine("[DEBUG]song update watcher start.");
             while (true)
             {
                 //wait
-                Thread.Sleep(5000);
+                Thread.Sleep(1000);
                 sem.Wait();
-                if (!isITunesInitialized) return;
+                if (!isITunesInitialized) break;
                 sem.Release();
+                Debug.WriteLine("[DEBUG]itunes COM initializing.");
                 app = new iTunesApp();
                 Debug.WriteLine("[DEBUG]itunes COM initialized.");
                 var ctrack = app.CurrentTrack;
-                if (app.CurrentTrack == null || ctrack.TrackDatabaseID == lastTrackID)
+                if (ctrack == null || app.PlayerState != ITPlayerState.ITPlayerStatePlaying)
                 {
-                    if (ctrack != null) Marshal.FinalReleaseComObject(ctrack);
-                    Marshal.FinalReleaseComObject(app);
+                    ComRelease.FinalReleaseComObjects(ctrack, app);
                     continue;
                 }
-                //song changed
-                OnPlayerPlayingTrackChangedEvent();
-                lastTrackID = ctrack.TrackDatabaseID;
-                Marshal.FinalReleaseComObject(ctrack);
-                Marshal.FinalReleaseComObject(app);
+                var trackdbid = ctrack?.TrackDatabaseID ?? 0;
+                if (trackdbid != lastTrackID)
+                {
+                    //song changed
+                    OnPlayerPlayingTrackChangedEvent(ctrack);
+                    lastTrackID = trackdbid;
+                }
+                ComRelease.FinalReleaseComObjects(ctrack, trackdbid, app);
             }
+            Debug.WriteLine("[DEBUG]song update watcher stop.");
         }
 
         private void ITunesQuitWatcher()
         {
             while ((Win32API.FindWindow("iTunesApp", "iTunes") == IntPtr.Zero ||
-                   Win32API.FindWindow("iTunes", "iTunes") == IntPtr.Zero) && Win32API.IsWindowVisible(Win32API.FindWindow("iTunes", "iTunes")) == false)
+                    Win32API.FindWindow("iTunes", "iTunes") == IntPtr.Zero) &&
+                   Win32API.IsWindowVisible(Win32API.FindWindow("iTunes", "iTunes")) == false)
             {
                 Thread.Sleep(1000);
             }
@@ -79,11 +84,13 @@ namespace iTunesNPPlugin
                 if (songupdatewatchertask == null) songupdatewatchertask = Task.Run(() => SongUpdateWatcher());
                 Thread.Sleep(100);
                 if (Win32API.FindWindow("iTunesApp", "iTunes") == IntPtr.Zero ||
-                    Win32API.FindWindow("iTunes", "iTunes") == IntPtr.Zero || Win32API.IsWindowVisible(Win32API.FindWindow("iTunes", "iTunes")) == false)
+                    Win32API.FindWindow("iTunes", "iTunes") == IntPtr.Zero ||
+                    Win32API.IsWindowVisible(Win32API.FindWindow("iTunes", "iTunes")) == false)
                 {
                     Debug.WriteLine("[DEBUG]itunes quit event.");
-                    OnQuittingEvent();
+                    isITunesInitialized = false;
                     sem.Release();
+                    OnQuittingEvent();
                     return;
                 }
                 sem.Release();
@@ -97,7 +104,7 @@ namespace iTunesNPPlugin
             //wait until itunes exits.
             while (true)
             {
-                if (Process.GetProcessesByName("iTunes").Count() == 0)
+                if (!Process.GetProcessesByName("iTunes").Any())
                 {
                     Debug.WriteLine("[DEBUG]itunes quit ok.");
                     ITunesWatcher.CreateWatcherTask();
@@ -107,14 +114,14 @@ namespace iTunesNPPlugin
             }
         }
 
-        private void OnPlayerPlayingTrackChangedEvent()
+        private void OnPlayerPlayingTrackChangedEvent(IITTrack itrack)
         {
             var sendmap = new Dictionary<string, string>();
-            var track = (iTunesLib.IITFileOrCDTrack) app.CurrentTrack;
+            var track = (iTunesLib.IITFileOrCDTrack) itrack;
             sendmap.Add("title", track.Name);
             sendmap.Add("albumartist", track.AlbumArtist);
             sendmap.Add("artist", track.Artist);
-            sendmap.Add("trackcount", new StringBuilder(track.PlayedCount).ToString());
+            sendmap.Add("trackcount", track.PlayedCount.ToString());
             sendmap.Add("album", track.Album);
             sendmap.Add("composer", track.Composer);
             var artworkcoll = track.Artwork;
