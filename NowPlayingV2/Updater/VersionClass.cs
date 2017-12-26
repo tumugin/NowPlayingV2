@@ -26,12 +26,15 @@ namespace NowPlayingV2.Updater
             return newversion > currentver;
         }
 
-        public static async Task<VersionClass> GetUpdaterAsync()
+        public static Task<VersionClass> GetUpdaterAsync()
         {
-            var client = new WebClient();
-            var rawjsonbary = client.DownloadData(UpdateUrl);
-            var rawjson = Encoding.UTF8.GetString(rawjsonbary);
-            return JsonConvert.DeserializeObject<VersionClass>(rawjson);
+            return Task.Run(() =>
+            {
+                var client = new WebClient();
+                var rawjsonbary = client.DownloadData(UpdateUrl);
+                var rawjson = Encoding.UTF8.GetString(rawjsonbary);
+                return JsonConvert.DeserializeObject<VersionClass>(rawjson);
+            });
         }
     }
 }
