@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:NowPlayingV2.UI.NotifyIcon"
                     xmlns:tb="http://www.hardcodet.net/taskbar">
     <tb:TaskbarIcon
-        IconSource="./maturi.ico"
+        IconSource="./nowplayingv2.ico"
         MenuActivation="RightClick"
         ToolTipText="なうぷれTunesV2"
         x:Key="NPIcon">
