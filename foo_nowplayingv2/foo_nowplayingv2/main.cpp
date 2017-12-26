@@ -5,7 +5,9 @@ DECLARE_COMPONENT_VERSION("foo_nowplayingv2", "1.0", "plugin for NowPlayingTunes
 void MinatoYukina::on_init()
 {
     yukina_ptr.reset(new play_callback_minato_yukina());
-    console::print("initialized foo_nowplayingv2 on MinatoYukina::on_init().");
+    console::print(
+        std::string("initialized foo_nowplayingv2 build(" + std::string(__DATE__) + " " + std::string(__TIME__) + ")").
+        c_str());
 }
 
 void MinatoYukina::on_quit()
@@ -22,7 +24,8 @@ void play_callback_minato_yukina::on_playback_new_track(metadb_handle_ptr p_trac
     pfc::list_single_ref_t<GUID> guidlist(album_art_ids::cover_front);
     auto iptr = static_api_ptr_t<album_art_manager_v3>()->open_v3(tracklist, guidlist, NULL, abortcallback);
     QByteArray qcoverary;
-    try {
+    try
+    {
         auto dataptr = iptr->query(album_art_ids::cover_front, abortcallback);
         auto memptr = dataptr->get_ptr();
         std::stringstream ss;
@@ -33,24 +36,27 @@ void play_callback_minato_yukina::on_playback_new_track(metadb_handle_ptr p_trac
         memcpy(coverdataptr.get(), dataptr->get_ptr(), dataptr->get_size());
         qcoverary = QByteArray::QByteArray(coverdataptr.get(), dataptr->get_size());
     }
-    catch (exception_album_art_not_found) {
+    catch (exception_album_art_not_found)
+    {
         console::print("albumart not found");
     }
     QJsonObject jsonobj{
-        {"title",fileinfo.meta_exists("TITLE") ? QString(fileinfo.meta_get("TITLE",0)) : "" },
-        {"album",fileinfo.meta_exists("ALBUM") ? QString(fileinfo.meta_get("ALBUM",0)) : "" },
-        {"artist",fileinfo.meta_exists("ARTIST") ? QString(fileinfo.meta_get("ARTIST",0)) : "" },
-        {"albumartist",fileinfo.meta_exists("ALBUM ARTIST") ? QString(fileinfo.meta_get("ALBUM ARTIST",0)) : "" },
-        {"albumart",QString(qcoverary.toBase64())}
+        {"title", fileinfo.meta_exists("TITLE") ? QString(fileinfo.meta_get("TITLE", 0)) : ""},
+        {"album", fileinfo.meta_exists("ALBUM") ? QString(fileinfo.meta_get("ALBUM", 0)) : ""},
+        {"artist", fileinfo.meta_exists("ARTIST") ? QString(fileinfo.meta_get("ARTIST", 0)) : ""},
+        {"albumartist", fileinfo.meta_exists("ALBUM ARTIST") ? QString(fileinfo.meta_get("ALBUM ARTIST", 0)) : ""},
+        {"albumart", QString(qcoverary.toBase64())}
     };
     QJsonDocument jsondoc(jsonobj);
     QByteArray sendary = jsondoc.toJson();
     //start send thread
     //copy sendary in lambda
-    std::thread([sendary] {
+    std::thread([sendary]
+    {
         QLocalSocket ls;
         ls.connectToServer("NowPlayingTunesV2PIPE", QIODevice::WriteOnly);
-        if (!ls.waitForConnected(1000)) {
+        if (!ls.waitForConnected(1000))
+        {
             console::print("could not connect to socket.");
             return;
         }
