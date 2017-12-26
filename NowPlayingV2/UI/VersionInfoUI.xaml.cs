@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,12 +13,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using NowPlayingV2.Updater;
 
 namespace NowPlayingV2.UI
 {
-    /// <summary>
-    /// VersionInfoUI.xaml の相互作用ロジック
-    /// </summary>
     public partial class VersionInfoUI : UserControl
     {
         public VersionInfoUI()
@@ -31,6 +32,49 @@ namespace NowPlayingV2.UI
             var ver = asm.GetName().Version.ToString();
             var builddate = Matsuri.BuildDate.GetBuildDateTime(asm).ToString("R");
             VersionLabel.Content = $"Version: {ver}\nBuildDate: {builddate}";
+        }
+
+        private async void CheckUpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                CheckUpdateButton.Content = "アップデートを確認しています.....";
+                var vc = await VersionClass.GetUpdaterAsync();
+                if (vc.IsUpdateAvaliable())
+                {
+                    //show updater screen
+                    CheckUpdateButton.Content = "\u203Cアップデートが利用可能です";
+                    CheckUpdateButton.Background =
+                        new SolidColorBrush((Color) ColorConverter.ConvertFromString("#f5ad3b"));
+                    //get parent Window
+                    var window = Matsuri.SeaSlug.GetAncestorOfType<MetroWindow>(sender as Button);
+                    var diagret = await window.ShowMessageAsync($"バージョン{vc.AppVersion}が利用可能です",
+                        $"{vc.UpdateMessage}\n\nアップデートページを開きますか？", MessageDialogStyle.AffirmativeAndNegative);
+                    if (diagret == MessageDialogResult.Affirmative)
+                    {
+                        Process.Start(vc.UpdateNotifyUrl);
+                    }
+                }
+                else
+                {
+                    //change text
+                    CheckUpdateButton.Content = "\u2714最新版をご利用です";
+                    CheckUpdateButton.Background =
+                        new SolidColorBrush((Color) ColorConverter.ConvertFromString("#5abfb7"));
+                }
+            }
+            catch (Exception ex)
+            {
+                CheckUpdateButton.Content = "\u274Cアップデートを確認できませんでした";
+                CheckUpdateButton.Background =
+                    new SolidColorBrush((Color) ColorConverter.ConvertFromString("#d7385f"));
+                Trace.WriteLine($"[UpdateChecker]Could not check update.(Err={ex.Message})");
+            }
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
         }
     }
 }

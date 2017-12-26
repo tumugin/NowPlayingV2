@@ -10,7 +10,13 @@
         <Border Padding="20">
             <StackPanel>
                 <Label Content="なうぷれTunesV2" FontSize="30" FontWeight="Bold" />
+                <Button x:Name="CheckUpdateButton" Content="&#x1F501;アップデートを確認する" Foreground="White" Background="{DynamicResource AccentColorBrush}" HorizontalAlignment="Left" Click="CheckUpdateButton_Click"/>
                 <Label x:Name="VersionLabel" Content="Version:" FontSize="15" FontWeight="Bold" />
+                <Label FontSize="15" FontWeight="Bold">
+                    <TextBlock>
+                        Project website: <Hyperlink NavigateUri="https://github.com/tumugin/NowPlayingV2" RequestNavigate="Hyperlink_RequestNavigate">https://github.com/tumugin/NowPlayingV2</Hyperlink>
+                    </TextBlock>
+                </Label>
             </StackPanel>
         </Border>
     </Grid>
