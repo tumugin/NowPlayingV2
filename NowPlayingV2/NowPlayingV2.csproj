@@ -88,8 +88,10 @@
     </ApplicationDefinition>
     <Compile Include="Core\AccountContainer.cs" />
     <Compile Include="Core\AccountManager.cs" />
+    <Compile Include="Matsuri\BuildDate.cs" />
     <Compile Include="Matsuri\SeaSlug.cs" />
     <Compile Include="NowPlaying\AutoTweet.cs" />
+    <Compile Include="Plugin\ITunesPlugin.cs" />
     <Compile Include="Tsumugi\APIKey.cs" />
     <Compile Include="Tsumugi\TweetConverter.cs" />
     <Compile Include="UI\Extension\AccountListConv.cs" />
@@ -105,6 +107,9 @@
     <Compile Include="UI\Theme\ThemeManager.cs" />
     <Compile Include="UI\TweetDialog.xaml.cs">
       <DependentUpon>TweetDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\VersionInfoUI.xaml.cs">
+      <DependentUpon>VersionInfoUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\View\AccountListViewModel.cs" />
     <Compile Include="Updater\UpdateChecker.cs" />
@@ -163,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\TweetDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\VersionInfoUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -69,6 +69,9 @@
                                         Text="{Binding TweetFormat, UpdateSourceTrigger=LostFocus}" />
                                     <Label
                                         Content="$Artist:アーティスト名  $AlbumArtist:アルバムアーティスト  $Album:アルバム  $Title:タイトル  $PCount:再生回数" />
+                                    <Label Content="プラグインの設定" FontSize="20" FontWeight="Bold" />
+                                    <CheckBox Content="[※要再起動]アプリケーション起動時にiTunes接続用プロセス(iTunesNPPlugin.exe)を起動する"
+                                              IsChecked="{Binding EnableITunesPlugin}" />
                                     <Label Content="自動ツイートの設定" FontSize="20" FontWeight="Bold" />
                                     <CheckBox Content="自動ツイートを有効化する" IsChecked="{Binding EnableAutoTweet}" />
                                     <CheckBox Content="遅延ツイートを有効化する(途中で曲が変わった場合はツイートをキャンセルします)"
@@ -103,6 +106,11 @@
                                 </StackPanel>
                             </Border>
                         </ScrollViewer>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="バージョン情報">
+                    <DockPanel>
+                        <UI:VersionInfoUI/>
                     </DockPanel>
                 </TabItem>
             </TabControl>

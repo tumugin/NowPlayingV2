@@ -33,6 +33,8 @@ namespace NowPlayingV2
             }
             //Check update
             new UpdateChecker(NotifyIconManager.NotifyIconSingleton).CheckUpdateAsync();
+            //Start iTunes Plugin
+            Plugin.ITunesPlugin.Start();
         }
         protected override void OnExit(ExitEventArgs e)
         {
@@ -44,6 +46,8 @@ namespace NowPlayingV2
             NowPlaying.AutoTweet.Autotweetsigleton.StopAllTask();
             //Delete Icon
             NotifyIconManager.NotifyIconSingleton.DeleteIcon();
+            //Stop iTunes Plugin
+            Plugin.ITunesPlugin.Exit();
         }
     }
 }
