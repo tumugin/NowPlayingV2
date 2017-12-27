@@ -22,14 +22,19 @@
                 <TabItem Header="再生中">
                     <DockPanel>
                         <Grid>
+                            <StackPanel Margin="263,27,0,0" Width="480">
+                                <Label x:Name="SongTitleLabel" FontSize="24">
+                                    <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding Title}"/>
+                                </Label>
+                                <Label x:Name="SongArtistLabel" FontSize="14">
+                                    <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding Artist}"/>
+                                </Label>
+                                <Label x:Name="SongAlbumLabel" FontSize="14">
+                                    <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding Album}"/>
+                                </Label>
+                            </StackPanel>
                             <Image x:Name="SongImage" HorizontalAlignment="Left" Height="250" Margin="30,30,0,0"
-                                   VerticalAlignment="Top" Width="250" />
-                            <Label x:Name="SongTitleLabel" Content="" HorizontalAlignment="Left" Margin="298,30,0,0"
-                                   VerticalAlignment="Top" FontSize="24" />
-                            <Label x:Name="SongArtistLabel" Content="" HorizontalAlignment="Left" Margin="298,101,0,0"
-                                   VerticalAlignment="Top" FontSize="14" />
-                            <Label x:Name="SongAlbumLabel" Content="" HorizontalAlignment="Left" Margin="298,72,0,0"
-                                   VerticalAlignment="Top" FontSize="14" />
+                                   VerticalAlignment="Top" Width="250" Source="{Binding BsImage}"/>
                             <Grid x:Name="NothingPlayingGrid" Height="100" HorizontalAlignment="Stretch"
                                   Background="#99000000">
                                 <Label Content="現在何も再生されていません。" FontSize="20" HorizontalAlignment="Center"

@@ -116,6 +116,7 @@
       <DependentUpon>VersionInfoUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\View\AccountListViewModel.cs" />
+    <Compile Include="UI\View\Model4SongView.cs" />
     <Compile Include="Updater\UpdateChecker.cs" />
     <Compile Include="Updater\VersionClass.cs" />
     <Page Include="UI\AccountListUI.xaml">

@@ -15,6 +15,7 @@ namespace NowPlayingV2.UI
     public partial class MainWindow
     {
         private static MainWindow windowinstance;
+        private Model4SongView songView;
 
         public static void OpenSigletonWindow()
         {
@@ -45,24 +46,11 @@ namespace NowPlayingV2.UI
 
         private void UpdatePlayingSongView(NowPlaying.SongInfo songInfo)
         {
+            songView = new Model4SongView(songInfo);
             Dispatcher.Invoke(() =>
             {
-                var isource = new Func<BitmapSource>(() =>
-                {
-                    try
-                    {
-                        if (!songInfo.IsAlbumArtAvaliable()) return null;
-                        return ImageTool.ToImageSource(songInfo.GetAlbumArt());
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                })();
-                SongImage.Source = isource;
-                SongTitleLabel.Content = songInfo.Title;
-                SongArtistLabel.Content = songInfo.Artist;
-                SongAlbumLabel.Content = songInfo.Album;
+                (new FrameworkElement[] {SongImage, SongTitleLabel, SongAlbumLabel, SongArtistLabel}).ToList().ForEach(
+                    i => { i.DataContext = songView; });
                 NothingPlayingGrid.Visibility = Visibility.Hidden;
             });
         }
