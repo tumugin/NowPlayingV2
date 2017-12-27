@@ -66,9 +66,13 @@
                                     <Label Content="ツイート形式の設定" FontSize="20" FontWeight="Bold" />
                                     <TextBox
                                         Controls:TextBoxHelper.Watermark="example) Nowplaying $Title - $Artist #NowPlaying"
+                                        AcceptsReturn="True"
                                         Text="{Binding TweetFormat, UpdateSourceTrigger=LostFocus}" />
-                                    <Label
-                                        Content="$Artist:アーティスト名  $AlbumArtist:アルバムアーティスト  $Album:アルバム  $Title:タイトル  $PCount:再生回数" />
+                                    <Label>
+                                        <TextBlock TextWrapping="WrapWithOverflow">
+                                            $Artist:アーティスト名  $AlbumArtist:アルバムアーティスト  $Album:アルバム  $Title:タイトル  $PCount:再生回数  改行:Enterキーで改行可能
+                                        </TextBlock>
+                                    </Label>
                                     <Label Content="プラグインの設定" FontSize="20" FontWeight="Bold" />
                                     <CheckBox Content="[※要再起動]アプリケーション起動時にiTunes接続用プロセス(iTunesNPPlugin.exe)を起動する"
                                               IsChecked="{Binding EnableITunesPlugin}" />
@@ -110,7 +114,7 @@
                 </TabItem>
                 <TabItem Header="バージョン情報">
                     <DockPanel>
-                        <UI:VersionInfoUI/>
+                        <UI:VersionInfoUI />
                     </DockPanel>
                 </TabItem>
             </TabControl>
