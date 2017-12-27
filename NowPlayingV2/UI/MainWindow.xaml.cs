@@ -27,7 +27,7 @@ namespace NowPlayingV2.UI
                 windowinstance.Activate();
             }
         }
-        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -39,6 +39,8 @@ namespace NowPlayingV2.UI
             windowinstance = this;
             BindingOperations.EnableCollectionSynchronization(ConfigStore.StaticConfig.accountList, new object());
             NowPlaying.PipeListener.staticpipelistener.OnMusicPlay += UpdatePlayingSongView;
+            if (NowPlaying.PipeListener.staticpipelistener.LastPlayedSong != null)
+                UpdatePlayingSongView(NowPlaying.PipeListener.staticpipelistener.LastPlayedSong);
         }
 
         private void UpdatePlayingSongView(NowPlaying.SongInfo songInfo)
@@ -89,6 +91,7 @@ namespace NowPlayingV2.UI
             {
                 await waitdiag.CloseAsync();
             }
+
             ConfigStore.StaticConfig.accountList.ToList().ForEach(itm => itm.ReDrawAllProperty());
         }
 
