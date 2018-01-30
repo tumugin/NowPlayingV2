@@ -64,7 +64,7 @@ namespace NowPlayingV2.UI
             var loadingview = await this.ShowProgressAsync("Please wait...", "つぶやいています.....");
             loadingview.SetIndeterminate();
             //get current account
-            var acc = (AccountListComboBox.SelectedItem as AccountContainer).AuthToken;
+            var acc = AccountListComboBox.SelectedItem as AccountContainer;
             var tweetext = TweetTextBox.Text;
             try
             {
@@ -72,13 +72,12 @@ namespace NowPlayingV2.UI
                 {
                     await Task.Run(() =>
                     {
-                        var imgresult = acc.Media.Upload(media_data: _songcache.AlbumArtBase64);
-                        acc.Statuses.Update(status: tweetext, media_ids: new[] {imgresult.MediaId});
+                        acc.UpdateStatus(tweetext,_songcache.AlbumArtBase64);
                     });
                 }
                 else
                 {
-                    await Task.Run(() => acc.Statuses.Update(status: tweetext));
+                    await Task.Run(() => acc.UpdateStatus(tweetext));
                 }
                 await loadingview.CloseAsync();
                 this.Close();

@@ -92,6 +92,7 @@
     </ApplicationDefinition>
     <Compile Include="Core\AccountContainer.cs" />
     <Compile Include="Core\AccountManager.cs" />
+    <Compile Include="Core\TwitterAccount.cs" />
     <Compile Include="Matsuri\BuildDate.cs" />
     <Compile Include="Matsuri\SeaSlug.cs" />
     <Compile Include="NowPlaying\AutoTweet.cs" />

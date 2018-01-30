@@ -62,7 +62,7 @@ namespace NowPlayingV2.UI
                 await Task.Run(() =>
                 {
                     var token = session.GetTokens(pincode);
-                    var container = new Core.AccountContainer(token);
+                    var container = new Core.TwitterAccount(token);
                     Core.ConfigStore.StaticConfig.accountList.Add(container);
                 });
                 await progdiag.CloseAsync();

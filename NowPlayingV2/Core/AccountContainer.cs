@@ -9,34 +9,29 @@ using System.Threading.Tasks;
 
 namespace NowPlayingV2.Core
 {
-    public class AccountContainer : INotifyPropertyChanged
+    public abstract class AccountContainer : INotifyPropertyChanged
     {
-        public AccountContainer()
-        {
-            
-        }
-
-        public AccountContainer(Tokens tk)
-        {
-            AuthToken = tk;
-            UpdateName();
-        }
-
-        public Tokens AuthToken { get; set; }
-
         public bool Enabled { get; set; } = true;
 
-        public string ID => AuthToken.ScreenName;
+        public string ID
+        {
+            get
+            {
+                if(this is TwitterAccount account)
+                {
+                    return account.AuthToken.ScreenName;
+                }
+                return null;
+            }
+        }
 
         public string Name { get; set; }
 
-        public void UpdateCache()
-        {
-            AuthToken.Account.VerifyCredentials();
-            UpdateName();
-        }
+        public abstract void UpdateCache();
 
-        public void UpdateName() => Name = AuthToken.Users.Show(user_id: AuthToken.UserId).Name;
+        public abstract void UpdateStatus(string UpdateText);
+
+        public abstract void UpdateStatus(string UpdateText, string base64image);
 
         public event PropertyChangedEventHandler PropertyChanged;
 

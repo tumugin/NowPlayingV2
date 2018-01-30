@@ -22,7 +22,10 @@ namespace NowPlayingV2.Core
         {
             var bary = System.IO.File.ReadAllBytes(ConfigPath);
             var rawjson = Encoding.UTF8.GetString(bary);
-            return JsonConvert.DeserializeObject<Config>(rawjson);
+            return JsonConvert.DeserializeObject<Config>(rawjson,new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
         }
 
         public static void SaveConfig(Config cfg)
@@ -30,7 +33,8 @@ namespace NowPlayingV2.Core
             var rawjson = JsonConvert.SerializeObject(cfg, Formatting.Indented,
                 new JsonSerializerSettings
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    TypeNameHandling = TypeNameHandling.Auto
                 });
             var bary = Encoding.UTF8.GetBytes(rawjson);
             System.IO.File.WriteAllBytes(ConfigPath, bary);

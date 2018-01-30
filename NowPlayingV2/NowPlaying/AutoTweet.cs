@@ -84,17 +84,15 @@ namespace NowPlayingV2.NowPlaying
                                 //get account list(only enabled)
                                 appconfig.accountList.Where(itm => itm.Enabled).ToList().ForEach((accCont) =>
                                 {
-                                    var acc = accCont.AuthToken;
                                     if (enablealbumart)
                                     {
-                                        var imgresult = acc.Media.Upload(media_data: songInfo.AlbumArtBase64);
-                                        acc.Statuses.Update(status: tweettext, media_ids: new[] {imgresult.MediaId});
+                                        accCont.UpdateStatus(tweettext,songInfo.AlbumArtBase64);
                                     }
                                     else
                                     {
-                                        acc.Statuses.Update(status: tweettext);
+                                        accCont.UpdateStatus(tweettext);
                                     }
-                                    Trace.WriteLine($"[AutoTweet]Sent tweet for account @{acc.ScreenName}.");
+                                    Trace.WriteLine($"[AutoTweet]Sent tweet for account @{accCont.ID}.");
                                 });
                             }
                             catch (Exception ex)
