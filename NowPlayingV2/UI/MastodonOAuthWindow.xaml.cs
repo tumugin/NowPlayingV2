@@ -26,7 +26,6 @@ namespace NowPlayingV2.UI
     {
         private AppRegistration registeredApp;
         private AuthenticationClient authClient;
-        private string InstanceName;
 
         public MastodonOAuthWindow()
         {
@@ -36,7 +35,6 @@ namespace NowPlayingV2.UI
         private async void OnAppRegistAsync(object sender, RoutedEventArgs e)
         {
             var progdiag = await this.ShowProgressAsync("読み込み中...", "認証の準備をしています。しばらくお待ちください。");
-            InstanceName = InstanceNameTextBox.Text;
             try
             {
                 authClient = new AuthenticationClient(InstanceNameTextBox.Text);
