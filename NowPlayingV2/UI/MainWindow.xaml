@@ -46,8 +46,10 @@
                 <TabItem Header="アカウント">
                     <DockPanel>
                         <StackPanel Height="40" DockPanel.Dock="Bottom" Orientation="Horizontal">
-                            <Button Content="アカウント追加" FontSize="12" Style="{StaticResource AccentedSquareButtonStyle}"
+                            <Button Content="アカウント追加(Twitter)" FontSize="12" Style="{StaticResource AccentedSquareButtonStyle}"
                                     Click="OnAddAccountClick" Margin="5" Padding="10,6" />
+                            <Button Content="アカウント追加(Mastodon)" FontSize="12" Style="{StaticResource AccentedSquareButtonStyle}"
+                                    Click="OnAddMastodonAccountClick" Margin="5" Padding="10,6" />
                             <Button Content="アカウント情報更新" FontSize="12" Click="OnUpdateAccountClick" Margin="5"
                                     Padding="10,1" />
                         </StackPanel>

@@ -93,5 +93,10 @@ namespace NowPlayingV2.UI
         {
             ((sender as ComboBox)?.SelectedItem as NPTheme)?.ApplyTheme();
         }
+
+        private void OnAddMastodonAccountClick(object sender, RoutedEventArgs e)
+        {
+            (new UI.MastodonOAuthWindow()).ShowDialog();
+        }
     }
 }

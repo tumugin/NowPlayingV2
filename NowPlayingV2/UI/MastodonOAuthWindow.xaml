@@ -1,0 +1,38 @@
+﻿<Controls:MetroWindow
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" x:Class="NowPlayingV2.UI.MastodonOAuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NowPlayingV2.UI"
+        xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+        Dialog:DialogParticipation.Register="{Binding}"
+        mc:Ignorable="d"
+        GlowBrush="{DynamicResource AccentColorBrush}"
+        Title="アカウント追加" Height="471.498" Width="828.604">
+    <DockPanel>
+        <TabControl x:Name="WindowTab" SelectionChanged="TabControlSelectionChanged">
+            <TabItem Header="インスタンス名の入力">
+                <StackPanel Margin="10">
+                    <Label Content="以下のテキストボックスに認証するインスタンス名を入力してください(例: pawoo.net)" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox x:Name="InstanceNameTextBox" Width="300" FontSize="24" Margin="0,10" Controls:TextBoxHelper.Watermark="インスタンス名をここ入力"/>
+                    <Button Content="次のステップに進む" Width="180" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10,0,0" Click="OnAppRegistAsync"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="ブラウザを開いて認証">
+                <StackPanel Margin="10">
+                    <Label Content="以下の「ブラウザを開いて認証」ボタンをクリックしてMastodonインスタンスへログインしてアプリへの権限を許可してください。&#10;次のステップで表示されるPIN番号が必要になるのでメモをしてください。" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button Content="ブラウザを開いて認証する" Width="180" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10,0,0" Click="OnOpenBrowserAuthAsync"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="PINの入力">
+                <StackPanel Margin="10">
+                    <Label Content="表示されたPIN番号を以下のテキストボックスに入力してください。" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox x:Name="PinCodeTextBox" Width="200" FontSize="24" Margin="0,10" Controls:TextBoxHelper.Watermark="PIN番号をここ入力"/>
+                    <Label Content="入力が完了したら以下のボタンをクリックしてアカウントを追加してください。" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button Content="認証してアカウントを追加する" Width="180" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10,0,0" Click="OnAddAccountClickAsync"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Controls:MetroWindow>

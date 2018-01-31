@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JsonNet.PrivateSettersContractResolvers;
 using Newtonsoft.Json.Linq;
 
 namespace NowPlayingV2.Core
@@ -26,7 +27,8 @@ namespace NowPlayingV2.Core
             var desirializer_settings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+                ContractResolver = new PrivateSetterContractResolver()
             };
             try
             {

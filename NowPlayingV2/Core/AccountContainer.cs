@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace NowPlayingV2.Core
 {
@@ -13,6 +14,7 @@ namespace NowPlayingV2.Core
     {
         public bool Enabled { get; set; } = true;
 
+        [JsonIgnore]
         public abstract string ID { get; }
 
         public string Name { get; set; }
