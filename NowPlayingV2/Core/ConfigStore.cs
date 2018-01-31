@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace NowPlayingV2.Core
 {
@@ -22,10 +23,24 @@ namespace NowPlayingV2.Core
         {
             var bary = System.IO.File.ReadAllBytes(ConfigPath);
             var rawjson = Encoding.UTF8.GetString(bary);
-            return JsonConvert.DeserializeObject<Config>(rawjson,new JsonSerializerSettings()
+            var desirializer_settings = new JsonSerializerSettings()
             {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
+                TypeNameHandling = TypeNameHandling.Auto,
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+            };
+            try
+            {
+                return JsonConvert.DeserializeObject<Config>(rawjson, desirializer_settings);
+            }
+            catch
+            {
+                //try migration for new config file
+                var jobj = JObject.Parse(rawjson);
+                var newProperty = new JProperty("$type", "NowPlayingV2.Core.TwitterAccount, NowPlayingV2");
+                jobj["accountList"].Where(i => i["$type"] == null).ToList().ForEach(i =>
+                    i.First.AddBeforeSelf(newProperty));
+                return JsonConvert.DeserializeObject<Config>(jobj.ToString(), desirializer_settings);
+            }
         }
 
         public static void SaveConfig(Config cfg)

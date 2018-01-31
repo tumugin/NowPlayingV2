@@ -13,17 +13,7 @@ namespace NowPlayingV2.Core
     {
         public bool Enabled { get; set; } = true;
 
-        public string ID
-        {
-            get
-            {
-                if(this is TwitterAccount account)
-                {
-                    return account.AuthToken.ScreenName;
-                }
-                return null;
-            }
-        }
+        public abstract string ID { get; }
 
         public string Name { get; set; }
 

@@ -11,11 +11,18 @@ namespace NowPlayingV2.Core
     {
         public Tokens AuthToken { get; set; }
 
+        //Will be called on Json.NET deserialization
+        private TwitterAccount()
+        {
+        }
+
         public TwitterAccount(Tokens token)
         {
             AuthToken = token;
             UpdateName();
         }
+
+        public override string ID => AuthToken.ScreenName;
 
         public override void UpdateCache()
         {
@@ -31,7 +38,7 @@ namespace NowPlayingV2.Core
         public override void UpdateStatus(string UpdateText, string base64image)
         {
             var imgresult = AuthToken.Media.Upload(media_data: base64image);
-            AuthToken.Statuses.Update(status: UpdateText, media_ids: new[] { imgresult.MediaId });
+            AuthToken.Statuses.Update(status: UpdateText, media_ids: new[] {imgresult.MediaId});
         }
 
         private void UpdateName() => Name = AuthToken.Users.Show(user_id: AuthToken.UserId).Name;
