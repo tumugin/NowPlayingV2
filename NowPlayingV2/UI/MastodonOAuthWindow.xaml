@@ -9,26 +9,27 @@
         Dialog:DialogParticipation.Register="{Binding}"
         mc:Ignorable="d"
         GlowBrush="{DynamicResource AccentColorBrush}"
+        ShowMaxRestoreButton="False"
         Title="アカウント追加" Height="471.498" Width="828.604">
     <DockPanel>
-        <TabControl x:Name="WindowTab" SelectionChanged="TabControlSelectionChanged">
-            <TabItem Header="インスタンス名の入力">
+        <TabControl x:Name="WindowTab">
+            <TabItem Header="インスタンス名の入力" Visibility="Collapsed">
                 <StackPanel Margin="10">
                     <Label Content="以下のテキストボックスに認証するインスタンス名を入力してください(例: pawoo.net)" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox x:Name="InstanceNameTextBox" Width="300" FontSize="24" Margin="0,10" Controls:TextBoxHelper.Watermark="インスタンス名をここ入力"/>
                     <Button Content="次のステップに進む" Width="180" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10,0,0" Click="OnAppRegistAsync"/>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="ブラウザを開いて認証">
+            <TabItem Header="ブラウザを開いて認証" Visibility="Collapsed">
                 <StackPanel Margin="10">
                     <Label Content="以下の「ブラウザを開いて認証」ボタンをクリックしてMastodonインスタンスへログインしてアプリへの権限を許可してください。&#10;次のステップで表示されるPIN番号が必要になるのでメモをしてください。" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Button Content="ブラウザを開いて認証する" Width="180" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10,0,0" Click="OnOpenBrowserAuthAsync"/>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="PINの入力">
+            <TabItem Header="PINの入力" Visibility="Collapsed">
                 <StackPanel Margin="10">
                     <Label Content="表示されたPIN番号を以下のテキストボックスに入力してください。" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox x:Name="PinCodeTextBox" Width="200" FontSize="24" Margin="0,10" Controls:TextBoxHelper.Watermark="PIN番号をここ入力"/>
+                    <TextBox x:Name="PinCodeTextBox" Width="600" FontSize="24" Margin="0,10" Controls:TextBoxHelper.Watermark="PIN番号をここ入力"/>
                     <Label Content="入力が完了したら以下のボタンをクリックしてアカウントを追加してください。" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Button Content="認証してアカウントを追加する" Width="180" Style="{StaticResource AccentedSquareButtonStyle}" Margin="0,10,0,0" Click="OnAddAccountClickAsync"/>
                 </StackPanel>

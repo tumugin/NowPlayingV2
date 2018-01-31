@@ -77,13 +77,5 @@ namespace NowPlayingV2.UI
                 await progdiag.CloseAsync();
             }
         }
-
-        private void TabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (session == null && WindowTab.SelectedIndex == 1)
-            {
-                ((TabControl) sender).SelectedItem = e.RemovedItems[0];
-            }
-        }
     }
 }

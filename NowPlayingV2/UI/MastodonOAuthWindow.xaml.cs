@@ -33,14 +33,6 @@ namespace NowPlayingV2.UI
             InitializeComponent();
         }
 
-        private void TabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!(e.Source is TabControl))
-            {
-                ((TabControl) sender).SelectedItem = e.RemovedItems[0];
-            }
-        }
-
         private async void OnAppRegistAsync(object sender, RoutedEventArgs e)
         {
             var progdiag = await this.ShowProgressAsync("読み込み中...", "認証の準備をしています。しばらくお待ちください。");

@@ -39,7 +39,7 @@ namespace NowPlayingV2.UI
             _songcache = songInfo?.Clone() as SongInfo;
             if (songInfo == null)
             {
-                await this.ShowMessageAsync("メッセージ", "現在何も再生されていません。\n(注:アプリケーションがする前に再生されていた曲は取得できません)");
+                await this.ShowMessageAsync("メッセージ", "現在何も再生されていません。\n(注:アプリケーションが起動する前に再生されていた曲は取得できません)");
                 this.Close();
                 return;
             }
@@ -68,12 +68,10 @@ namespace NowPlayingV2.UI
             var tweetext = TweetTextBox.Text;
             try
             {
+                if(acc == null) throw new Exception("アカウントが何も追加されていない状態でツイートすることはできません。");
                 if (EnableImageTweetCBox.IsChecked.Value)
                 {
-                    await Task.Run(() =>
-                    {
-                        acc.UpdateStatus(tweetext,_songcache.AlbumArtBase64);
-                    });
+                    await Task.Run(() => acc.UpdateStatus(tweetext,_songcache.AlbumArtBase64));
                 }
                 else
                 {
