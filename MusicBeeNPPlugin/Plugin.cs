@@ -93,6 +93,7 @@ namespace MusicBeePlugin
                     sendmap.Add("album", mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Album));
                     sendmap.Add("albumart", mbApiInterface.NowPlaying_GetArtwork());
                     sendmap.Add("composer", mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Composer));
+                    sendmap.Add("year", mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Year));
                     var json = new JavaScriptSerializer() { MaxJsonLength = Int32.MaxValue }.Serialize(sendmap.ToDictionary(item => item.Key.ToString(), item => item.Value.ToString()));
                     Task.Run(() =>
                     {

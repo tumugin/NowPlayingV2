@@ -45,6 +45,8 @@ void play_callback_minato_yukina::on_playback_new_track(metadb_handle_ptr p_trac
         {"album", fileinfo.meta_exists("ALBUM") ? QString(fileinfo.meta_get("ALBUM", 0)) : ""},
         {"artist", fileinfo.meta_exists("ARTIST") ? QString(fileinfo.meta_get("ARTIST", 0)) : ""},
         {"albumartist", fileinfo.meta_exists("ALBUM ARTIST") ? QString(fileinfo.meta_get("ALBUM ARTIST", 0)) : ""},
+        {"composer", fileinfo.meta_exists("COMPOSER") ? QString(fileinfo.meta_get("COMPOSER", 0)) : ""},
+        {"year", fileinfo.meta_exists("YEAR") ? QString(fileinfo.meta_get("YEAR", 0)) : ""},
         {"albumart", QString(qcoverary.toBase64())}
     };
     QJsonDocument jsondoc(jsonobj);

@@ -124,6 +124,7 @@ namespace iTunesNPPlugin
             sendmap.Add("trackcount", track.PlayedCount.ToString());
             sendmap.Add("album", track.Album);
             sendmap.Add("composer", track.Composer);
+            sendmap.Add("year", track.Year.ToString());
             var artworkcoll = track.Artwork;
             if (artworkcoll.Count > 0)
             {
