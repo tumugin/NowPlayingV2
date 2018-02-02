@@ -29,6 +29,7 @@ namespace NowPlayingV2UTest
                 readret = stream.Read(buffer, 0, buffer.Length);
                 memstream.Write(buffer, 0, readret);
             }
+
             stream.Close();
             var bary = memstream.ToArray();
             var rawjson = System.Text.Encoding.UTF8.GetString(bary);
@@ -36,7 +37,7 @@ namespace NowPlayingV2UTest
             dynamic json = JsonConvert.DeserializeObject(rawjson);
             foreach (JProperty kvp in (json as IEnumerable<object>))
             {
-                Console.WriteLine($"{kvp.Name}:{kvp.Value}");
+                if(kvp.Name != "albumart") Console.WriteLine($"{kvp.Name}:{kvp.Value}");
             }
         }
 
@@ -52,7 +53,13 @@ namespace NowPlayingV2UTest
                 Assert.IsNotNull(songinfo.AlbumArtist);
                 Assert.IsNotNull(songinfo.Title);
                 Assert.IsNotNull(songinfo.TrackCount);
-                songinfo.GetType().GetProperties().ToList().ForEach(itm => Console.WriteLine($"{itm.Name} : {itm.GetValue(songinfo)}"));
+                Assert.IsNotNull(songinfo.Year);
+                Assert.IsNotNull(songinfo.Composer);
+                songinfo.GetType().GetProperties().ToList().ForEach(itm =>
+                {
+                    if (itm.GetValue(songinfo) is string str && itm.Name != "AlbumArtBase64")
+                        Console.WriteLine($"{itm.Name} : {str}");
+                });
                 waitHandle.Set();
             };
             waitHandle.WaitOne(Timeout.Infinite);
@@ -71,8 +78,10 @@ namespace NowPlayingV2UTest
                     Console.WriteLine($"Image Width : {songinfo.GetAlbumArt().Width}");
                     Console.WriteLine($"Image Height : {songinfo.GetAlbumArt().Height}");
                 }
+
                 Assert.IsTrue(songinfo.AlbumArtBase64.Length == 0 || songinfo.IsAlbumArtAvaliable());
-                songinfo.GetType().GetProperties().ToList().ForEach(itm => Console.WriteLine($"{itm.Name} : {itm.GetValue(songinfo)}"));
+                songinfo.GetType().GetProperties().ToList()
+                    .ForEach(itm => Console.WriteLine($"{itm.Name} : {itm.GetValue(songinfo)}"));
                 waitHandle.Set();
             };
             waitHandle.WaitOne(Timeout.Infinite);
