@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -22,8 +23,15 @@ namespace NowPlayingV2.Matsuri
         public static int CountText(string text)
         {
             //CRLF is counted as 2 chars(should be counted as 1 char)
-            var sinfo = new StringInfo(text.Replace(Environment.NewLine, " "));
-            return sinfo.LengthInTextElements;
+            var repchar = text.Replace(Environment.NewLine, " ");
+            var sinfo = new StringInfo(repchar);
+            //count all chars as 2 chars
+            var scount = sinfo.LengthInTextElements * 2;
+            //count only Hankaku chars
+            var regexcount = Regex.Matches(repchar, "[ -~｡-ﾟ]").Count;
+            //minus Hankaku chars(Because all char are counted as 2 chars on the code above)
+            scount -= regexcount;
+            return scount;
         }
     }
 }

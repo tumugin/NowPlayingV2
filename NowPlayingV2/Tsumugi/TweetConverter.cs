@@ -27,9 +27,9 @@ namespace NowPlayingV2.Tsumugi
         public static string SongInfoToString(string pattern, SongInfo songInfo, bool enableAutoShorten)
         {
             var tweet = SongInfoToString(pattern, songInfo);
-            if (enableAutoShorten && SeaSlug.CountText(tweet) > 140)
+            if (enableAutoShorten && SeaSlug.CountText(tweet) > 280)
             {
-                tweet = tweet.Remove(140 - 3);
+                tweet = tweet.Remove(280 - 3);
                 tweet += "...";
             }
             return tweet;

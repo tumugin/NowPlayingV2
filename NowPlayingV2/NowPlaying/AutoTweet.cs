@@ -48,7 +48,7 @@ namespace NowPlayingV2.NowPlaying
                         //make tweet string
                         var tweettext = Tsumugi.TweetConverter.SongInfoToString(appconfig.TweetFormat, songInfo,
                             appconfig.EnableAutoDeleteText140);
-                        if (SeaSlug.CountText(tweettext) > 140) throw new Exception("Tweet text was over 140 chars.");
+                        if (SeaSlug.CountText(tweettext) > 280) throw new Exception("Tweet text was over 280 chars.");
                         //check for album art
                         var enablealbumart = appconfig.EnableTweetWithAlbumArt;
                         if (appconfig.EnableNoAlbumArtworkOnSameAlbum)

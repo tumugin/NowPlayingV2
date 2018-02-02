@@ -12,7 +12,7 @@ namespace NowPlayingV2.UI.Extension
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (140 - Matsuri.SeaSlug.CountText(value as string)).ToString();
+            return (280 - Matsuri.SeaSlug.CountText(value as string)).ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
