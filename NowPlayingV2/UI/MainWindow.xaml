@@ -98,7 +98,7 @@
                                               IsChecked="{Binding EnableNoAlbumArtworkOnSameAlbum}" />
                                     <CheckBox Content="前回再生した曲とアルバムが同じだったらツイートしない"
                                               IsChecked="{Binding EnableNoTweetOnSameAlbum}" />
-                                    <CheckBox Content="ツイートする文字列の長さが140文字を超えた場合は自動的に削る"
+                                    <CheckBox Content="ツイートする文字列の長さが各サービスの投稿可能最大文字数を超えた場合は自動的に削る"
                                               IsChecked="{Binding EnableAutoDeleteText140}" />
                                     <Label Content="アプリケーションのスタイル" FontSize="20" FontWeight="Bold" />
                                     <ComboBox x:Name="ThemeSelector" Width="400" HorizontalAlignment="Left"
