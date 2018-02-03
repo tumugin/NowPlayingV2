@@ -200,6 +200,7 @@
     <Compile Include="UI\Extension\AccountListConv.cs" />
     <Compile Include="UI\Extension\CombiningConverter.cs" />
     <Compile Include="UI\Extension\IsGreaterThanConverter.cs" />
+    <Compile Include="UI\Extension\HotchPotchConverter.cs" />
     <Compile Include="UI\Extension\IsLessThanConverter.cs" />
     <Compile Include="UI\Extension\TweetCounter.cs" />
     <Compile Include="UI\MastodonOAuthWindow.xaml.cs">

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Mastonet;
 using Newtonsoft.Json;
@@ -49,6 +51,16 @@ namespace NowPlayingV2.Core
             var attachment = mastodonClient.UploadMedia(ms, $"nowplaying.{filetype}").Result;
             ms.Dispose();
             mastodonClient.PostStatus(UpdateText, mediaIds: new[] {attachment.Id}, visibility: Visibility.Public).Wait();
+        }
+
+        public override int CountText(string text) => CountTextStatic(text);
+
+        public static int CountTextStatic(string text)
+        {
+            //CRLF is counted as 2 chars(should be counted as 1 char)
+            var repchar = text.Replace(Environment.NewLine, " ");
+            var sinfo = new StringInfo(repchar);
+            return sinfo.LengthInTextElements;
         }
     }
 }

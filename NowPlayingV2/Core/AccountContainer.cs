@@ -26,6 +26,8 @@ namespace NowPlayingV2.Core
 
         public abstract void UpdateStatus(string UpdateText, string base64image);
 
+        public abstract int CountText(string text);
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName = null)
