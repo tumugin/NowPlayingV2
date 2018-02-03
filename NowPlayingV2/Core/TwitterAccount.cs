@@ -24,6 +24,8 @@ namespace NowPlayingV2.Core
 
         public override string ID => AuthToken.ScreenName;
 
+        public override int MaxTweetLength => 280;
+
         public override void UpdateCache()
         {
             AuthToken.Account.VerifyCredentials();

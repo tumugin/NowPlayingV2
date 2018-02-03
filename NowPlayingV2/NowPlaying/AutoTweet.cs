@@ -38,6 +38,7 @@ namespace NowPlayingV2.NowPlaying
                     tweetTask.Wait();
                     Trace.WriteLine($"[AutoTweet PostDelay]Cancel tweet task OK.");
                 }
+
                 //can't reuse this
                 cancellationToken = new CancellationTokenSource();
                 //start task
@@ -45,10 +46,6 @@ namespace NowPlayingV2.NowPlaying
                 {
                     try
                     {
-                        //make tweet string
-                        var tweettext = Tsumugi.TweetConverter.SongInfoToString(appconfig.TweetFormat, songInfo,
-                            appconfig.EnableAutoDeleteText140);
-                        if (SeaSlug.CountText(tweettext) > 280) throw new Exception("Tweet text was over 280 chars.");
                         //check for album art
                         var enablealbumart = appconfig.EnableTweetWithAlbumArt;
                         if (appconfig.EnableNoAlbumArtworkOnSameAlbum)
@@ -59,6 +56,7 @@ namespace NowPlayingV2.NowPlaying
                                 enablealbumart = false;
                             }
                         }
+
                         //same album check
                         if (appconfig.EnableNoTweetOnSameAlbum)
                         {
@@ -68,12 +66,15 @@ namespace NowPlayingV2.NowPlaying
                                 return;
                             }
                         }
+
                         //post delay
                         if (appconfig.EnablePostDelay)
                         {
-                            Trace.WriteLine($"[AutoTweet PostDelay]Waiting for {appconfig.PostDelaySecond * 1000}msec.");
+                            Trace.WriteLine(
+                                $"[AutoTweet PostDelay]Waiting for {appconfig.PostDelaySecond * 1000}msec.");
                             resetevent.WaitOne(appconfig.PostDelaySecond * 1000);
                         }
+
                         cancellationToken.Token.ThrowIfCancellationRequested();
                         lastplayedsong = (SongInfo) songInfo.Clone();
                         //tweet it!
@@ -84,14 +85,22 @@ namespace NowPlayingV2.NowPlaying
                                 //get account list(only enabled)
                                 appconfig.accountList.Where(itm => itm.Enabled).ToList().ForEach((accCont) =>
                                 {
+                                    //make tweet string
+                                    var tweettext = Tsumugi.TweetConverter.SongInfoToString(appconfig.TweetFormat,
+                                        songInfo,
+                                        appconfig.EnableAutoDeleteText140, accCont.MaxTweetLength);
+                                    if (SeaSlug.CountText(tweettext) > accCont.MaxTweetLength)
+                                        throw new Exception($"[AutoTweet]Tweet text was over {accCont.MaxTweetLength} chars.");
+                                    //tweet
                                     if (enablealbumart)
                                     {
-                                        accCont.UpdateStatus(tweettext,songInfo.AlbumArtBase64);
+                                        accCont.UpdateStatus(tweettext, songInfo.AlbumArtBase64);
                                     }
                                     else
                                     {
                                         accCont.UpdateStatus(tweettext);
                                     }
+
                                     Trace.WriteLine($"[AutoTweet]Sent tweet for account @{accCont.ID}.");
                                 });
                             }

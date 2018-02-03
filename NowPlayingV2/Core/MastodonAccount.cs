@@ -27,6 +27,8 @@ namespace NowPlayingV2.Core
         [JsonProperty] private string IDCache = "";
         public override string ID => $"{IDCache}({mastodonClient.Instance})";
 
+        public override int MaxTweetLength => 500;
+
         public override void UpdateCache()
         {
             var account = mastodonClient.GetCurrentUser().Result;

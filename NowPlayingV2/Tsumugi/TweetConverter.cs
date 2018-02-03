@@ -24,12 +24,12 @@ namespace NowPlayingV2.Tsumugi
             return npstr;
         }
 
-        public static string SongInfoToString(string pattern, SongInfo songInfo, bool enableAutoShorten)
+        public static string SongInfoToString(string pattern, SongInfo songInfo, bool enableAutoShorten, int maxchars)
         {
             var tweet = SongInfoToString(pattern, songInfo);
-            if (enableAutoShorten && SeaSlug.CountText(tweet) > 280)
+            if (enableAutoShorten && SeaSlug.CountText(tweet) > maxchars)
             {
-                tweet = tweet.Remove(280 - 3);
+                tweet = tweet.Remove(maxchars - 3);
                 tweet += "...";
             }
             return tweet;
