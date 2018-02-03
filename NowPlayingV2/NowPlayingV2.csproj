@@ -191,6 +191,7 @@
     <Compile Include="Core\TwitterAccount.cs" />
     <Compile Include="JsonNet.PrivateSettersContractResolvers\PrivateSettersContractResolvers.cs" />
     <Compile Include="Matsuri\BuildDate.cs" />
+    <Compile Include="Matsuri\Princess.cs" />
     <Compile Include="Matsuri\SeaSlug.cs" />
     <Compile Include="NowPlaying\AutoTweet.cs" />
     <Compile Include="Plugin\ITunesPlugin.cs" />
