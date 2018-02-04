@@ -30,7 +30,10 @@ namespace NowPlayingV2.Tsumugi
             var tweet = SongInfoToString(pattern, songInfo);
             if (enableAutoShorten && acccon.CountText(tweet) > acccon.MaxTweetLength)
             {
-                tweet = tweet.Remove(acccon.MaxTweetLength - 3);
+                while (!(acccon.MaxTweetLength - acccon.CountText(tweet) >= 3))
+                {
+                    tweet = tweet.Remove(tweet.Length - 1);
+                }
                 tweet += "...";
             }
             return tweet;
