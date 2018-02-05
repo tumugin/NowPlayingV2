@@ -24,17 +24,17 @@
                         <Grid>
                             <StackPanel Margin="263,27,0,0" Width="480">
                                 <Label x:Name="SongTitleLabel" FontSize="24">
-                                    <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding Title}"/>
+                                    <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding Title}" />
                                 </Label>
                                 <Label x:Name="SongArtistLabel" FontSize="14">
-                                    <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding Artist}"/>
+                                    <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding Artist}" />
                                 </Label>
                                 <Label x:Name="SongAlbumLabel" FontSize="14">
-                                    <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding Album}"/>
+                                    <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding Album}" />
                                 </Label>
                             </StackPanel>
                             <Image x:Name="SongImage" HorizontalAlignment="Left" Height="250" Margin="30,30,0,0"
-                                   VerticalAlignment="Top" Width="250" Source="{Binding BsImage}"/>
+                                   VerticalAlignment="Top" Width="250" Source="{Binding BsImage}" />
                             <Grid x:Name="NothingPlayingGrid" Height="100" HorizontalAlignment="Stretch"
                                   Background="#99000000">
                                 <Label Content="現在何も再生されていません。" FontSize="20" HorizontalAlignment="Center"
@@ -67,9 +67,11 @@
                 <TabItem Header="アカウント">
                     <DockPanel>
                         <StackPanel Height="40" DockPanel.Dock="Bottom" Orientation="Horizontal">
-                            <Button Content="アカウント追加(Twitter)" FontSize="12" Style="{StaticResource AccentedSquareButtonStyle}"
+                            <Button Content="アカウント追加(Twitter)" FontSize="12"
+                                    Style="{StaticResource AccentedSquareButtonStyle}"
                                     Click="OnAddAccountClick" Margin="5" Padding="10,6" />
-                            <Button Content="アカウント追加(Mastodon)" FontSize="12" Style="{StaticResource AccentedSquareButtonStyle}"
+                            <Button Content="アカウント追加(Mastodon)" FontSize="12"
+                                    Style="{StaticResource AccentedSquareButtonStyle}"
                                     Click="OnAddMastodonAccountClick" Margin="5" Padding="10,6" />
                             <Button Content="アカウント情報更新" FontSize="12" Click="OnUpdateAccountClick" Margin="5"
                                     Padding="10,1" />
