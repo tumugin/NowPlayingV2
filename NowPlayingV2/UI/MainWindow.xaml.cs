@@ -15,6 +15,7 @@ namespace NowPlayingV2.UI
     public partial class MainWindow
     {
         private static MainWindow windowinstance;
+        private Model4SongView songView;
 
         public static void OpenSigletonWindow()
         {
@@ -27,7 +28,7 @@ namespace NowPlayingV2.UI
                 windowinstance.Activate();
             }
         }
-        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -39,28 +40,18 @@ namespace NowPlayingV2.UI
             windowinstance = this;
             BindingOperations.EnableCollectionSynchronization(ConfigStore.StaticConfig.accountList, new object());
             NowPlaying.PipeListener.staticpipelistener.OnMusicPlay += UpdatePlayingSongView;
+            if (NowPlaying.PipeListener.staticpipelistener.LastPlayedSong != null)
+                UpdatePlayingSongView(NowPlaying.PipeListener.staticpipelistener.LastPlayedSong);
+            if(ConfigStore.StaticConfig.HintDiagClosed) HintBoxGrid.Visibility = Visibility.Hidden;
         }
 
         private void UpdatePlayingSongView(NowPlaying.SongInfo songInfo)
         {
+            songView = new Model4SongView(songInfo);
             Dispatcher.Invoke(() =>
             {
-                var isource = new Func<BitmapSource>(() =>
-                {
-                    try
-                    {
-                        if (!songInfo.IsAlbumArtAvaliable()) return null;
-                        return ImageTool.ToImageSource(songInfo.GetAlbumArt());
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                })();
-                SongImage.Source = isource;
-                SongTitleLabel.Content = songInfo.Title;
-                SongArtistLabel.Content = songInfo.Artist;
-                SongAlbumLabel.Content = songInfo.Album;
+                (new FrameworkElement[] {SongImage, SongTitleLabel, SongAlbumLabel, SongArtistLabel}).ToList().ForEach(
+                    i => { i.DataContext = songView; });
                 NothingPlayingGrid.Visibility = Visibility.Hidden;
             });
         }
@@ -89,6 +80,7 @@ namespace NowPlayingV2.UI
             {
                 await waitdiag.CloseAsync();
             }
+
             ConfigStore.StaticConfig.accountList.ToList().ForEach(itm => itm.ReDrawAllProperty());
         }
 
@@ -96,11 +88,23 @@ namespace NowPlayingV2.UI
         {
             NowPlaying.PipeListener.staticpipelistener.OnMusicPlay -= UpdatePlayingSongView;
             windowinstance = null;
+            ConfigStore.SaveConfig(ConfigStore.StaticConfig);
         }
 
         private void ThemeSelector_Changed(object sender, SelectionChangedEventArgs e)
         {
             ((sender as ComboBox)?.SelectedItem as NPTheme)?.ApplyTheme();
+        }
+
+        private void OnAddMastodonAccountClick(object sender, RoutedEventArgs e)
+        {
+            (new UI.MastodonOAuthWindow()).ShowDialog();
+        }
+
+        private void HintOKButton(object sender, RoutedEventArgs e)
+        {
+            HintBoxGrid.Visibility = Visibility.Hidden;
+            ConfigStore.StaticConfig.HintDiagClosed = true;
         }
     }
 }

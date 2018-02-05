@@ -27,6 +27,8 @@ namespace NowPlayingV2.NowPlaying
         public string Artist { get; protected set; }
         [JsonProperty("composer")]
         public string Composer { get; protected set; }
+        [JsonProperty("year")]
+        public string Year { get; protected set; }
 
         private Bitmap cachebitmap = null;
 

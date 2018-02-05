@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NowPlayingV2.Core;
+using NowPlayingV2.Matsuri;
 using NowPlayingV2.UI.Extension;
 
 namespace NowPlayingV2UTest
@@ -15,19 +17,19 @@ namespace NowPlayingV2UTest
         public void TestTweetCounter()
         {
             var tweetcounter = new TweetCounter();
-            //should be 4
+            //should be 8
             var yabuki_kana = "矢吹可奈";
-            Assert.AreEqual(tweetcounter.Convert(yabuki_kana, null, null, null) as string, (140 - 4).ToString());
+            Assert.AreEqual(TwitterAccount.CountTextStatic(yabuki_kana), 8);
             //should be 1
-            Assert.AreEqual(tweetcounter.Convert(Environment.NewLine,null,null,null) as string,(140 - 1).ToString());
-            //should be 9
+            Assert.AreEqual(TwitterAccount.CountTextStatic(Environment.NewLine), 1);
+            //should be 14
             var tokugawa_matsuri =
                 $"徳{Environment.NewLine}川{Environment.NewLine}ま{Environment.NewLine}つ{Environment.NewLine}り";
-            Assert.AreEqual(tweetcounter.Convert(tokugawa_matsuri, null, null, null) as string, (140 - 9).ToString());
-            //should be 114
+            Assert.AreEqual(TwitterAccount.CountTextStatic(tokugawa_matsuri), 10 + 4);
+            //should be 224
             var yanyanokuresoudesu =
                 "やんやんっ😖🐤遅れそうです😫🌀 たいへんっ⚡駅🚉までだっしゅ！🏃💨 初めて💕のデート💑ごめん🙇で登場？💦やんやんっ🐦😥そんなのだめよ🙅たいへんっ😰電車🚃よいそげ！🙏♥ 不安な気持ち😞がすっぱい⚡😖😖ぶる～べりぃ💜とれいん 💖🐣💚";
-            Assert.AreEqual(tweetcounter.Convert(yanyanokuresoudesu, null, null, null) as string, (140 - 114).ToString());
+            Assert.AreEqual(TwitterAccount.CountTextStatic(yanyanokuresoudesu), 114 * 2 - 4);
         }
     }
 }

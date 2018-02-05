@@ -14,24 +14,37 @@
         <serica:AccountListConv x:Key="AListConv" />
         <serica:TweetCounter x:Key="TCounter" />
         <serica:IsLessThanConverter x:Key="IsLessThanConverter" />
-        <serica:IsGreaterThanConverter x:Key="IsGreaterThanConverter"/>
-        <serica:CombiningConverter x:Key="CombiningConverter" Converter1="{StaticResource TCounter}"
-                                   Converter2="{StaticResource IsGreaterThanConverter}" />
+        <serica:IsGreaterThanConverter x:Key="IsGreaterThanConverter" />
+        <serica:HotchPotchConverter x:Key="HotchPotchConverter" MultiConverter="{StaticResource TCounter}"
+                                    SingleConverter="{StaticResource IsGreaterThanConverter}" />
     </Window.Resources>
     <Grid>
         <Image x:Name="AlbumArtImage" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0"
                VerticalAlignment="Top" Width="100" />
         <Grid Margin="114,9,13,48" Height="145" Width="488">
             <TextBox x:Name="TweetTextBox" TextWrapping="WrapWithOverflow" AcceptsReturn="True" Margin="1,1,2,1" />
-            <TextBlock Text="{Binding Converter={StaticResource TCounter}}"
-                       DataContext="{Binding Text,ElementName=TweetTextBox}" VerticalAlignment="Bottom"
-                       HorizontalAlignment="Right" Foreground="#FF9C9C9C"
-                       FontSize="20" Margin="0,0,4,2" />
+            <TextBlock
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right" Foreground="#FF9C9C9C"
+                FontSize="20" Margin="0,0,4,2">
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource TCounter}">
+                        <Binding ElementName="TweetTextBox" Path="Text" />
+                        <Binding ElementName="AccountListComboBox" Path="SelectedItem" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
         </Grid>
         <Button Content="ツイート" HorizontalAlignment="Left" Margin="528,162,0,0" VerticalAlignment="Top" Width="75"
                 Style="{StaticResource AccentedSquareButtonStyle}"
-                IsEnabled="{Binding Text,Converter={StaticResource CombiningConverter},ConverterParameter=-1,ElementName=TweetTextBox}"
-                Click="OnTweetClick" />
+                Click="OnTweetClick">
+            <Button.IsEnabled>
+                <MultiBinding Converter="{StaticResource HotchPotchConverter}" ConverterParameter="-1">
+                    <Binding ElementName="TweetTextBox" Path="Text" />
+                    <Binding ElementName="AccountListComboBox" Path="SelectedItem" />
+                </MultiBinding>
+            </Button.IsEnabled>
+        </Button>
         <ComboBox x:Name="AccountListComboBox" HorizontalAlignment="Left" Margin="10,164,0,0" VerticalAlignment="Top"
                   Width="242" ItemsSource="{Binding}">
             <ComboBox.ItemTemplate>

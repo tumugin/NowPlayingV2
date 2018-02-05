@@ -1,7 +1,4 @@
-﻿using CoreTweet;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,20 +11,45 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using static CoreTweet.OAuth;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using Mastonet;
+using Mastonet.Entities;
+using NowPlayingV2.Core;
 
 namespace NowPlayingV2.UI
 {
     /// <summary>
-    /// OAuthWindow.xaml の相互作用ロジック
+    /// MastodonOAuthWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class OAuthWindow : MetroWindow
+    public partial class MastodonOAuthWindow : MetroWindow
     {
-        private OAuthSession session;
+        private AppRegistration registeredApp;
+        private AuthenticationClient authClient;
 
-        public OAuthWindow()
+        public MastodonOAuthWindow()
         {
             InitializeComponent();
+        }
+
+        private async void OnAppRegistAsync(object sender, RoutedEventArgs e)
+        {
+            var progdiag = await this.ShowProgressAsync("読み込み中...", "認証の準備をしています。しばらくお待ちください。");
+            try
+            {
+                authClient = new AuthenticationClient(InstanceNameTextBox.Text);
+                registeredApp = await authClient.CreateApp("なうぷれTunes", Scope.Read | Scope.Write);
+                WindowTab.SelectedIndex = 1;
+            }
+            catch (Exception ex)
+            {
+                await this.ShowMessageAsync("エラー",
+                    "何らかのエラーで認証を開始することが出来ませんでした。インスタンス名をもう一度確認してください。\n\n" + ex.Message + "\n" + ex.StackTrace);
+            }
+            finally
+            {
+                await progdiag.CloseAsync();
+            }
         }
 
         private async void OnOpenBrowserAuthAsync(object sender, RoutedEventArgs e)
@@ -37,10 +59,10 @@ namespace NowPlayingV2.UI
             {
                 await Task.Run(() =>
                 {
-                    session = OAuth.Authorize(Tsumugi.APIKey.CONSUMER_KEY, Tsumugi.APIKey.CONSUMER_SECRET);
-                    System.Diagnostics.Process.Start(session.AuthorizeUri.AbsoluteUri);
+                    var url = authClient.OAuthUrl();
+                    System.Diagnostics.Process.Start(url);
                 });
-                WindowTab.SelectedIndex = 1;
+                WindowTab.SelectedIndex = 2;
             }
             catch (Exception ex)
             {
@@ -56,13 +78,13 @@ namespace NowPlayingV2.UI
         private async void OnAddAccountClickAsync(object sender, RoutedEventArgs e)
         {
             var progdiag = await this.ShowProgressAsync("認証中", "認証処理をしています。しばらくお待ちください。");
-            var pincode = PinCodeTextBox.Text;
             try
             {
+                var tokens = await authClient.ConnectWithCode(PinCodeTextBox.Text);
                 await Task.Run(() =>
                 {
-                    var token = session.GetTokens(pincode);
-                    var container = new Core.TwitterAccount(token);
+                    var client = new MastodonClient(registeredApp, tokens);
+                    var container = new MastodonAccount(client);
                     Core.ConfigStore.StaticConfig.accountList.Add(container);
                 });
                 await progdiag.CloseAsync();
@@ -71,9 +93,7 @@ namespace NowPlayingV2.UI
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("エラー",
-                    $"正常に認証できませんでした。PINコードが間違っている可能性があります\n\n{ex.Message}\n{ex.StackTrace}");
-                WindowTab.SelectedIndex = 0;
-                PinCodeTextBox.Text = "";
+                    "何らかのエラーで認証を開始することが出来ませんでした。\n\n" + ex.Message + "\n" + ex.StackTrace);
                 await progdiag.CloseAsync();
             }
         }

@@ -22,18 +22,44 @@
                 <TabItem Header="再生中">
                     <DockPanel>
                         <Grid>
+                            <StackPanel Margin="263,27,0,0" Width="480">
+                                <Label x:Name="SongTitleLabel" FontSize="24">
+                                    <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding Title}" />
+                                </Label>
+                                <Label x:Name="SongArtistLabel" FontSize="14">
+                                    <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding Artist}" />
+                                </Label>
+                                <Label x:Name="SongAlbumLabel" FontSize="14">
+                                    <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding Album}" />
+                                </Label>
+                            </StackPanel>
                             <Image x:Name="SongImage" HorizontalAlignment="Left" Height="250" Margin="30,30,0,0"
-                                   VerticalAlignment="Top" Width="250" />
-                            <Label x:Name="SongTitleLabel" Content="" HorizontalAlignment="Left" Margin="298,30,0,0"
-                                   VerticalAlignment="Top" FontSize="24" />
-                            <Label x:Name="SongArtistLabel" Content="" HorizontalAlignment="Left" Margin="298,101,0,0"
-                                   VerticalAlignment="Top" FontSize="14" />
-                            <Label x:Name="SongAlbumLabel" Content="" HorizontalAlignment="Left" Margin="298,72,0,0"
-                                   VerticalAlignment="Top" FontSize="14" />
+                                   VerticalAlignment="Top" Width="250" Source="{Binding BsImage}" />
                             <Grid x:Name="NothingPlayingGrid" Height="100" HorizontalAlignment="Stretch"
                                   Background="#99000000">
                                 <Label Content="現在何も再生されていません。" FontSize="20" HorizontalAlignment="Center"
                                        VerticalAlignment="Center" />
+                            </Grid>
+                            <Grid x:Name="HintBoxGrid" Width="500" HorizontalAlignment="Left"
+                                  VerticalAlignment="Bottom" Margin="20,0,0,20" Background="#99000000">
+                                <Border BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1">
+                                    <Border.Effect>
+                                        <DropShadowEffect ShadowDepth="0" Color="White" Opacity="1" BlurRadius="10" />
+                                    </Border.Effect>
+                                </Border>
+                                <StackPanel Margin="5">
+                                    <Label Content="ヒント" FontSize="20" FontWeight="Bold" />
+                                    <Label>
+                                        <TextBlock TextWrapping="WrapWithOverflow">
+                                            ・アカウントは上のメニューの「アカウント」から追加することができます。<LineBreak />
+                                            ・iTunesを使用する場合は基本設定からプラグインを有効化する必要があります。<LineBreak />
+                                            ・次回起動時からはタスクトレイに格納された状態でアプリケーションが起動します。また、この画面はタスクトレイアイコンを右クリックして表示されるメニューからいつでも呼び出すことができます。<LineBreak />
+                                            ・設定はアプリケーション終了時に自動的に保存されます。
+                                        </TextBlock>
+                                    </Label>
+                                    <Button Content="OK" HorizontalAlignment="Right" Margin="0,0,5,5" Padding="10,3"
+                                            Style="{StaticResource AccentedSquareButtonStyle}" Click="HintOKButton" />
+                                </StackPanel>
                             </Grid>
                         </Grid>
                     </DockPanel>
@@ -41,8 +67,12 @@
                 <TabItem Header="アカウント">
                     <DockPanel>
                         <StackPanel Height="40" DockPanel.Dock="Bottom" Orientation="Horizontal">
-                            <Button Content="アカウント追加" FontSize="12" Style="{StaticResource AccentedSquareButtonStyle}"
+                            <Button Content="アカウント追加(Twitter)" FontSize="12"
+                                    Style="{StaticResource AccentedSquareButtonStyle}"
                                     Click="OnAddAccountClick" Margin="5" Padding="10,6" />
+                            <Button Content="アカウント追加(Mastodon)" FontSize="12"
+                                    Style="{StaticResource AccentedSquareButtonStyle}"
+                                    Click="OnAddMastodonAccountClick" Margin="5" Padding="10,6" />
                             <Button Content="アカウント情報更新" FontSize="12" Click="OnUpdateAccountClick" Margin="5"
                                     Padding="10,1" />
                         </StackPanel>
@@ -66,9 +96,13 @@
                                     <Label Content="ツイート形式の設定" FontSize="20" FontWeight="Bold" />
                                     <TextBox
                                         Controls:TextBoxHelper.Watermark="example) Nowplaying $Title - $Artist #NowPlaying"
+                                        AcceptsReturn="True"
                                         Text="{Binding TweetFormat, UpdateSourceTrigger=LostFocus}" />
-                                    <Label
-                                        Content="$Artist:アーティスト名  $AlbumArtist:アルバムアーティスト  $Album:アルバム  $Title:タイトル  $PCount:再生回数" />
+                                    <Label>
+                                        <TextBlock TextWrapping="WrapWithOverflow">
+                                            $Artist:アーティスト名  $AlbumArtist:アルバムアーティスト  $Album:アルバム  $Title:タイトル  $PCount:再生回数  $Composer:作曲家  $Year:リリース年  改行:Enterキーで改行可能
+                                        </TextBlock>
+                                    </Label>
                                     <Label Content="プラグインの設定" FontSize="20" FontWeight="Bold" />
                                     <CheckBox Content="[※要再起動]アプリケーション起動時にiTunes接続用プロセス(iTunesNPPlugin.exe)を起動する"
                                               IsChecked="{Binding EnableITunesPlugin}" />
@@ -87,7 +121,7 @@
                                               IsChecked="{Binding EnableNoAlbumArtworkOnSameAlbum}" />
                                     <CheckBox Content="前回再生した曲とアルバムが同じだったらツイートしない"
                                               IsChecked="{Binding EnableNoTweetOnSameAlbum}" />
-                                    <CheckBox Content="ツイートする文字列の長さが140文字を超えた場合は自動的に削る"
+                                    <CheckBox Content="ツイートする文字列の長さが各サービスの投稿可能最大文字数を超えた場合は自動的に削る"
                                               IsChecked="{Binding EnableAutoDeleteText140}" />
                                     <Label Content="アプリケーションのスタイル" FontSize="20" FontWeight="Bold" />
                                     <ComboBox x:Name="ThemeSelector" Width="400" HorizontalAlignment="Left"
@@ -110,7 +144,7 @@
                 </TabItem>
                 <TabItem Header="バージョン情報">
                     <DockPanel>
-                        <UI:VersionInfoUI/>
+                        <UI:VersionInfoUI />
                     </DockPanel>
                 </TabItem>
             </TabControl>

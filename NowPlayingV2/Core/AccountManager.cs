@@ -9,17 +9,11 @@ namespace NowPlayingV2.Core
 {
     public class AccountManager
     {
-        public static void UpdateAccounts(IEnumerable<Tokens> tklst)
-        {
-            tklst.ToList().ForEach(i => i?.Account.VerifyCredentials());
-        }
-
         public static Task UpdateAccountAsync(IEnumerable<AccountContainer> tklst)
         {
             return Task.Run(() =>
             {
-                UpdateAccounts(tklst.Select(konomi => konomi.AuthToken));
-                tklst.ToList().ForEach(acc => acc.UpdateName());
+                tklst.ToList().ForEach(acc => acc.UpdateCache());
             });
         }
     }

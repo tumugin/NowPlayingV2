@@ -6,37 +6,27 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace NowPlayingV2.Core
 {
-    public class AccountContainer : INotifyPropertyChanged
+    public abstract class AccountContainer : INotifyPropertyChanged
     {
-        public AccountContainer()
-        {
-            
-        }
-
-        public AccountContainer(Tokens tk)
-        {
-            AuthToken = tk;
-            UpdateName();
-        }
-
-        public Tokens AuthToken { get; set; }
-
         public bool Enabled { get; set; } = true;
 
-        public string ID => AuthToken.ScreenName;
+        [JsonIgnore] public abstract string ID { get; }
 
         public string Name { get; set; }
 
-        public void UpdateCache()
-        {
-            AuthToken.Account.VerifyCredentials();
-            UpdateName();
-        }
+        [JsonIgnore] public abstract int MaxTweetLength { get; }
 
-        public void UpdateName() => Name = AuthToken.Users.Show(user_id: AuthToken.UserId).Name;
+        public abstract void UpdateCache();
+
+        public abstract void UpdateStatus(string UpdateText);
+
+        public abstract void UpdateStatus(string UpdateText, string base64image);
+
+        public abstract int CountText(string text);
 
         public event PropertyChangedEventHandler PropertyChanged;
 
