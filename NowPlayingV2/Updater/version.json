@@ -1,6 +1,6 @@
 {
-  "AppVersion": "1.0.0.0",
+  "AppVersion": "1.1.0.0",
   "UpdateTitle": "アップデートのお知らせ",
-  "UpdateMessage": "バージョン1.0.0.0が利用可能です。",
+  "UpdateMessage": "バージョン1.1が利用可能です。",
   "UpdateNotifyUrl": "https://github.com/tumugin/NowPlayingV2/releases"
 }
