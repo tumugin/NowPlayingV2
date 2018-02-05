@@ -20,6 +20,7 @@ namespace NowPlayingV2.Core
         public bool EnableNoTweetOnSameAlbum { get; set; } = false;
         public bool EnableAutoDeleteText140 { get; set; } = false;
         public bool EnableITunesPlugin { get; set; } = false;
+        public bool HintDiagClosed { get; set; } = false;
         public string TweetFormat { get; set; } = "Nowplaying $Title - $Artist #NowPlaying";
         public ThemeManager Theme { get; set; } = new ThemeManager();
     }

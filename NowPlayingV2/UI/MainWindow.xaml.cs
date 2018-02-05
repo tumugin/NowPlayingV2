@@ -42,6 +42,7 @@ namespace NowPlayingV2.UI
             NowPlaying.PipeListener.staticpipelistener.OnMusicPlay += UpdatePlayingSongView;
             if (NowPlaying.PipeListener.staticpipelistener.LastPlayedSong != null)
                 UpdatePlayingSongView(NowPlaying.PipeListener.staticpipelistener.LastPlayedSong);
+            if(ConfigStore.StaticConfig.HintDiagClosed) HintBoxGrid.Visibility = Visibility.Hidden;
         }
 
         private void UpdatePlayingSongView(NowPlaying.SongInfo songInfo)
@@ -87,6 +88,7 @@ namespace NowPlayingV2.UI
         {
             NowPlaying.PipeListener.staticpipelistener.OnMusicPlay -= UpdatePlayingSongView;
             windowinstance = null;
+            ConfigStore.SaveConfig(ConfigStore.StaticConfig);
         }
 
         private void ThemeSelector_Changed(object sender, SelectionChangedEventArgs e)
@@ -97,6 +99,12 @@ namespace NowPlayingV2.UI
         private void OnAddMastodonAccountClick(object sender, RoutedEventArgs e)
         {
             (new UI.MastodonOAuthWindow()).ShowDialog();
+        }
+
+        private void HintOKButton(object sender, RoutedEventArgs e)
+        {
+            HintBoxGrid.Visibility = Visibility.Hidden;
+            ConfigStore.StaticConfig.HintDiagClosed = true;
         }
     }
 }
