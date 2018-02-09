@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Hardcodet.Wpf.TaskbarNotification;
+using NowPlayingV2.NowPlaying;
 
 namespace NowPlayingV2.UI.NotifyIcon
 {
@@ -19,19 +20,26 @@ namespace NowPlayingV2.UI.NotifyIcon
         {
             NPIcon = Application.Current.FindResource("NPIcon") as TaskbarIcon;
             (LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnOpenSetting") as MenuItem).Click +=
-                (sender, e) =>
-                {
-                    UI.MainWindow.OpenSigletonWindow();
-                };
+                (sender, e) => { UI.MainWindow.OpenSigletonWindow(); };
             (LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnAppExit") as MenuItem).Click +=
-                (sender, e) =>
-                {
-                    Application.Current.Shutdown();
-                };
+                (sender, e) => { Application.Current.Shutdown(); };
             (LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnTweetDialog") as MenuItem).Click +=
-                (sender, e) =>
+                (sender, e) => { (new TweetDialog()).Show(); };
+            (LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "IsAutoTweetEnabledMenuItem") as MenuItem)
+                .DataContext = Core.ConfigStore.StaticConfig;
+            (LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnTweetNow") as MenuItem).Click +=
+                async (sender, e) =>
                 {
-                    (new TweetDialog()).Show();
+                    try
+                    {
+                        await ManualTweet.RunManualTweet();
+                        var song = NowPlaying.PipeListener.staticpipelistener.LastPlayedSong;
+                        NPIcon.ShowBalloonTip("投稿完了", $"{song.Title}\n{song.Artist}\n{song.Album}", BalloonIcon.Info);
+                    }
+                    catch (Exception exception)
+                    {
+                        NPIcon.ShowBalloonTip("エラー", exception.Message, BalloonIcon.Info);
+                    }
                 };
         }
 

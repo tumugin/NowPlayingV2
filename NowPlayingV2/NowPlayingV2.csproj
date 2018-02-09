@@ -194,6 +194,7 @@
     <Compile Include="Matsuri\Princess.cs" />
     <Compile Include="Matsuri\SeaSlug.cs" />
     <Compile Include="NowPlaying\AutoTweet.cs" />
+    <Compile Include="NowPlaying\ManualTweet.cs" />
     <Compile Include="Plugin\ITunesPlugin.cs" />
     <Compile Include="Tsumugi\APIKey.cs" />
     <Compile Include="Tsumugi\TweetConverter.cs" />
