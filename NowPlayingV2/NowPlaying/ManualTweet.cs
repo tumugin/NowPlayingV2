@@ -20,7 +20,7 @@ namespace NowPlayingV2.NowPlaying
                 if (!ConfigStore.StaticConfig.accountList.Any())
                     throw new Exception("アカウントが何も追加されていません。アカウントを追加してからこの操作を行ってください。");
                 if (!ConfigStore.StaticConfig.accountList.Any(itm => itm.Enabled))
-                    throw new Exception("有効化されているアカウントが一つもありません。最低限一つのアカウントを有効貸してください。");
+                    throw new Exception("有効化されているアカウントが一つもありません。最低限一つのアカウントを有効化してください。");
                 ConfigStore.StaticConfig.accountList.Where(itm => itm.Enabled).ToList().ForEach(account =>
                 {
                     //make tweet string
