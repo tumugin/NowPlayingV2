@@ -117,18 +117,18 @@ namespace iTunesNPPlugin
         private void OnPlayerPlayingTrackChangedEvent(IITTrack itrack)
         {
             var sendmap = new Dictionary<string, string>();
-            var track = (iTunesLib.IITFileOrCDTrack) itrack;
-            sendmap.Add("title", track.Name);
-            sendmap.Add("albumartist", track.AlbumArtist);
-            sendmap.Add("artist", track.Artist);
-            sendmap.Add("trackcount", track.PlayedCount.ToString());
-            sendmap.Add("album", track.Album);
-            sendmap.Add("composer", track.Composer);
-            sendmap.Add("year", track.Year.ToString());
-            var artworkcoll = track.Artwork;
+            var track = itrack as IITFileOrCDTrack;
+            sendmap.Add("title", track?.Name ?? itrack.Name);
+            sendmap.Add("albumartist", track?.AlbumArtist ?? "");
+            sendmap.Add("artist", track?.Artist ?? itrack.Artist);
+            sendmap.Add("trackcount", track?.PlayedCount.ToString() ?? itrack.PlayedCount.ToString());
+            sendmap.Add("album", track?.Album ?? itrack.Album);
+            sendmap.Add("composer", track?.Composer ?? itrack.Composer);
+            sendmap.Add("year", track?.Year.ToString() ?? itrack.Year.ToString());
+            var artworkcoll = itrack.Artwork;
             if (artworkcoll.Count > 0)
             {
-                var artwork = track.Artwork[1];
+                var artwork = artworkcoll[1];
                 artwork.SaveArtworkToFile(AppDomain.CurrentDomain.BaseDirectory + "/artwork.png");
                 Marshal.FinalReleaseComObject(artwork);
                 var imgbary = System.IO.File.ReadAllBytes(AppDomain.CurrentDomain.BaseDirectory + "/artwork.png");
@@ -136,7 +136,7 @@ namespace iTunesNPPlugin
                 System.IO.File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/artwork.png");
             }
             Marshal.FinalReleaseComObject(artworkcoll);
-            Marshal.FinalReleaseComObject(track);
+            if(track != null) Marshal.FinalReleaseComObject(track);
             var json = new JavaScriptSerializer().Serialize(sendmap.ToDictionary(item => item.Key.ToString(),
                 item => item.Value?.ToString() ?? ""));
             Debug.WriteLine(json);
