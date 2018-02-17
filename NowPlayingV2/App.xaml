@@ -20,6 +20,7 @@
                 <!--Default UI Style-->
                 <ResourceDictionary Source="UI/Style/DefaultStyle.xaml"/>
                 <ResourceDictionary Source="UI/NotifyIcon/NotifyIconDic.xaml"/>
+                <ResourceDictionary Source="UI/Theme/acrylic/DisableAcrylic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

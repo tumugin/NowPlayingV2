@@ -22,6 +22,11 @@ namespace NowPlayingV2.UI.Theme
             {
                 Name = "vivid_rabbit",
                 XamlSource = new Uri("pack://application:,,,/UI/Theme/vivid_rabbit/vivid_rabbit.xaml", UriKind.Absolute)
+            },
+            new NPTheme()
+            {
+                Name = "acrylic_dark",
+                XamlSource = new Uri("pack://application:,,,/UI/Theme/acrylic_dark/acrylic_dark.xaml", UriKind.Absolute)
             }
         });
 

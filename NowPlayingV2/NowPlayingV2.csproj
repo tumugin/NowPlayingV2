@@ -269,6 +269,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Theme\acrylic\DisableAcrylic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Theme\acrylic\EnableAcrylic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Theme\acrylic_dark\acrylic_dark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Theme\dark\dark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -338,6 +350,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\NotifyIcon\nowplayingv2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FluentWPF\FluentWPF\FluentWPF.csproj">
+      <Project>{061b1dd9-815b-437f-8cd6-d20923bc0af4}</Project>
+      <Name>FluentWPF</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
