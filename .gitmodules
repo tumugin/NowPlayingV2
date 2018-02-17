@@ -1,0 +1,3 @@
+[submodule "FluentWPF"]
+	path = FluentWPF
+	url = https://github.com/tumugin/FluentWPF.git
