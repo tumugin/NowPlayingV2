@@ -1,3 +1,6 @@
 [submodule "FluentWPF"]
 	path = FluentWPF
 	url = https://github.com/tumugin/FluentWPF.git
+[submodule "foo_nowplayingv2/SDK"]
+	path = foo_nowplayingv2/SDK
+	url = https://github.com/tumugin/foobar2000_sdk.git
