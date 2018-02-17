@@ -100,7 +100,7 @@
                                         Text="{Binding TweetFormat, UpdateSourceTrigger=LostFocus}" />
                                     <Label>
                                         <TextBlock TextWrapping="WrapWithOverflow">
-                                            $Artist:アーティスト名  $AlbumArtist:アルバムアーティスト  $Album:アルバム  $Title:タイトル  $PCount:再生回数  $Composer:作曲家  $Year:リリース年  改行:Enterキーで改行可能
+                                            $Artist:アーティスト名  $AlbumArtist:アルバムアーティスト  $Album:アルバム  $Title:タイトル  $PCount:再生回数  $Composer:作曲家  $Year:リリース年  $Group:グループ  改行:Enterキーで改行可能
                                         </TextBlock>
                                     </Label>
                                     <Label Content="プラグインの設定" FontSize="20" FontWeight="Bold" />

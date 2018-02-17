@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -118,13 +117,14 @@ namespace iTunesNPPlugin
         {
             var sendmap = new Dictionary<string, string>();
             var track = itrack as IITFileOrCDTrack;
-            sendmap.Add("title", track?.Name ?? itrack.Name);
+            sendmap.Add("title", itrack.Name);
             sendmap.Add("albumartist", track?.AlbumArtist ?? "");
-            sendmap.Add("artist", track?.Artist ?? itrack.Artist);
-            sendmap.Add("trackcount", track?.PlayedCount.ToString() ?? itrack.PlayedCount.ToString());
-            sendmap.Add("album", track?.Album ?? itrack.Album);
-            sendmap.Add("composer", track?.Composer ?? itrack.Composer);
-            sendmap.Add("year", track?.Year.ToString() ?? itrack.Year.ToString());
+            sendmap.Add("artist", itrack.Artist);
+            sendmap.Add("trackcount", itrack.PlayedCount.ToString());
+            sendmap.Add("album", itrack.Album);
+            sendmap.Add("composer", itrack.Composer);
+            sendmap.Add("year", itrack.Year.ToString());
+            sendmap.Add("group", itrack.Grouping);
             var artworkcoll = itrack.Artwork;
             if (artworkcoll.Count > 0)
             {
