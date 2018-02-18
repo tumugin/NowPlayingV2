@@ -30,7 +30,7 @@
         <Image x:Name="AlbumArtImage" HorizontalAlignment="Left" Height="100" Margin="9,12,0,0"
                VerticalAlignment="Top" Width="100" />
         <Grid Margin="114,9,5,48" Height="140" Width="480">
-            <TextBox x:Name="TweetTextBox" TextWrapping="WrapWithOverflow" AcceptsReturn="True"/>
+            <TextBox x:Name="TweetTextBox" TextWrapping="WrapWithOverflow" AcceptsReturn="True" PreviewKeyDown="TweetTextBox_PreviewKeyDown"/>
             <TextBlock
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right" Foreground="#FF9C9C9C"

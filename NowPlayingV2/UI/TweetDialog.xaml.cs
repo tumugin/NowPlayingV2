@@ -86,5 +86,15 @@ namespace NowPlayingV2.UI
                 await loadingview.CloseAsync();
             }
         }
+
+        private void TweetTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            //detect Ctrl+Enter
+            if (e.Key.Equals(Key.Return) && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+            {
+                e.Handled = true;
+                OnTweetClick(null, null);
+            }
+        }
     }
 }
