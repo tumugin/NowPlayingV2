@@ -22,6 +22,7 @@ namespace NowPlayingV2.Tsumugi
             npstr = npstr.Replace("$Artist", songinfo.Artist);
             npstr = npstr.Replace("$Composer", songinfo.Composer);
             npstr = npstr.Replace("$Year", songinfo.Year);
+            npstr = npstr.Replace("$Group", songinfo.Group);
             return npstr;
         }
 

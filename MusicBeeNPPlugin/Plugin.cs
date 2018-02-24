@@ -27,7 +27,7 @@ namespace MusicBeePlugin
             about.TargetApplication = "";   // current only applies to artwork, lyrics or instant messenger name that appears in the provider drop down selector or target Instant Messenger
             about.Type = PluginType.General;
             about.VersionMajor = 1;  // your plugin version
-            about.VersionMinor = 0;
+            about.VersionMinor = 2;
             about.Revision = 1;
             about.MinInterfaceVersion = MinInterfaceVersion;
             about.MinApiRevision = MinApiRevision;
@@ -94,6 +94,7 @@ namespace MusicBeePlugin
                     sendmap.Add("albumart", mbApiInterface.NowPlaying_GetArtwork());
                     sendmap.Add("composer", mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Composer));
                     sendmap.Add("year", mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Year));
+                    sendmap.Add("group", mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Grouping));
                     var json = new JavaScriptSerializer() { MaxJsonLength = Int32.MaxValue }.Serialize(sendmap.ToDictionary(item => item.Key.ToString(), item => item.Value.ToString()));
                     Task.Run(() =>
                     {

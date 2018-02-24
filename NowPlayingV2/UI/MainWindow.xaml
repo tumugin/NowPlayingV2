@@ -4,9 +4,17 @@
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:local="clr-namespace:NowPlayingV2"
+                      xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
                       xmlns:UI="clr-namespace:NowPlayingV2.UI"
                       xmlns:CV="clr-namespace:NowPlayingV2.UI.View"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      fw:AcrylicWindow.Enabled="{DynamicResource UseAcrylic}"
+                      fw:AcrylicWindow.ShowTitleBar="False"
+                      fw:AcrylicWindow.TintColor="{DynamicResource WhiteColor}"
+                      fw:AcrylicWindow.FallbackColor="{DynamicResource WhiteColor}"
+                      fw:AcrylicWindow.TintOpacity="{DynamicResource AcrylicOpacity}"
+                      fw:AcrylicWindow.NoiseOpacity="{DynamicResource AcrylicNoiseOpacity}"
+                      Background="{DynamicResource WindowBackgroundBrush}"
                       GlowBrush="{DynamicResource AccentColorBrush}"
                       mc:Ignorable="d"
                       Title="なうぷれTunesV2" Height="486.207" Width="810.345" Loaded="Window_Loaded"
@@ -100,7 +108,7 @@
                                         Text="{Binding TweetFormat, UpdateSourceTrigger=LostFocus}" />
                                     <Label>
                                         <TextBlock TextWrapping="WrapWithOverflow">
-                                            $Artist:アーティスト名  $AlbumArtist:アルバムアーティスト  $Album:アルバム  $Title:タイトル  $PCount:再生回数  $Composer:作曲家  $Year:リリース年  改行:Enterキーで改行可能
+                                            $Artist:アーティスト名  $AlbumArtist:アルバムアーティスト  $Album:アルバム  $Title:タイトル  $PCount:再生回数  $Composer:作曲家  $Year:リリース年  $Group:グループ  改行:Enterキーで改行可能
                                         </TextBlock>
                                     </Label>
                                     <Label Content="プラグインの設定" FontSize="20" FontWeight="Bold" />

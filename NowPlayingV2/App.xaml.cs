@@ -14,8 +14,6 @@ namespace NowPlayingV2
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            //Init Notify Icon
-            NotifyIconManager.NotifyIconSingleton.InitIcon();
             //Start Pipe Listener
             NowPlaying.PipeListener.MkStaticInstance();
             //Start Auto Tweet
@@ -31,6 +29,8 @@ namespace NowPlayingV2
                 Core.ConfigStore.StaticConfig.Theme.CurrentTheme.ApplyTheme();
                 UI.MainWindow.OpenSigletonWindow();
             }
+            //Init Notify Icon
+            NotifyIconManager.NotifyIconSingleton.InitIcon();
             //Check update
             new UpdateChecker(NotifyIconManager.NotifyIconSingleton).CheckUpdateAsync();
             //Start iTunes Plugin

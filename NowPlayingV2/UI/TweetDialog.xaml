@@ -6,10 +6,18 @@
                       xmlns:local="clr-namespace:NowPlayingV2.UI"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:serica="clr-namespace:NowPlayingV2.UI.Extension"
+                      xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+                      fw:AcrylicWindow.Enabled="{DynamicResource UseAcrylic}"
+                      fw:AcrylicWindow.ShowTitleBar="False"
+                      fw:AcrylicWindow.TintColor="{DynamicResource WhiteColor}"
+                      fw:AcrylicWindow.FallbackColor="{DynamicResource WhiteColor}"
+                      fw:AcrylicWindow.TintOpacity="{DynamicResource AcrylicOpacity}"
+                      fw:AcrylicWindow.NoiseOpacity="{DynamicResource AcrylicNoiseOpacity}"
+                      Background="{DynamicResource WindowBackgroundBrush}"
                       mc:Ignorable="d"
                       GlowBrush="{DynamicResource AccentColorBrush}"
                       ResizeMode="CanMinimize"
-                      Title="Tweet" Height="231.343" Width="612.549" Loaded="WindowLoaded">
+                      Title="Tweet" Height="235" Width="612.549" Loaded="WindowLoaded">
     <Window.Resources>
         <serica:AccountListConv x:Key="AListConv" />
         <serica:TweetCounter x:Key="TCounter" />
@@ -19,14 +27,14 @@
                                     SingleConverter="{StaticResource IsGreaterThanConverter}" />
     </Window.Resources>
     <Grid>
-        <Image x:Name="AlbumArtImage" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0"
+        <Image x:Name="AlbumArtImage" HorizontalAlignment="Left" Height="100" Margin="9,12,0,0"
                VerticalAlignment="Top" Width="100" />
-        <Grid Margin="114,9,13,48" Height="145" Width="488">
-            <TextBox x:Name="TweetTextBox" TextWrapping="WrapWithOverflow" AcceptsReturn="True" Margin="1,1,2,1" />
+        <Grid Margin="114,9,5,48" Height="140" Width="480">
+            <TextBox x:Name="TweetTextBox" TextWrapping="WrapWithOverflow" AcceptsReturn="True" PreviewKeyDown="TweetTextBox_PreviewKeyDown"/>
             <TextBlock
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right" Foreground="#FF9C9C9C"
-                FontSize="20" Margin="0,0,4,2">
+                FontSize="20" Margin="0,0,7,2">
                 <TextBlock.Text>
                     <MultiBinding Converter="{StaticResource TCounter}">
                         <Binding ElementName="TweetTextBox" Path="Text" />
@@ -35,7 +43,7 @@
                 </TextBlock.Text>
             </TextBlock>
         </Grid>
-        <Button Content="ツイート" HorizontalAlignment="Left" Margin="528,162,0,0" VerticalAlignment="Top" Width="75"
+        <Button Content="ツイート" HorizontalAlignment="Left" Margin="523,164,0,0" VerticalAlignment="Top" Width="75"
                 Style="{StaticResource AccentedSquareButtonStyle}"
                 Click="OnTweetClick">
             <Button.IsEnabled>
@@ -45,7 +53,7 @@
                 </MultiBinding>
             </Button.IsEnabled>
         </Button>
-        <ComboBox x:Name="AccountListComboBox" HorizontalAlignment="Left" Margin="10,164,0,0" VerticalAlignment="Top"
+        <ComboBox x:Name="AccountListComboBox" HorizontalAlignment="Left" Margin="9,166,0,0" VerticalAlignment="Top"
                   Width="242" ItemsSource="{Binding}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
@@ -54,6 +62,6 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <CheckBox x:Name="EnableImageTweetCBox" Content="アルバムアートを添付してツイートする" HorizontalAlignment="Left"
-                  Margin="262,168,0,0" VerticalAlignment="Top" />
+                  Margin="266,169,0,0" VerticalAlignment="Top" />
     </Grid>
 </controls:MetroWindow>

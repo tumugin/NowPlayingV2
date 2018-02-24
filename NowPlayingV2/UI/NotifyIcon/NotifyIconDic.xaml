@@ -9,11 +9,15 @@
         x:Key="NPIcon">
         <tb:TaskbarIcon.ContextMenu>
             <ContextMenu>
-                <MenuItem x:Name="OnTweetDialog" Header="ツイート画面を表示する" />
-                <MenuItem x:Name="OnOpenSetting" Header="設定画面を開く" />
-                <MenuItem x:Name="OnAppExit" Header="なうぷれTunesV2を終了する" />
+                <MenuItem x:Name="OnTweetDialog" Header="ツイート画面を表示する(_T)" />
+                <MenuItem x:Name="OnTweetNow" Header="今すぐツイートする(_I)" />
+                <Separator/>
+                <MenuItem x:Name="IsAutoTweetEnabledMenuItem" IsCheckable="True" IsChecked="{Binding EnableAutoTweet}" Header="自動投稿を使用する(_J)"/>
+                <Separator/>
+                <MenuItem x:Name="OnOpenSetting" Header="設定画面を開く(_S)" />
+                <MenuItem x:Name="OnAppExit" Header="なうぷれTunesV2を終了する(_E)" />
                 <Separator x:Name="UpdateMenuSeparator" Visibility="Collapsed" />
-                <MenuItem x:Name="UpdateMenu" Header="アップデートのお知らせを開く" FontWeight="Bold" Visibility="Collapsed" />
+                <MenuItem x:Name="UpdateMenu" Header="アップデートのお知らせを開く(_U)" FontWeight="Bold" Visibility="Collapsed" />
             </ContextMenu>
         </tb:TaskbarIcon.ContextMenu>
     </tb:TaskbarIcon>
