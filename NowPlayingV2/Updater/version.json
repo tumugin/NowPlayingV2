@@ -1,6 +1,6 @@
 {
-  "AppVersion": "1.1.0.0",
+  "AppVersion": "1.2.0.0",
   "UpdateTitle": "アップデートのお知らせ",
-  "UpdateMessage": "バージョン1.1が利用可能です。",
-  "UpdateNotifyUrl": "https://github.com/tumugin/NowPlayingV2/releases"
+  "UpdateMessage": "バージョン1.2が利用可能です。",
+  "UpdateNotifyUrl": "http://kazblog.hateblo.jp/entry/2018/02/26/072914"
 }
