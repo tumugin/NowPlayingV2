@@ -1,4 +1,14 @@
+version: 1.2.{build}
 image: Visual Studio 2017
+install:
+- cmd: >-
+    git submodule update --init --recursive
+
+    nuget restore
+before_build:
+- cmd: dotnet sln remove iTunesNPPlugin\iTunesNPPlugin.csproj
 build:
-    parallel: true
-    project: NowPlayingV2.sln
+  project: NowPlayingV2.sln
+  parallel: true
+  verbosity: minimal
+test: off
