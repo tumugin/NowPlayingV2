@@ -14,6 +14,7 @@ using System.Reflection;
 namespace NowPlayingV2UTest
 {
     [TestClass]
+    [TestCategory("PluginTest")]
     public class NowPlayingPluginTest
     {
         [TestMethod]
