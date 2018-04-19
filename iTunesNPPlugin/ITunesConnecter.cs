@@ -137,7 +137,8 @@ namespace iTunesNPPlugin
             }
             Marshal.FinalReleaseComObject(artworkcoll);
             if(track != null) Marshal.FinalReleaseComObject(track);
-            var json = new JavaScriptSerializer().Serialize(sendmap.ToDictionary(item => item.Key.ToString(),
+            var json = new JavaScriptSerializer() {MaxJsonLength = Int32.MaxValue}.Serialize(sendmap.ToDictionary(
+                item => item.Key.ToString(),
                 item => item.Value?.ToString() ?? ""));
             Debug.WriteLine(json);
             Task.Run(() =>
