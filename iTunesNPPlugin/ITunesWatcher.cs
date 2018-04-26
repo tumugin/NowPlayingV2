@@ -14,6 +14,7 @@ namespace iTunesNPPlugin
 
         private static void WatcherMain()
         {
+            Debug.WriteLine("[DEBUG]iTunes Watcher Start");
             while (true)
             {
                 if (Process.GetProcessesByName("iTunes").Count() > 0)

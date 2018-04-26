@@ -15,5 +15,8 @@ namespace iTunesNPPlugin
 
         [DllImport("user32.dll")]
         public static extern bool IsWindowVisible(IntPtr hWnd);
+
+        [DllImport("kernel32")]
+        public static extern int AllocConsole();
     }
 }

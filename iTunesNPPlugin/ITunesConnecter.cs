@@ -30,7 +30,7 @@ namespace iTunesNPPlugin
         public ITunesConnecter()
         {
             Task.Run(() => ITunesQuitWatcher());
-            Debug.WriteLine("[DEBUG]itunes watcher initialized.");
+            Debug.WriteLine("[DEBUG]itunes quit watcher initialized.");
         }
 
         private void SongUpdateWatcher()
@@ -43,9 +43,9 @@ namespace iTunesNPPlugin
                 sem.Wait();
                 if (!isITunesInitialized) break;
                 sem.Release();
-                Debug.WriteLine("[DEBUG]itunes COM initializing.");
+                //Debug.WriteLine("[DEBUG]itunes COM initializing.");
                 app = new iTunesApp();
-                Debug.WriteLine("[DEBUG]itunes COM initialized.");
+                //Debug.WriteLine("[DEBUG]itunes COM initialized.");
                 var ctrack = app.CurrentTrack;
                 if (ctrack == null || app.PlayerState != ITPlayerState.ITPlayerStatePlaying)
                 {
@@ -74,8 +74,9 @@ namespace iTunesNPPlugin
             }
             Debug.WriteLine("[DEBUG]itunes start wait end.");
             isITunesInitialized = true;
-            //test itunes com
-            var testitunes = new iTunesApp();
+            //Test itunes com
+            iTunesLib.iTunesApp testitunes = new iTunesApp();
+            Debug.WriteLine("[DEBUG]Running iTunes version is " + testitunes.Version);
             Marshal.FinalReleaseComObject(testitunes);
             while (true)
             {
@@ -140,7 +141,7 @@ namespace iTunesNPPlugin
             var json = new JavaScriptSerializer() {MaxJsonLength = Int32.MaxValue}.Serialize(sendmap.ToDictionary(
                 item => item.Key.ToString(),
                 item => item.Value?.ToString() ?? ""));
-            Debug.WriteLine(json);
+            Debug.WriteLine("[DEBUG]" + json.Substring(0, Math.Min(json.Length, 300)));
             Task.Run(() =>
             {
                 try
@@ -150,9 +151,11 @@ namespace iTunesNPPlugin
                     pipe.Connect(1000); //set timeout 1000msec.
                     pipe.Write(bary, 0, bary.Count());
                     pipe.Close();
+                    Debug.WriteLine("[DEBUG]Send JSON OK.");
                 }
-                catch
+                catch(Exception ex)
                 {
+                    Debug.WriteLine($"[DEBUG]NowplayingTunesV2 maybe dead. Failed to send JSON.(Reason:{ex.Message})");
                 }
             });
         }
