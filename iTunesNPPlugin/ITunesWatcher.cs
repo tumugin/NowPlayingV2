@@ -14,13 +14,13 @@ namespace iTunesNPPlugin
 
         private static void WatcherMain()
         {
-            Debug.WriteLine("[DEBUG]iTunes Watcher Start");
+            Trace.WriteLine("[DEBUG]iTunes Watcher Start");
             while (true)
             {
                 if (Process.GetProcessesByName("iTunes").Count() > 0)
                 {
                     //connect to itunes
-                    Debug.WriteLine("[DEBUG]connect start.");
+                    Trace.WriteLine("[DEBUG]connect start.");
                     ITunesConnecter.CreateITunesInstance();
                     return;
                 }

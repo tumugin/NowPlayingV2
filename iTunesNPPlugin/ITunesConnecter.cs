@@ -30,12 +30,12 @@ namespace iTunesNPPlugin
         public ITunesConnecter()
         {
             Task.Run(() => ITunesQuitWatcher());
-            Debug.WriteLine("[DEBUG]itunes quit watcher initialized.");
+            Trace.WriteLine("[DEBUG]itunes quit watcher initialized.");
         }
 
         private void SongUpdateWatcher()
         {
-            Debug.WriteLine("[DEBUG]song update watcher start.");
+            Trace.WriteLine("[DEBUG]song update watcher start.");
             while (true)
             {
                 //wait
@@ -61,7 +61,7 @@ namespace iTunesNPPlugin
                 }
                 ComRelease.FinalReleaseComObjects(ctrack, trackdbid, app);
             }
-            Debug.WriteLine("[DEBUG]song update watcher stop.");
+            Trace.WriteLine("[DEBUG]song update watcher stop.");
         }
 
         private void ITunesQuitWatcher()
@@ -72,11 +72,11 @@ namespace iTunesNPPlugin
             {
                 Thread.Sleep(1000);
             }
-            Debug.WriteLine("[DEBUG]itunes start wait end.");
+            Trace.WriteLine("[DEBUG]itunes start wait end.");
             isITunesInitialized = true;
             //Test itunes com
             iTunesLib.iTunesApp testitunes = new iTunesApp();
-            Debug.WriteLine("[DEBUG]Running iTunes version is " + testitunes.Version);
+            Trace.WriteLine("[DEBUG]Running iTunes version is " + testitunes.Version);
             Marshal.FinalReleaseComObject(testitunes);
             while (true)
             {
@@ -87,7 +87,7 @@ namespace iTunesNPPlugin
                     Win32API.FindWindow("iTunes", "iTunes") == IntPtr.Zero ||
                     Win32API.IsWindowVisible(Win32API.FindWindow("iTunes", "iTunes")) == false)
                 {
-                    Debug.WriteLine("[DEBUG]itunes quit event.");
+                    Trace.WriteLine("[DEBUG]itunes quit event.");
                     isITunesInitialized = false;
                     sem.Release();
                     OnQuittingEvent();
@@ -106,7 +106,7 @@ namespace iTunesNPPlugin
             {
                 if (!Process.GetProcessesByName("iTunes").Any())
                 {
-                    Debug.WriteLine("[DEBUG]itunes quit ok.");
+                    Trace.WriteLine("[DEBUG]itunes quit ok.");
                     ITunesWatcher.CreateWatcherTask();
                     return;
                 }
@@ -141,7 +141,7 @@ namespace iTunesNPPlugin
             var json = new JavaScriptSerializer() {MaxJsonLength = Int32.MaxValue}.Serialize(sendmap.ToDictionary(
                 item => item.Key.ToString(),
                 item => item.Value?.ToString() ?? ""));
-            Debug.WriteLine("[DEBUG]" + json.Substring(0, Math.Min(json.Length, 300)));
+            Trace.WriteLine("[DEBUG]" + json.Substring(0, Math.Min(json.Length, 300)));
             Task.Run(() =>
             {
                 try
@@ -151,11 +151,11 @@ namespace iTunesNPPlugin
                     pipe.Connect(1000); //set timeout 1000msec.
                     pipe.Write(bary, 0, bary.Count());
                     pipe.Close();
-                    Debug.WriteLine("[DEBUG]Send JSON OK.");
+                    Trace.WriteLine("[DEBUG]Send JSON OK.");
                 }
                 catch(Exception ex)
                 {
-                    Debug.WriteLine($"[DEBUG]NowplayingTunesV2 maybe dead. Failed to send JSON.(Reason:{ex.Message})");
+                    Trace.WriteLine($"[DEBUG]NowplayingTunesV2 maybe dead. Failed to send JSON.(Reason:{ex.Message})");
                 }
             });
         }
