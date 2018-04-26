@@ -14,7 +14,9 @@ namespace NowPlayingV2.Core
         public bool CheckUpdate { get; set; } = true;
         public bool EnableAutoTweet { get; set; } = false;
         public bool EnablePostDelay { get; set; } = false;
+        public bool EnableTimePostDelay { get; set; } = false;
         public int PostDelaySecond { get; set; } = 30;
+        public int TimePostDelayMin { get; set; } = 5;
         public bool EnableTweetWithAlbumArt { get; set; } = false;
         public bool EnableNoAlbumArtworkOnSameAlbum { get; set; } = false;
         public bool EnableNoTweetOnSameAlbum { get; set; } = false;

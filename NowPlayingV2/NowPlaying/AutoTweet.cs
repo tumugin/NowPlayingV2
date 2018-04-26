@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NowPlayingV2.Core;
-using NowPlayingV2.Matsuri;
 
 namespace NowPlayingV2.NowPlaying
 {
@@ -18,6 +17,7 @@ namespace NowPlayingV2.NowPlaying
         private AutoResetEvent resetevent = new AutoResetEvent(false);
         private CancellationTokenSource cancellationToken = new CancellationTokenSource();
         private SongInfo lastplayedsong;
+        private DateTime lasttweettime;
 
         public void InitListner(PipeListener pl)
         {
@@ -75,8 +75,24 @@ namespace NowPlayingV2.NowPlaying
                             resetevent.WaitOne(appconfig.PostDelaySecond * 1000);
                         }
 
+                        //post delay(by last tweet time)
+                        if (appconfig.EnableTimePostDelay)
+                        {
+                            if (lasttweettime != default(DateTime))
+                            {
+                                if (!(DateTime.Now - lasttweettime >=
+                                      new TimeSpan(0, 0, appconfig.TimePostDelayMin, 0)))
+                                {
+                                    Trace.WriteLine($"[AutoTweet]Canceled tweet.(reason=EnableTimePostDelay)");
+                                    return;
+                                }
+                            }
+                        }
+
                         cancellationToken.Token.ThrowIfCancellationRequested();
                         lastplayedsong = (SongInfo) songInfo.Clone();
+                        lasttweettime = DateTime.Now;
+
                         //tweet it!
                         Task.Run(() =>
                         {
@@ -90,7 +106,8 @@ namespace NowPlayingV2.NowPlaying
                                         songInfo,
                                         appconfig.EnableAutoDeleteText140, accCont);
                                     if (accCont.CountText(tweettext) > accCont.MaxTweetLength)
-                                        throw new Exception($"[AutoTweet]Tweet text was over {accCont.MaxTweetLength} chars.");
+                                        throw new Exception(
+                                            $"[AutoTweet]Tweet text was over {accCont.MaxTweetLength} chars.");
                                     //tweet
                                     if (enablealbumart)
                                     {

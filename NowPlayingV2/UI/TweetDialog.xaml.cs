@@ -57,6 +57,7 @@ namespace NowPlayingV2.UI
             })();
             AlbumArtImage.Source = isource;
             TweetTextBox.Text = Tsumugi.TweetConverter.SongInfoToString(ConfigStore.StaticConfig.TweetFormat, songInfo);
+            TweetTextBox.Focus();
         }
 
         private async void OnTweetClick(object sender, RoutedEventArgs e)

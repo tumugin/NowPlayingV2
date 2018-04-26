@@ -11,4 +11,7 @@ build:
   project: NowPlayingV2.sln
   parallel: true
   verbosity: minimal
-test: off
+test:
+  categories:
+    except:
+      - PluginTest
