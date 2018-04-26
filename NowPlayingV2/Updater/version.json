@@ -1,6 +1,6 @@
 {
-  "AppVersion": "1.2.0.0",
+  "AppVersion": "1.3.0.0",
   "UpdateTitle": "アップデートのお知らせ",
-  "UpdateMessage": "バージョン1.2が利用可能です。",
-  "UpdateNotifyUrl": "http://kazblog.hateblo.jp/entry/2018/02/26/072914"
+  "UpdateMessage": "バージョン1.3が利用可能です。",
+  "UpdateNotifyUrl": "https://kazblog.hateblo.jp/entry/2018/04/27/004644"
 }
