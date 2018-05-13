@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTunesNPPlugin", "iTunesNPP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentWPF", "FluentWPF\FluentWPF\FluentWPF.csproj", "{061B1DD9-815B-437F-8CD6-D20923BC0AF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NowPlayingCore", "NowPlayingCore\NowPlayingCore.csproj", "{A486248C-330C-47A1-8876-39246C39D5DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{061B1DD9-815B-437F-8CD6-D20923BC0AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{061B1DD9-815B-437F-8CD6-D20923BC0AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{061B1DD9-815B-437F-8CD6-D20923BC0AF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A486248C-330C-47A1-8876-39246C39D5DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A486248C-330C-47A1-8876-39246C39D5DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A486248C-330C-47A1-8876-39246C39D5DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A486248C-330C-47A1-8876-39246C39D5DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

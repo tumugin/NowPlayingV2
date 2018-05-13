@@ -192,6 +192,7 @@
     </ApplicationDefinition>
     <Compile Include="Core\AccountContainer.cs" />
     <Compile Include="Core\AccountManager.cs" />
+    <Compile Include="Core\ConfigBase.cs" />
     <Compile Include="Core\MastodonAccount.cs" />
     <Compile Include="Core\TwitterAccount.cs" />
     <Compile Include="JsonNet.PrivateSettersContractResolvers\PrivateSettersContractResolvers.cs" />
