@@ -23,6 +23,8 @@ namespace NowPlayingCore.NowPlaying
         public string TrackCount { get; protected set; }
         [JsonProperty("albumart")]
         public string AlbumArtBase64 { get; protected set; }
+        [JsonProperty("albumartpath")]
+        public string AlbumArtPath { get; protected set; }
         [JsonProperty("artist")]
         public string Artist { get; protected set; }
         [JsonProperty("composer")]
@@ -34,27 +36,49 @@ namespace NowPlayingCore.NowPlaying
 
         private Bitmap cachebitmap = null;
 
+        public SongInfo(){}
+
+        public SongInfo(Dictionary<String,String> kvp){
+            kvp.ToList().ForEach(item =>
+            {
+                var property = GetType().GetProperty(item.Key);
+                property.SetValue(this, item.Value);
+            });
+        }
+
         public Bitmap GetAlbumArt()
         {
             if (cachebitmap != null) return cachebitmap;
-            var bary = Convert.FromBase64String(AlbumArtBase64);
-            var ms = new MemoryStream(bary);
-            return new Bitmap(ms);
+            if (!IsAlbumArtAvaliable()) return null;
+            CreateAlbumArt();
+            return cachebitmap;
         }
 
         public bool IsAlbumArtAvaliable()
         {
-            if (AlbumArtBase64.Length == 0) return false;
-            if (cachebitmap != null) return true;
+            if (String.IsNullOrEmpty(AlbumArtBase64) && String.IsNullOrEmpty(AlbumArtPath)) return false;
             try
             {
-                var bary = Convert.FromBase64String(AlbumArtBase64);
-                var ms = new MemoryStream(bary);
-                cachebitmap = new Bitmap(ms);
+                CreateAlbumArt();
                 return true;
             }
             catch {
                 return false;
+            }
+        }
+
+        public void CreateAlbumArt(){
+            if (!String.IsNullOrEmpty(AlbumArtPath))
+            {
+                var bary = File.ReadAllBytes(AlbumArtPath);
+                var ms = new MemoryStream(bary);
+                cachebitmap = new Bitmap(ms);
+            }
+            else
+            {
+                var bary = Convert.FromBase64String(AlbumArtBase64);
+                var ms = new MemoryStream(bary);
+                cachebitmap = new Bitmap(ms);
             }
         }
 
