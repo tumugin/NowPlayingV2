@@ -19,7 +19,7 @@ namespace NowPlayingCore.NowPlaying
         private DateTime lasttweettime;
 
         private static AutoTweet singletonautoTweet;
-        public AutoTweet AutoTweetSingleton
+        public static AutoTweet AutoTweetSingleton
         {
             get
             {
