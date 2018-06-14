@@ -11,21 +11,31 @@ namespace NowPlayingCore.NowPlaying
 {
     public class AutoTweet
     {
-        private readonly ConfigBase appconfig;
+        private ConfigBase appconfig;
         private Task tweetTask;
         private AutoResetEvent resetevent = new AutoResetEvent(false);
         private CancellationTokenSource cancellationToken = new CancellationTokenSource();
         private SongInfo lastplayedsong;
         private DateTime lasttweettime;
 
-        public AutoTweet(ConfigBase cb)
+        private static AutoTweet singletonautoTweet;
+        public AutoTweet AutoTweetSingleton
         {
-            appconfig = cb;
+            get
+            {
+                return singletonautoTweet ?? new Func<AutoTweet>(() =>
+                {
+                    singletonautoTweet = new AutoTweet();
+                    return singletonautoTweet;
+                })();
+            }
         }
 
-        public void InitListner(PipeListener pl)
+        public void InitListner(PipeListener pl, ConfigBase cb)
         {
+            if (appconfig != null) throw new Exception("DO NOT RE-INITIALIZE.");
             pl.OnMusicPlay += OnMusicPlay;
+            appconfig = cb;
         }
 
         private void OnMusicPlay(SongInfo songInfo)
@@ -94,7 +104,7 @@ namespace NowPlayingCore.NowPlaying
                         }
 
                         cancellationToken.Token.ThrowIfCancellationRequested();
-                        lastplayedsong = (SongInfo) songInfo.Clone();
+                        lastplayedsong = (SongInfo)songInfo.Clone();
                         lasttweettime = DateTime.Now;
 
                         //tweet it!
