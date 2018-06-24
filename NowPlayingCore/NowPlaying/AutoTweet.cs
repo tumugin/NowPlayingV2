@@ -17,25 +17,26 @@ namespace NowPlayingCore.NowPlaying
         private CancellationTokenSource cancellationToken = new CancellationTokenSource();
         private SongInfo lastplayedsong;
         private DateTime lasttweettime;
-
+        private PipeListener pipelistener;
         private static AutoTweet singletonautoTweet;
-        public static AutoTweet AutoTweetSingleton
-        {
-            get
-            {
-                return singletonautoTweet ?? new Func<AutoTweet>(() =>
-                {
-                    singletonautoTweet = new AutoTweet();
-                    return singletonautoTweet;
-                })();
-            }
-        }
+
+        public static AutoTweet AutoTweetSingleton => singletonautoTweet ?? (singletonautoTweet = new AutoTweet());
+        public bool isInitialized = false;
 
         public void InitListner(PipeListener pl, ConfigBase cb)
         {
             if (appconfig != null) throw new Exception("DO NOT RE-INITIALIZE.");
-            pl.OnMusicPlay += OnMusicPlay;
+            pipelistener = pl;
+            pipelistener.OnMusicPlay += OnMusicPlay;
             appconfig = cb;
+            isInitialized = true;
+        }
+
+        public void UnInitListner()
+        {
+            pipelistener.OnMusicPlay -= OnMusicPlay;
+            appconfig = null;
+            isInitialized = false;
         }
 
         private void OnMusicPlay(SongInfo songInfo)
