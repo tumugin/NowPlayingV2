@@ -30,7 +30,7 @@ namespace NowPlayingV2.NowPlaying
                     if (account.CountText(tweettext) > account.MaxTweetLength)
                         throw new Exception($"投稿可能な最大文字数({account.MaxTweetLength}文字)を超えたため、投稿出来ませんでした。");
                     //tweet
-                    if (ConfigStore.StaticConfig.EnableTweetWithAlbumArt)
+                    if (ConfigStore.StaticConfig.EnableTweetWithAlbumArt && songcache.IsAlbumArtAvaliable())
                     {
                         account.UpdateStatus(tweettext, songcache.AlbumArtBase64);
                     }
