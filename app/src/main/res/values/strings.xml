@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">VirtualChemLight</string>
+    <string name="tutorial_button_ok">注意事項を読んで開始</string>
+    <string name="tutorial_text_1">端末を強く振ることでペンライトを焚くことが出来ます。</string>
+    <string name="tutorial_text_2">机などにスマートフォンを打ち付けないでください。故障する可能性があります。</string>
+    <string name="tutorial_text_3">このアプリを使用する際には周りの人に気をつけてください。</string>
+</resources>
