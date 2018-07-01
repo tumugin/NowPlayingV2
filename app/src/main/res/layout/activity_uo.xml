@@ -7,4 +7,28 @@
         android:layout_height="match_parent"
         tools:context="com.myskng.virtualchemlight.Activity.UOActivity">
 
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black">
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/uo_off"
+                android:id="@+id/UOimageViewOFF"/>
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/uo_normal"
+                android:id="@+id/UOimageViewNormal"/>
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/uo_max"
+                android:id="@+id/UOimageViewMAX"/>
+
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>
