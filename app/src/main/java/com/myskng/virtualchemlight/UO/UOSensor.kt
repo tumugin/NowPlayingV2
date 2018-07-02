@@ -12,7 +12,7 @@ import kotlin.math.absoluteValue
 class UOSensor(val context: Context) : SensorEventListener {
     var onUOIgnition: (() -> Unit)? = null
     var sensorManager: SensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    private var lastDate:Date = Date()
+    private var lastDate: Date = Date()
 
     fun startSensor() {
         val sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
@@ -34,7 +34,7 @@ class UOSensor(val context: Context) : SensorEventListener {
         val max = arrayOf(accX.absoluteValue, accY.absoluteValue, accZ.absoluteValue).max()!!
         if (max.absoluteValue >= 40) {
             //前回の点火から2秒以上経過している時のみイベントを発生させる
-            if((Date().time - lastDate.time) > 2000){
+            if ((Date().time - lastDate.time) > 2000) {
                 onUOIgnition?.invoke()
                 lastDate = Date()
             }
