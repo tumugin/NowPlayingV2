@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ViewPropertyAnimator
+import android.view.WindowManager
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -76,6 +77,11 @@ class UOActivity : AppCompatActivity() {
         uoSensor.onUOIgnition = { onUOIgnition() }
         uoImageViewMAX.alpha = 0f
         uoImageViewNormal.alpha = 0f
+        //set screen brightness
+        val lp = window.attributes
+        lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL
+        window.attributes = lp
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     private fun onUOIgnition() {
