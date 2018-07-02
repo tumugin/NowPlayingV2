@@ -8,14 +8,18 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ViewPropertyAnimator
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
-import butterknife.OnTouch
 import com.myskng.virtualchemlight.R
 import com.myskng.virtualchemlight.UO.UOSensor
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import kotlin.coroutines.experimental.suspendCoroutine
+import kotlin.math.absoluteValue
 
 class UOActivity : AppCompatActivity() {
     @BindView(R.id.UOimageViewMAX)
@@ -25,18 +29,45 @@ class UOActivity : AppCompatActivity() {
     @BindView(R.id.UOimageViewOFF)
     lateinit var uoImageViewOFF: ImageView
 
-    lateinit var uoSensor: UOSensor
-    lateinit var uoSound: MediaPlayer
-    lateinit var vibrator: Vibrator
+    private lateinit var uoSensor: UOSensor
+    private lateinit var uoSound: MediaPlayer
+    private lateinit var vibrator: Vibrator
 
-    var uoLock: Boolean = true
-    val uoAnimaterList: MutableList<ViewPropertyAnimator> = mutableListOf()
+    private var uoLock: Boolean = false
+    private val uoAnimatorList: MutableList<ViewPropertyAnimator> = mutableListOf()
+
+    private val onGestureListener: GestureDetector.SimpleOnGestureListener = object : GestureDetector.SimpleOnGestureListener() {
+        override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+            //null check
+            if (e1 == null || e2 == null) return super.onFling(e1, e2, velocityX, velocityY)
+            //log
+            Log.i("UO", "velocityX:${velocityX.absoluteValue}")
+            Log.i("UO", "velocityY:${velocityY.absoluteValue}")
+            Log.i("UO", "distanceX:${if (e2.x > e1.x) e2.x - e1.x else e1.x - e2.x}")
+            Log.i("UO", "distanceY:${if (e2.y > e1.y) e2.y - e1.y else e1.y - e2.y}")
+            //detect left right swipe
+            val distX = if (e2.x > e1.x) e2.x - e1.x else e1.x - e2.x
+            val distY = if (e2.y > e1.y) e2.y - e1.y else e1.y - e2.y
+            val detected = when (true) {
+                distY > 300 -> false
+                velocityX > 10000 -> true
+                distX > 700 -> true
+                distX > 300 && velocityX > 3000 -> true
+                else -> false
+            }
+            if (detected) onUODispose()
+            return super.onFling(e1, e2, velocityX, velocityY)
+        }
+    }
+    private lateinit var gestureDetector: GestureDetector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_uo)
         //ButterKnife
         ButterKnife.bind(this)
+        //Gesture
+        gestureDetector = GestureDetector(this, onGestureListener)
         //Prepare resource
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         uoSound = MediaPlayer.create(this, R.raw.uosound)
@@ -48,47 +79,74 @@ class UOActivity : AppCompatActivity() {
     }
 
     private fun onUOIgnition() {
-        //check if locked
-        if(uoLock) return
+        launch(UI) {
+            //check if locked
+            if (uoLock) return@launch
+            uoLock = true
+            //stop animation
+            uoAnimatorList.forEach { it ->
+                it.cancel()
+            }
+            uoAnimatorList.clear()
+            //reset alpha
+            uoImageViewMAX.alpha = 0f
+            uoImageViewNormal.alpha = 0f
+            //start UO
+            uoSound.start()
+            //vibrate
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(500, 255))
+            }
+            Log.i("UO", "UO START!!")
+            //uo effect
+            suspendCoroutine<Unit> {
+                with(uoImageViewMAX.animate().alpha(1.0f)) {
+                    uoAnimatorList.add(this)
+                    this.duration = 500
+                    this.withEndAction { it.resume(Unit) }
+                }
+            }
+            suspendCoroutine<Unit> {
+                uoImageViewNormal.alpha = 1.0f
+                with(uoImageViewMAX.animate().alpha(0.0f)) {
+                    uoAnimatorList.add(this)
+                    this.duration = 60 * 1000
+                    this.withEndAction { it.resume(Unit) }
+                }
+            }
+            suspendCoroutine<Unit> {
+                with(uoImageViewNormal.animate().alpha(0.0f)) {
+                    uoAnimatorList.add(this)
+                    this.duration = 60 * 2 * 1000
+                    this.withEndAction { it.resume(Unit) }
+                }
+            }
+            uoLock = false
+            Log.i("UO", "UO END!!")
+        }
+    }
+
+    private fun onUODispose() {
         //stop animation
-        uoAnimaterList.forEach { it ->
+        uoAnimatorList.forEach { it ->
             it.cancel()
         }
-        uoAnimaterList.clear()
-        //reset alpha
-        uoImageViewMAX.alpha = 0f
-        uoImageViewNormal.alpha = 0f
-        //start UO
-        uoSound.start()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createOneShot(500, 255))
+        uoAnimatorList.clear()
+        //reset alpha with animation
+        with(uoImageViewMAX.animate().alpha(0.0f)) {
+            this.duration = 500
+            this.withEndAction { uoLock = false }
+            uoAnimatorList.add(this)
         }
-        val anm1 = uoImageViewMAX.animate().alpha(1.0f)
-        uoAnimaterList.add(anm1)
-        anm1.duration = 500
-        anm1.withEndAction {
-            uoImageViewNormal.alpha = 1.0f
-            val anm2 = uoImageViewMAX.animate().alpha(0.0f)
-            uoAnimaterList.add(anm2)
-            anm2.duration = 60 * 1000
-            anm2.withEndAction {
-                val anm3 = uoImageViewNormal.animate().alpha(0.0f)
-                uoAnimaterList.add(anm3)
-                anm3.duration = 60 * 2 * 1000
-            }
+        with(uoImageViewNormal.animate().alpha(0.0f)) {
+            this.duration = 500
+            this.withEndAction { uoLock = false }
+            uoAnimatorList.add(this)
         }
-        Log.i("UO", "UO START!!")
     }
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
-        when(event?.action){
-            MotionEvent.ACTION_DOWN ->{
-                uoLock = false
-            }
-            MotionEvent.ACTION_UP -> {
-                uoLock = true
-            }
-        }
+        gestureDetector.onTouchEvent(event)
         return super.onTouchEvent(event)
     }
 
