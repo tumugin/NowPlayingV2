@@ -51,7 +51,7 @@ class UOActivity : AppCompatActivity() {
             val detected = when (true) {
                 distY > 300 -> false
                 velocityX > 10000 -> true
-                distX > 700 -> true
+                distX > 500 -> true
                 distX > 300 && velocityX > 3000 -> true
                 else -> false
             }
