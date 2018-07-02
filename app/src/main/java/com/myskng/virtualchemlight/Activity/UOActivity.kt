@@ -8,10 +8,12 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
+import android.view.MotionEvent
 import android.view.ViewPropertyAnimator
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.OnTouch
 import com.myskng.virtualchemlight.R
 import com.myskng.virtualchemlight.UO.UOSensor
 
@@ -27,7 +29,7 @@ class UOActivity : AppCompatActivity() {
     lateinit var uoSound: MediaPlayer
     lateinit var vibrator: Vibrator
 
-    val uoLock: Boolean = false
+    var uoLock: Boolean = true
     val uoAnimaterList: MutableList<ViewPropertyAnimator> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +48,8 @@ class UOActivity : AppCompatActivity() {
     }
 
     private fun onUOIgnition() {
+        //check if locked
+        if(uoLock) return
         //stop animation
         uoAnimaterList.forEach { it ->
             it.cancel()
@@ -74,6 +78,18 @@ class UOActivity : AppCompatActivity() {
             }
         }
         Log.i("UO", "UO START!!")
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
+        when(event?.action){
+            MotionEvent.ACTION_DOWN ->{
+                uoLock = false
+            }
+            MotionEvent.ACTION_UP -> {
+                uoLock = true
+            }
+        }
+        return super.onTouchEvent(event)
     }
 
     override fun onPause() {
