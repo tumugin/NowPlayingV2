@@ -17,6 +17,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.myskng.virtualchemlight.R
 import com.myskng.virtualchemlight.UO.UOSensor
+import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlin.coroutines.experimental.suspendCoroutine
@@ -36,6 +37,7 @@ class UOActivity : AppCompatActivity() {
 
     private var uoLock: Boolean = false
     private val uoAnimatorList: MutableList<ViewPropertyAnimator> = mutableListOf()
+    private val rootJob = Job()
 
     private val onGestureListener: GestureDetector.SimpleOnGestureListener = object : GestureDetector.SimpleOnGestureListener() {
         override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
@@ -85,7 +87,7 @@ class UOActivity : AppCompatActivity() {
     }
 
     private fun onUOIgnition() {
-        launch(UI) {
+        launch(UI, parent = rootJob) {
             //check if locked
             if (uoLock) return@launch
             uoLock = true
@@ -164,5 +166,10 @@ class UOActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         uoSensor.startSensor()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        rootJob.cancel()
     }
 }
