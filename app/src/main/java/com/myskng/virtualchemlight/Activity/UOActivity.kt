@@ -76,7 +76,7 @@ class UOActivity : AppCompatActivity() {
         uoSound = MediaPlayer.create(this, R.raw.uosound)
         uoSensor = UOSensor(this)
         uoSensor.startSensor()
-        uoSensor.onUOIgnition = { onUOIgnition() }
+        uoSensor.onUOIgnition = this::onUOIgnition
         uoImageViewMAX.alpha = 0f
         uoImageViewNormal.alpha = 0f
         //set screen brightness
