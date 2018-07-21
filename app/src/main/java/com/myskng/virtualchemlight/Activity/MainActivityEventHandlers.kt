@@ -4,4 +4,5 @@ import android.view.View
 
 interface MainActivityEventHandlers {
     fun onAcceptClick(view: View)
+    fun onFabClick(view: View)
 }

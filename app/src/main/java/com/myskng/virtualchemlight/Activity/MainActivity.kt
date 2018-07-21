@@ -36,4 +36,8 @@ class MainActivity : AppCompatActivity(), MainActivityEventHandlers {
     override fun onAcceptClick(view: View) {
         startActivity(Intent(this, UOActivity::class.java))
     }
+
+    override fun onFabClick(view: View) {
+        startActivity(Intent(this, SettingsActivity::class.java))
+    }
 }

@@ -13,8 +13,8 @@
             android:theme="@style/AppTheme">
         <activity
                 android:name=".Activity.MainActivity"
-                android:theme="@style/AppTheme.NoTitleBar"
-                android:configChanges="orientation|screenSize">
+                android:configChanges="orientation|screenSize"
+                android:theme="@style/AppTheme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -23,8 +23,12 @@
         </activity>
         <activity
                 android:name=".Activity.UOActivity"
-                android:theme="@style/AppTheme.UOTheme"
-                android:configChanges="orientation|screenSize">
+                android:configChanges="orientation|screenSize"
+                android:theme="@style/AppTheme.UOTheme">
+        </activity>
+        <activity
+                android:name=".Activity.SettingsActivity"
+                android:label="@string/title_activity_settings">
         </activity>
     </application>
 

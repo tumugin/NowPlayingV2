@@ -23,7 +23,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding{
+    dataBinding {
         enabled = true
     }
 }
@@ -36,6 +36,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     //3rd party Libs
     implementation 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.android.support:support-v4:27.1.1'
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.romandanylyk:pageindicatorview:1.0.1@aar'
     //Kotlin

@@ -13,12 +13,11 @@
             android:layout_height="match_parent"
             tools:context="com.myskng.virtualchemlight.Activity.MainActivity">
 
-        <LinearLayout
+        <RelativeLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="@color/minako"
-                android:gravity="center_vertical|center_horizontal">
+                android:background="@color/minako">
 
             <LinearLayout
                     android:orientation="vertical"
@@ -26,6 +25,8 @@
                     android:layout_height="wrap_content"
                     android:padding="30dp"
                     android:background="@drawable/roundshape_bg"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:gravity="center_horizontal">
 
                 <android.support.v4.view.ViewPager
@@ -109,7 +110,19 @@
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:id="@+id/tutorial_button_ok"/>
             </LinearLayout>
-        </LinearLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:onClick="@{handlers.onFabClick}"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    app:fabSize="normal"
+                    android:src="@drawable/ic_settings_black_24dp"/>
+        </RelativeLayout>
 
 
     </android.support.constraint.ConstraintLayout>

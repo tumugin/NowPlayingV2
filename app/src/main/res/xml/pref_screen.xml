@@ -1,0 +1,10 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+            android:title="@string/set_category_penlight">
+        <EditTextPreference
+                android:key="pref_key_uoforce"
+                android:title="@string/uo_force"
+                android:inputType="number"
+                android:defaultValue="40" />
+    </PreferenceCategory>
+</PreferenceScreen>
