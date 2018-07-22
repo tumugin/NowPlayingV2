@@ -39,7 +39,7 @@ class UOActivity : AppCompatActivity() {
     private val uoAnimatorList: MutableList<ViewPropertyAnimator> = mutableListOf()
     private val rootJob = Job()
 
-    private val onGestureListener: GestureDetector.SimpleOnGestureListener = object : GestureDetector.SimpleOnGestureListener() {
+    private val onGestureListener = object : GestureDetector.SimpleOnGestureListener() {
         override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
             //null check
             if (e1 == null || e2 == null) return super.onFling(e1, e2, velocityX, velocityY)

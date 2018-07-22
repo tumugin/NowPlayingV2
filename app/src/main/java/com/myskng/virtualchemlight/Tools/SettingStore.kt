@@ -5,9 +5,7 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 
 class SettingStore(val context: Context) {
-    val sharedPreferences: SharedPreferences by lazy {
-        PreferenceManager.getDefaultSharedPreferences(context)
-    }
+    private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     var uoForce: Float
         get() {
