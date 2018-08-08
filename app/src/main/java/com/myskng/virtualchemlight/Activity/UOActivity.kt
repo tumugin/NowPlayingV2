@@ -1,17 +1,16 @@
 package com.myskng.virtualchemlight.Activity
 
 import android.content.Context
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.support.design.widget.Snackbar
 import android.util.Log
-import android.view.GestureDetector
-import android.view.MotionEvent
-import android.view.ViewPropertyAnimator
-import android.view.WindowManager
+import android.view.*
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -30,6 +29,8 @@ class UOActivity : AppCompatActivity() {
     lateinit var uoImageViewNormal: ImageView
     @BindView(R.id.UOimageViewOFF)
     lateinit var uoImageViewOFF: ImageView
+
+    val parentView by lazy { findViewById<View>(android.R.id.content) }
 
     private lateinit var uoSensor: UOSensor
     private lateinit var uoSound: MediaPlayer
@@ -84,6 +85,18 @@ class UOActivity : AppCompatActivity() {
         lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL
         window.attributes = lp
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        //get volume and show notification
+        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val musicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+        if (musicVolume == 0) {
+            with(Snackbar.make(parentView, getText(R.string.message_volume_min), Snackbar.LENGTH_LONG)) {
+                this.setAction(getText(R.string.text_setvolumemax)) {
+                    val maxvol = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxvol, AudioManager.FLAG_SHOW_UI)
+                }
+                this.show()
+            }
+        }
     }
 
     private fun onUOIgnition() {
@@ -155,7 +168,7 @@ class UOActivity : AppCompatActivity() {
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
         gestureDetector.onTouchEvent(event)
-        return super.onTouchEvent(event)
+        return super.dispatchTouchEvent(event)
     }
 
     override fun onPause() {
