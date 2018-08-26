@@ -6,9 +6,11 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'org.jlleitschuh.gradle.ktlint'
+
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    buildToolsVersion "28.0.2"
     defaultConfig {
         applicationId "com.myskng.virtualchemlight"
         minSdkVersion 21
@@ -22,7 +24,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug{
+        debug {
             applicationIdSuffix '.debug'
             versionNameSuffix '-DEBUG'
         }
@@ -30,6 +32,17 @@ android {
     dataBinding {
         enabled = true
     }
+    lintOptions {
+        abortOnError false
+        xmlReport true
+    }
+}
+
+ktlint {
+    version = "0.27.0"
+    android = true
+    reporter = "checkstyle"
+    ignoreFailures = true
 }
 
 dependencies {

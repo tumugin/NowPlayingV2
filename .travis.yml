@@ -1,0 +1,15 @@
+language: android
+android:
+  components:
+  - tools
+  - platform-tools
+  - build-tools-28.0.2
+  - android-27
+  - extra-android-m2repository
+install:
+  - bundle install --path vendor/bundler
+script:
+  - ./gradlew build
+  - ./gradlew assembleDebug
+  - ./gradlew ktlintCheck
+  - bundle exec danger
