@@ -9,15 +9,15 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jlleitschuh.gradle.ktlint'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion "28.0.2"
     defaultConfig {
         applicationId "com.myskng.virtualchemlight"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -48,11 +48,11 @@ ktlint {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //Android Support Libs
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'androidx.appcompat:appcompat:1.0.0-rc02'
+    implementation 'com.google.android.material:material:1.0.0-rc01'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
     //3rd party Libs
-    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc02'
     implementation 'com.romandanylyk:pageindicatorview:1.0.1@aar'
     //Kotlin
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.4'
@@ -60,7 +60,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //Test
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 }

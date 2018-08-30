@@ -1,15 +1,15 @@
 package com.myskng.virtualchemlight.activity
 
 import android.content.Context
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.support.design.widget.Snackbar
+import com.google.android.material.snackbar.Snackbar
 import android.util.Log
 import android.view.*
 import com.myskng.virtualchemlight.R

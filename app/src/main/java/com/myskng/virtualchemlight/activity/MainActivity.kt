@@ -1,8 +1,8 @@
 package com.myskng.virtualchemlight.activity
 
 import android.content.Intent
-import android.databinding.DataBindingUtil
-import android.support.v7.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.myskng.virtualchemlight.R
