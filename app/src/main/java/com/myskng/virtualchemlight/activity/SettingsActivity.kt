@@ -1,17 +1,8 @@
-package com.myskng.virtualchemlight.Activity
+package com.myskng.virtualchemlight.activity
 
-import android.annotation.TargetApi
-import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Configuration
-import android.media.RingtoneManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.preference.*
-import android.text.TextUtils
-import android.view.MenuItem
 import com.myskng.virtualchemlight.R
 
 class SettingsActivity : AppCompatPreferenceActivity() {

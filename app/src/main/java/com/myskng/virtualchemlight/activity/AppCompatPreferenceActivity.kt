@@ -1,4 +1,4 @@
-package com.myskng.virtualchemlight.Activity
+package com.myskng.virtualchemlight.activity
 
 import android.content.res.Configuration
 import android.os.Bundle

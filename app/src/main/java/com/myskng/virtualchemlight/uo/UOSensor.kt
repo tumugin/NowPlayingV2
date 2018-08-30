@@ -1,12 +1,11 @@
-package com.myskng.virtualchemlight.UO
+package com.myskng.virtualchemlight.uo
 
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.util.Log
-import com.myskng.virtualchemlight.Tools.SettingStore
+import com.myskng.virtualchemlight.tools.SettingStore
 import java.util.*
 import kotlin.math.absoluteValue
 

@@ -1,6 +1,7 @@
-package com.myskng.virtualchemlight.Activity
+package com.myskng.virtualchemlight.activity
 
 import android.content.Context
+import android.databinding.DataBindingUtil
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Build
@@ -11,11 +12,9 @@ import android.os.Vibrator
 import android.support.design.widget.Snackbar
 import android.util.Log
 import android.view.*
-import android.widget.ImageView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.myskng.virtualchemlight.R
-import com.myskng.virtualchemlight.UO.UOSensor
+import com.myskng.virtualchemlight.uo.UOSensor
+import com.myskng.virtualchemlight.databinding.ActivityUoBinding
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -23,14 +22,9 @@ import kotlin.coroutines.experimental.suspendCoroutine
 import kotlin.math.absoluteValue
 
 class UOActivity : AppCompatActivity() {
-    @BindView(R.id.UOimageViewMAX)
-    lateinit var uoImageViewMAX: ImageView
-    @BindView(R.id.UOimageViewNormal)
-    lateinit var uoImageViewNormal: ImageView
-    @BindView(R.id.UOimageViewOFF)
-    lateinit var uoImageViewOFF: ImageView
+    private lateinit var binding: ActivityUoBinding
 
-    val parentView by lazy { findViewById<View>(android.R.id.content) }
+    private val parentView by lazy { findViewById<View>(android.R.id.content) }
 
     private lateinit var uoSensor: UOSensor
     private lateinit var uoSound: MediaPlayer
@@ -68,8 +62,8 @@ class UOActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_uo)
-        //ButterKnife
-        ButterKnife.bind(this)
+        //Binding
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_uo)
         //Gesture
         gestureDetector = GestureDetector(this, onGestureListener)
         //Prepare resource
@@ -78,8 +72,10 @@ class UOActivity : AppCompatActivity() {
         uoSensor = UOSensor(this)
         uoSensor.startSensor()
         uoSensor.onUOIgnition = this::onUOIgnition
-        uoImageViewMAX.alpha = 0f
-        uoImageViewNormal.alpha = 0f
+        binding.UOimageViewMAX.alpha = 0f
+        binding.UOimageViewNormal.alpha = 0f
+        //UI
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         //set screen brightness
         val lp = window.attributes
         lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL
@@ -110,8 +106,8 @@ class UOActivity : AppCompatActivity() {
             }
             uoAnimatorList.clear()
             //reset alpha
-            uoImageViewMAX.alpha = 0f
-            uoImageViewNormal.alpha = 0f
+            binding.UOimageViewMAX.alpha = 0f
+            binding.UOimageViewNormal.alpha = 0f
             //start UO
             uoSound.start()
             //vibrate
@@ -121,22 +117,22 @@ class UOActivity : AppCompatActivity() {
             Log.i("UO", "UO START!!")
             //uo effect
             suspendCoroutine<Unit> {
-                with(uoImageViewMAX.animate().alpha(1.0f)) {
+                with(binding.UOimageViewMAX.animate().alpha(1.0f)) {
                     uoAnimatorList.add(this)
                     this.duration = 500
                     this.withEndAction { it.resume(Unit) }
                 }
             }
             suspendCoroutine<Unit> {
-                uoImageViewNormal.alpha = 1.0f
-                with(uoImageViewMAX.animate().alpha(0.0f)) {
+                binding.UOimageViewNormal.alpha = 1.0f
+                with(binding.UOimageViewMAX.animate().alpha(0.0f)) {
                     uoAnimatorList.add(this)
                     this.duration = 60 * 1000
                     this.withEndAction { it.resume(Unit) }
                 }
             }
             suspendCoroutine<Unit> {
-                with(uoImageViewNormal.animate().alpha(0.0f)) {
+                with(binding.UOimageViewNormal.animate().alpha(0.0f)) {
                     uoAnimatorList.add(this)
                     this.duration = 60 * 2 * 1000
                     this.withEndAction { it.resume(Unit) }
@@ -154,12 +150,12 @@ class UOActivity : AppCompatActivity() {
         }
         uoAnimatorList.clear()
         //reset alpha with animation
-        with(uoImageViewMAX.animate().alpha(0.0f)) {
+        with(binding.UOimageViewMAX.animate().alpha(0.0f)) {
             this.duration = 500
             this.withEndAction { uoLock = false }
             uoAnimatorList.add(this)
         }
-        with(uoImageViewNormal.animate().alpha(0.0f)) {
+        with(binding.UOimageViewNormal.animate().alpha(0.0f)) {
             this.duration = 500
             this.withEndAction { uoLock = false }
             uoAnimatorList.add(this)

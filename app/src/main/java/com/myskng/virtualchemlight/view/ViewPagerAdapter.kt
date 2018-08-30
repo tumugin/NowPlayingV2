@@ -1,4 +1,4 @@
-package com.myskng.virtualchemlight.View
+package com.myskng.virtualchemlight.view
 
 import android.support.v4.view.PagerAdapter
 import android.view.View

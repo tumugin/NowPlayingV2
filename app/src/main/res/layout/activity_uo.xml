@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.myskng.virtualchemlight.Activity.UOActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <FrameLayout
+    <android.support.constraint.ConstraintLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/black">
+            tools:context="com.myskng.virtualchemlight.activity.UOActivity">
 
-        <ImageView
+        <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/uo_off"
-                android:id="@+id/UOimageViewOFF"/>
+                android:background="@android:color/black">
 
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/uo_normal"
-                android:id="@+id/UOimageViewNormal"/>
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/uo_off"
+                    android:id="@+id/UOimageViewOFF"/>
 
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/uo_max"
-                android:id="@+id/UOimageViewMAX"/>
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/uo_normal"
+                    android:id="@+id/UOimageViewNormal"/>
 
-    </FrameLayout>
-</android.support.constraint.ConstraintLayout>
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/uo_max"
+                    android:id="@+id/UOimageViewMAX"/>
+
+        </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>
+
