@@ -17,10 +17,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //Data binding
+        // Data binding
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.handlers = this
-        //Prepare ViewPager
+        // Prepare ViewPager
         viewPagerAdapter.PresenterList.add(ViewPagerPresenter(findViewById(R.id.tutorial_viewpager_layout_1)))
         viewPagerAdapter.PresenterList.add(ViewPagerPresenter(findViewById(R.id.tutorial_viewpager_layout_2)))
         viewPagerAdapter.PresenterList.add(ViewPagerPresenter(findViewById(R.id.tutorial_viewpager_layout_3)))

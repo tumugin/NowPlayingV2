@@ -25,7 +25,7 @@ class UOSensor(val context: Context) : SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        //DO NOTHING
+        // DO NOTHING
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
@@ -34,7 +34,7 @@ class UOSensor(val context: Context) : SensorEventListener {
         val accZ = event.values[2]
         val max = arrayOf(accX.absoluteValue, accY.absoluteValue, accZ.absoluteValue).max()!!
         if (max.absoluteValue >= settings.uoForce) {
-            //前回の点火から0.5秒以上経過している時のみイベントを発生させる
+            // 前回の点火から0.5秒以上経過している時のみイベントを発生させる
             if ((Date().time - lastDate.time) > 500) {
                 onUOIgnition?.invoke()
                 lastDate = Date()
