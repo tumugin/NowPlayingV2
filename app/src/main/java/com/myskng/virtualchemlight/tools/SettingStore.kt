@@ -1,4 +1,4 @@
-package com.myskng.virtualchemlight.Tools
+package com.myskng.virtualchemlight.tools
 
 import android.content.Context
 import android.content.SharedPreferences

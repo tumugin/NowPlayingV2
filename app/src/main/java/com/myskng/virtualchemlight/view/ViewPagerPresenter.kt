@@ -1,4 +1,4 @@
-package com.myskng.virtualchemlight.View
+package com.myskng.virtualchemlight.view
 
 import android.view.View
 

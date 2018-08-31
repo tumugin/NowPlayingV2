@@ -12,7 +12,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".Activity.MainActivity"
+                android:name=".activity.MainActivity"
                 android:configChanges="orientation|screenSize"
                 android:theme="@style/AppTheme.NoTitleBar">
             <intent-filter>
@@ -22,12 +22,12 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".Activity.UOActivity"
+                android:name=".activity.UOActivity"
                 android:configChanges="orientation|screenSize"
                 android:theme="@style/AppTheme.UOTheme">
         </activity>
         <activity
-                android:name=".Activity.SettingsActivity"
+                android:name=".activity.SettingsActivity"
                 android:label="@string/title_activity_settings">
         </activity>
     </application>
