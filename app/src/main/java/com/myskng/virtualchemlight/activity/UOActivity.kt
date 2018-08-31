@@ -75,7 +75,9 @@ class UOActivity : AppCompatActivity() {
         binding.UOimageViewMAX.alpha = 0f
         binding.UOimageViewNormal.alpha = 0f
         // UI
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+                .or(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+                .or(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
         // set screen brightness
         val lp = window.attributes
         lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL
