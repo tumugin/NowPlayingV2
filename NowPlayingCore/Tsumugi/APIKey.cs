@@ -8,7 +8,7 @@ namespace NowPlayingCore.Tsumugi
 {
     public class APIKey
     {
-        public const string CONSUMER_KEY = "BrDoBZOKMvlb6Di2npDNQ";
-        public const string CONSUMER_SECRET = "1pgFxgbKuuek9FpnE1Sfgh3kkZ6yyE5n7QqWhf7nZE";
+        public static readonly string CONSUMER_KEY = "BrDoBZOKMvlb6Di2npDNQ";
+        public static readonly string CONSUMER_SECRET = "1pgFxgbKuuek9FpnE1Sfgh3kkZ6yyE5n7QqWhf7nZE";
     }
 }

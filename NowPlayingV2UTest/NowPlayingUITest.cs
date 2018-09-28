@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NowPlayingCore.Core;
 using NowPlayingV2.Core;
 using NowPlayingV2.Matsuri;
 using NowPlayingV2.UI.Extension;

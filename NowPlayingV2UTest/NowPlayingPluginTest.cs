@@ -6,10 +6,10 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using NowPlayingV2.NowPlaying;
 using System.Threading;
 using System.Linq;
 using System.Reflection;
+using NowPlayingCore.NowPlaying;
 
 namespace NowPlayingV2UTest
 {

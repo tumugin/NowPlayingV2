@@ -57,7 +57,7 @@ namespace NowPlayingCore.NowPlaying
                 //can't reuse this
                 cancellationToken = new CancellationTokenSource();
                 //start task
-                tweetTask = Task.Run(() =>
+                tweetTask = Task.Run(async () =>
                 {
                     try
                     {
@@ -105,11 +105,11 @@ namespace NowPlayingCore.NowPlaying
                         }
 
                         cancellationToken.Token.ThrowIfCancellationRequested();
-                        lastplayedsong = (SongInfo)songInfo.Clone();
+                        lastplayedsong = (SongInfo) songInfo.Clone();
                         lasttweettime = DateTime.Now;
 
                         //tweet it!
-                        Task.Run(() =>
+                        await Task.Run(() =>
                         {
                             try
                             {

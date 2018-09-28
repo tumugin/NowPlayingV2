@@ -15,6 +15,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Mastonet;
 using Mastonet.Entities;
+using NowPlayingCore.Core;
 using NowPlayingV2.Core;
 
 namespace NowPlayingV2.UI

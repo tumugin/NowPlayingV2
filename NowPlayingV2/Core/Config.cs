@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NowPlayingCore.Core;
 using NowPlayingV2.UI.Theme;
 
 namespace NowPlayingV2.Core

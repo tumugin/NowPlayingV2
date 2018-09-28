@@ -14,6 +14,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using NowPlayingCore.Core;
+using NowPlayingCore.Tsumugi;
 using static CoreTweet.OAuth;
 
 namespace NowPlayingV2.UI
@@ -37,7 +39,7 @@ namespace NowPlayingV2.UI
             {
                 await Task.Run(() =>
                 {
-                    session = OAuth.Authorize(Tsumugi.APIKey.CONSUMER_KEY, Tsumugi.APIKey.CONSUMER_SECRET);
+                    session = OAuth.Authorize(APIKey.CONSUMER_KEY, APIKey.CONSUMER_SECRET);
                     System.Diagnostics.Process.Start(session.AuthorizeUri.AbsoluteUri);
                 });
                 WindowTab.SelectedIndex = 1;
@@ -62,7 +64,7 @@ namespace NowPlayingV2.UI
                 await Task.Run(() =>
                 {
                     var token = session.GetTokens(pincode);
-                    var container = new Core.TwitterAccount(token);
+                    var container = new TwitterAccount(token);
                     Core.ConfigStore.StaticConfig.accountList.Add(container);
                 });
                 await progdiag.CloseAsync();

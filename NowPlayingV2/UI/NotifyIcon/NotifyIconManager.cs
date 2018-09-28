@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Hardcodet.Wpf.TaskbarNotification;
-using NowPlayingV2.NowPlaying;
+using NowPlayingCore.NowPlaying;
+using NowPlayingV2.Core;
 
 namespace NowPlayingV2.UI.NotifyIcon
 {
@@ -32,8 +33,8 @@ namespace NowPlayingV2.UI.NotifyIcon
                 {
                     try
                     {
-                        await ManualTweet.RunManualTweet();
-                        var song = NowPlaying.PipeListener.staticpipelistener.LastPlayedSong;
+                        await ManualTweet.RunManualTweet(ConfigStore.StaticConfig);
+                        var song = PipeListener.staticpipelistener.LastPlayedSong;
                         NPIcon.ShowBalloonTip("投稿完了", $"{song.Title}\n{song.Artist}\n{song.Album}", BalloonIcon.Info);
                     }
                     catch (Exception exception)

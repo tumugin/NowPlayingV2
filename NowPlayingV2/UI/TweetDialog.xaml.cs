@@ -13,9 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using NowPlayingCore.Core;
+using NowPlayingCore.Matsuri;
+using NowPlayingCore.NowPlaying;
+using NowPlayingCore.Tsumugi;
 using NowPlayingV2.Core;
 using NowPlayingV2.Matsuri;
-using NowPlayingV2.NowPlaying;
 
 namespace NowPlayingV2.UI
 {
@@ -35,7 +38,7 @@ namespace NowPlayingV2.UI
 
         private async void WindowLoaded(object sender, RoutedEventArgs e)
         {
-            var songInfo = NowPlaying.PipeListener.staticpipelistener.LastPlayedSong;
+            var songInfo = PipeListener.staticpipelistener.LastPlayedSong;
             _songcache = songInfo?.Clone() as SongInfo;
             if (songInfo == null)
             {
@@ -48,7 +51,7 @@ namespace NowPlayingV2.UI
                 try
                 {
                     if (!songInfo.IsAlbumArtAvaliable()) return null;
-                    return ImageTool.ToImageSource(songInfo.GetAlbumArt());
+                    return GdiUtils.ToImageSource(songInfo.GetAlbumArt());
                 }
                 catch
                 {
@@ -56,7 +59,7 @@ namespace NowPlayingV2.UI
                 }
             })();
             AlbumArtImage.Source = isource;
-            TweetTextBox.Text = Tsumugi.TweetConverter.SongInfoToString(ConfigStore.StaticConfig.TweetFormat, songInfo);
+            TweetTextBox.Text = TweetConverter.SongInfoToString(ConfigStore.StaticConfig.TweetFormat, songInfo);
             TweetTextBox.Focus();
         }
 
