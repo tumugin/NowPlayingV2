@@ -6,6 +6,7 @@
                       xmlns:local="clr-namespace:NowPlayingV2.UI"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:serica="clr-namespace:NowPlayingV2.UI.Extension"
+                      xmlns:rio="clr-namespace:NowPlayingV2.UI.Controls"
                       xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
                       fw:AcrylicWindow.Enabled="{DynamicResource UseAcrylic}"
                       fw:AcrylicWindow.ShowTitleBar="False"
@@ -62,6 +63,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <CheckBox x:Name="EnableImageTweetCBox" Content="アルバムアートを添付してツイートする" HorizontalAlignment="Left"
-                  Margin="266,169,0,0" VerticalAlignment="Top" />
+                  Margin="322,169,0,0" VerticalAlignment="Top" />
+        <rio:MastodonVisibilitySelector Margin="256,166,298,0" x:Name="MastodonVisibilitySelector" MastodonVisibility="{Binding Value}" VerticalAlignment="Top"/>
     </Grid>
 </controls:MetroWindow>

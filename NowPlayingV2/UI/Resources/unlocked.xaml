@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!--This file is NOT compatible with Silverlight-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTemplate x:Key="Unlocked">
+        <Viewbox Stretch="Uniform">
+            <Canvas Name="Capa_1" Canvas.Left="0" Canvas.Top="0" Width="57" Height="57">
+                <Canvas.RenderTransform>
+                    <TranslateTransform X="0" Y="0" />
+                </Canvas.RenderTransform>
+                <Canvas.Resources />
+                <!--Unknown tag: metadata-->
+                <!--Unknown tag: sodipodi:namedview-->
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4058" StrokeThickness="4"
+                      Stroke="#FF424A60" StrokeMiterLimit="10" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry
+                            Figures="M16.5 15.82v-3.219  C16.5 6.77 21.675 2 28 2h0c6.325 0 11.5 4.77 11.5 10.601V25"
+                            FillRule="NonZero" />
+                    </Path.Data>
+                </Path>
+                <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="7.5" Canvas.Top="25"
+                           Width="42" Height="32" Name="rect4060" Fill="#FFEBBA16" />
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4062" Fill="#FF424A60">
+                    <Path.Data>
+                        <PathGeometry
+                            Figures="M28.5 45L28.5 45c-1.65 0-3-1.35-3-3v-6c0-1.65 1.35-3 3-3h0c1.65 0 3 1.35 3 3v6  C31.5 43.65 30.15 45 28.5 45z"
+                            FillRule="NonZero" />
+                    </Path.Data>
+                </Path>
+                <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="7.5" Canvas.Top="51"
+                           Width="42" Height="6" Name="rect4064" Fill="#FF38454F" />
+                <Canvas Name="g4066" />
+                <Canvas Name="g4068" />
+                <Canvas Name="g4070" />
+                <Canvas Name="g4072" />
+                <Canvas Name="g4074" />
+                <Canvas Name="g4076" />
+                <Canvas Name="g4078" />
+                <Canvas Name="g4080" />
+                <Canvas Name="g4082" />
+                <Canvas Name="g4084" />
+                <Canvas Name="g4086" />
+                <Canvas Name="g4088" />
+                <Canvas Name="g4090" />
+                <Canvas Name="g4092" />
+                <Canvas Name="g4094" />
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+</ResourceDictionary>

@@ -126,11 +126,26 @@ namespace NowPlayingCore.NowPlaying
                                     //tweet
                                     if (enablealbumart)
                                     {
-                                        accCont.UpdateStatus(tweettext, songInfo.AlbumArtBase64);
+                                        if (accCont is MastodonAccount mastodonAccount)
+                                        {
+                                            mastodonAccount.UpdateStatus(tweettext, songInfo.AlbumArtBase64,
+                                                appconfig.MastodonTootVisibility);
+                                        }
+                                        else
+                                        {
+                                            accCont.UpdateStatus(tweettext, songInfo.AlbumArtBase64);
+                                        }
                                     }
                                     else
                                     {
-                                        accCont.UpdateStatus(tweettext);
+                                        if (accCont is MastodonAccount mastodonAccount)
+                                        {
+                                            mastodonAccount.UpdateStatus(tweettext, appconfig.MastodonTootVisibility);
+                                        }
+                                        else
+                                        {
+                                            accCont.UpdateStatus(tweettext);
+                                        }
                                     }
 
                                     Trace.WriteLine($"[AutoTweet]Sent tweet for account @{accCont.ID}.");

@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="NowPlayingV2.UI.Controls.MastodonVisibilitySelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:NowPlayingV2.UI.Controls"
+             xmlns:res="clr-namespace:NowPlayingV2.UI.Resources"
+             mc:Ignorable="d"
+             d:DesignHeight="50" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style x:Key="HideWhenNotExpanded" TargetType="StackPanel">
+            <Style.Triggers>
+                <DataTrigger
+                    Binding="{Binding RelativeSource={RelativeSource AncestorType=ComboBoxItem}}"
+                    Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <ComboBox x:Name="VisibilityComboBox" ItemsSource="{Binding VisibilityItems}"
+              d:DataContext="{d:DesignInstance {x:Type local:MastodonVisibilitySelectorVM},IsDesignTimeCreatable=True}">
+        <ComboBox.ItemTemplate>
+            <DataTemplate DataType="local:VisibilityItem">
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl Template="{Binding Icon}" Width="20"/>
+                    <StackPanel Style="{StaticResource HideWhenNotExpanded}" Margin="5">
+                        <TextBlock Text="{Binding Label}" FontSize="18" />
+                        <TextBlock Text="{Binding Description}" />
+                    </StackPanel>
+                </StackPanel>
+            </DataTemplate>
+        </ComboBox.ItemTemplate>
+    </ComboBox>
+</UserControl>

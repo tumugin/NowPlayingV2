@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mastonet;
 
 namespace NowPlayingCore.Core
 {
@@ -23,5 +24,6 @@ namespace NowPlayingCore.Core
         public bool EnableITunesPlugin { get; set; } = false;
         public bool HintDiagClosed { get; set; } = false;
         public string TweetFormat { get; set; } = "Nowplaying $Title - $Artist #NowPlaying";
+        public Visibility MastodonTootVisibility { get; set; } = Visibility.Public;
     }
 }
