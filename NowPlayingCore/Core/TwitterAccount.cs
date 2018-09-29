@@ -41,7 +41,8 @@ namespace NowPlayingCore.Core
 
         public override void UpdateStatus(string UpdateText, string base64image)
         {
-            var imgresult = AuthToken.Media.UploadAsync(media_data => base64image).Result;
+            byte[] data = Convert.FromBase64String(base64image);
+            var imgresult = AuthToken.Media.UploadAsync(media => data).Result;
             AuthToken.Statuses.UpdateAsync(status: UpdateText, media_ids: new[] {imgresult.MediaId});
         }
 
