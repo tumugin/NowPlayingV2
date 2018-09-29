@@ -45,7 +45,7 @@ namespace NowPlayingV2.UI
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("エラー",
-                    "何らかのエラーで認証を開始することが出来ませんでした。インスタンス名をもう一度確認してください。\n\n" + ex.Message + "\n" + ex.StackTrace);
+                    $"何らかのエラーで認証を開始することが出来ませんでした。インスタンス名をもう一度確認してください。\n\n{ex}");
             }
             finally
             {
@@ -68,7 +68,7 @@ namespace NowPlayingV2.UI
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("エラー",
-                    "何らかのエラーで認証を開始することが出来ませんでした。\n\n" + ex.Message + "\n" + ex.StackTrace);
+                    $"何らかのエラーで認証を開始することが出来ませんでした。\n\n{ex}");
             }
             finally
             {
@@ -94,7 +94,7 @@ namespace NowPlayingV2.UI
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("エラー",
-                    "何らかのエラーで認証を開始することが出来ませんでした。\n\n" + ex.Message + "\n" + ex.StackTrace);
+                    $"何らかのエラーで認証を開始することが出来ませんでした。\n\n{ex}");
                 await progdiag.CloseAsync();
             }
         }

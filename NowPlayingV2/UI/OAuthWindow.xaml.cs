@@ -47,7 +47,7 @@ namespace NowPlayingV2.UI
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("エラー",
-                    "何らかのエラーで認証を開始することが出来ませんでした。\n\n" + ex.Message + "\n" + ex.StackTrace);
+                    $"何らかのエラーで認証を開始することが出来ませんでした。\n\n{ex}");
             }
             finally
             {
@@ -73,7 +73,7 @@ namespace NowPlayingV2.UI
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("エラー",
-                    $"正常に認証できませんでした。PINコードが間違っている可能性があります\n\n{ex.Message}\n{ex.StackTrace}");
+                    $"正常に認証できませんでした。PINコードが間違っている可能性があります\n\n{ex}");
                 WindowTab.SelectedIndex = 0;
                 PinCodeTextBox.Text = "";
                 await progdiag.CloseAsync();

@@ -86,7 +86,7 @@ namespace NowPlayingV2.UI
             }
             catch (Exception ex)
             {
-                await this.ShowMessageAsync("エラー", $"ツイート中にエラーが発生しました。\n{ex.Message}");
+                await this.ShowMessageAsync("エラー", $"ツイート中にエラーが発生しました。\n{ex}");
                 await loadingview.CloseAsync();
             }
         }
