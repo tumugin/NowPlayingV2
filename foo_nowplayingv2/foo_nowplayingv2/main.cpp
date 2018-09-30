@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "main.h"
-DECLARE_COMPONENT_VERSION("foo_nowplayingv2", "1.3", "plugin for NowPlayingTunesV2");
+DECLARE_COMPONENT_VERSION("foo_nowplayingv2", "1.4", "plugin for NowPlayingTunesV2");
 
 void MinatoYukina::on_init()
 {
