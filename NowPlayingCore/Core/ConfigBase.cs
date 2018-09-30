@@ -17,6 +17,7 @@ namespace NowPlayingCore.Core
         public bool EnableTimePostDelay { get; set; } = false;
         public int PostDelaySecond { get; set; } = 30;
         public int TimePostDelayMin { get; set; } = 5;
+        public int TimePostDelaySec { get; set; } = 0;
         public bool EnableTweetWithAlbumArt { get; set; } = false;
         public bool EnableNoAlbumArtworkOnSameAlbum { get; set; } = false;
         public bool EnableNoTweetOnSameAlbum { get; set; } = false;

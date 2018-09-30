@@ -133,6 +133,13 @@
                                                                 Value="{Binding TimePostDelayMin}" Width="150"
                                                                 StringFormat="{}{0:N0} min" />
                                     </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+                                        <Label Content="経過時間(秒単位):" />
+                                        <Controls:NumericUpDown Minimum="0" Maximum="59"
+                                                                Value="{Binding TimePostDelayMin}" Width="150"
+                                                                StringFormat="{}{0:N0} sec" />
+                                        <Label Content="(0~59までの数値で指定)" />
+                                    </StackPanel>
                                     <CheckBox Content="ツイートにアルバムアートを添付する" IsChecked="{Binding EnableTweetWithAlbumArt}" />
                                     <CheckBox Content="前回再生した曲とアルバムが同じだったらアルバムアートを添付しない"
                                               IsChecked="{Binding EnableNoAlbumArtworkOnSameAlbum}" />

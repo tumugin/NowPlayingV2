@@ -96,7 +96,7 @@ namespace NowPlayingCore.NowPlaying
                             if (lasttweettime != default(DateTime))
                             {
                                 if (!(DateTime.Now - lasttweettime >=
-                                      new TimeSpan(0, 0, appconfig.TimePostDelayMin, 0)))
+                                      new TimeSpan(0, 0, appconfig.TimePostDelayMin, appconfig.TimePostDelaySec)))
                                 {
                                     Trace.WriteLine($"[AutoTweet]Canceled tweet.(reason=EnableTimePostDelay)");
                                     return;
