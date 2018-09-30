@@ -20,7 +20,7 @@ namespace NowPlayingV2.UI.Controls
             },
             new VisibilityItem()
             {
-                Description = "公開タイムラインに表示しない", Label = "未収蔵", Visibility = Mastonet.Visibility.Unlisted,
+                Description = "公開タイムラインに表示しない", Label = "未収載", Visibility = Mastonet.Visibility.Unlisted,
                 Icon = (ControlTemplate) Application.Current.Resources["Unlocked"]
             },
             new VisibilityItem()
