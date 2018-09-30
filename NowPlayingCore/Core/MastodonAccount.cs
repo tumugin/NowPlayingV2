@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Mastonet;
 using Newtonsoft.Json;
 
-namespace NowPlayingV2.Core
+namespace NowPlayingCore.Core
 {
     public class MastodonAccount : AccountContainer
     {
@@ -45,12 +45,23 @@ namespace NowPlayingV2.Core
 
         public override void UpdateStatus(string UpdateText, string base64image)
         {
+            UpdateStatus(UpdateText, base64image, Visibility.Public);
+        }
+
+        public void UpdateStatus(string UpdateText, Visibility visibility)
+        {
+            mastodonClient.PostStatus(UpdateText, visibility).Wait();
+        }
+
+        public void UpdateStatus(string UpdateText, string base64image, Visibility visibility)
+        {
             byte[] data = System.Convert.FromBase64String(base64image);
             MemoryStream ms = new MemoryStream(data);
             var filetype = Matsuri.ImageTool.GetFileTypeFromBytes(data);
             var attachment = mastodonClient.UploadMedia(ms, $"nowplaying.{filetype}").Result;
             ms.Dispose();
-            mastodonClient.PostStatus(UpdateText, mediaIds: new[] {attachment.Id}, visibility: Visibility.Public).Wait();
+            mastodonClient.PostStatus(UpdateText, mediaIds: new[] {attachment.Id}, visibility: visibility)
+                .Wait();
         }
 
         public override int CountText(string text) => CountTextStatic(text);

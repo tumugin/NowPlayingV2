@@ -8,6 +8,7 @@
                       xmlns:UI="clr-namespace:NowPlayingV2.UI"
                       xmlns:CV="clr-namespace:NowPlayingV2.UI.View"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:rio="clr-namespace:NowPlayingV2.UI.Controls"
                       fw:AcrylicWindow.Enabled="{DynamicResource UseAcrylic}"
                       fw:AcrylicWindow.ShowTitleBar="False"
                       fw:AcrylicWindow.TintColor="{DynamicResource WhiteColor}"
@@ -132,6 +133,13 @@
                                                                 Value="{Binding TimePostDelayMin}" Width="150"
                                                                 StringFormat="{}{0:N0} min" />
                                     </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+                                        <Label Content="経過時間(秒単位):" />
+                                        <Controls:NumericUpDown Minimum="0" Maximum="59"
+                                                                Value="{Binding TimePostDelayMin}" Width="150"
+                                                                StringFormat="{}{0:N0} sec" />
+                                        <Label Content="(0~59までの数値で指定)" />
+                                    </StackPanel>
                                     <CheckBox Content="ツイートにアルバムアートを添付する" IsChecked="{Binding EnableTweetWithAlbumArt}" />
                                     <CheckBox Content="前回再生した曲とアルバムが同じだったらアルバムアートを添付しない"
                                               IsChecked="{Binding EnableNoAlbumArtworkOnSameAlbum}" />
@@ -139,6 +147,10 @@
                                               IsChecked="{Binding EnableNoTweetOnSameAlbum}" />
                                     <CheckBox Content="ツイートする文字列の長さが各サービスの投稿可能最大文字数を超えた場合は自動的に削る"
                                               IsChecked="{Binding EnableAutoDeleteText140}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="トゥートの公開範囲:" />
+                                        <rio:MastodonVisibilitySelector MastodonVisibility="{Binding MastodonTootVisibility}"/>
+                                    </StackPanel>
                                     <Label Content="アプリケーションのスタイル" FontSize="20" FontWeight="Bold" />
                                     <ComboBox x:Name="ThemeSelector" Width="400" HorizontalAlignment="Left"
                                               DataContext="{Binding Theme}"

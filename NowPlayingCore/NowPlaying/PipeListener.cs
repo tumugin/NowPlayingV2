@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NowPlayingV2.NowPlaying
+namespace NowPlayingCore.NowPlaying
 {
     public class PipeListener
     {
@@ -34,7 +34,7 @@ namespace NowPlayingV2.NowPlaying
 
         //pipe listener
         private ManualResetEvent stopevent = new ManualResetEvent(false);
-        private AutoResetEvent taskstopwait = new AutoResetEvent(false);
+        private AutoResetEvent StreamStopWait = new AutoResetEvent(false);
         private Task listenertask = null;
         public void StartPipeListener()
         {
@@ -46,16 +46,18 @@ namespace NowPlayingV2.NowPlaying
                 {
                     try
                     {
-                        var aresetev = new AutoResetEvent(false);
+                        var resetStreamEvent = new AutoResetEvent(false);
                         var stream = new NamedPipeServerStream("NowPlayingTunesV2PIPE", PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
-                        stream.BeginWaitForConnection((IAsyncResult ar) =>
+                        stream.BeginWaitForConnection(ar =>
                         {
+                            //WaitOne(0) returns true when state is set
                             if (stopevent.WaitOne(0))
                             {
-                                //WaitOne(0) returns true when state is set
-                                taskstopwait.Set();
+                                //Called when stopping task.
+                                StreamStopWait.Set();
                                 return;
                             }
+                            //Must do this to connect to client.
                             stream.EndWaitForConnection(ar);
                             if (!stream.IsConnected) return;
                             var memstream = new MemoryStream();
@@ -67,18 +69,23 @@ namespace NowPlayingV2.NowPlaying
                                 memstream.Write(buffer, 0, readret);
                             }
                             stream.Close();
-                            aresetev.Set();
+                            resetStreamEvent.Set();
                             var bary = memstream.ToArray();
                             var rawjson = System.Text.Encoding.UTF8.GetString(bary);
                             var sinfo = JsonConvert.DeserializeObject<SongInfo>(rawjson);
                             LastPlayedSong = sinfo;
                             OnMusicPlay(sinfo);
                         }, null);
-                        if (WaitHandle.WaitAny(new WaitHandle[] { aresetev, stopevent }) == 1)
+
+                        //Wait for stop event
+                        //WaitAny will return index of WaitHandle array.(Can distingulish which ResetEvent was set.)
+                        if (WaitHandle.WaitAny(new WaitHandle[] { resetStreamEvent, stopevent }) == 1)
                         {
+                            //When stopevent is called, close stream and escape listnertask.
                             stream.Close();
                             return;
                         }
+                        //do nothing when resetStreamEvent is set.(Just keep looping)
                     }
                     catch { }
                 }
@@ -90,7 +97,8 @@ namespace NowPlayingV2.NowPlaying
             if (listenertask?.Status == TaskStatus.Running)
             {
                 stopevent.Set();
-                taskstopwait.WaitOne(Timeout.Infinite);
+                //Wait until stream disposes successfully
+                StreamStopWait.WaitOne(Timeout.Infinite);
                 stopevent.Reset();
             }
         }

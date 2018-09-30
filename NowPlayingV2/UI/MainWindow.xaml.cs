@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using MahApps.Metro.Controls.Dialogs;
+using NowPlayingCore.Core;
+using NowPlayingCore.NowPlaying;
 using NowPlayingV2.Core;
 using NowPlayingV2.Matsuri;
 using NowPlayingV2.UI.Theme;
@@ -39,13 +41,13 @@ namespace NowPlayingV2.UI
         {
             windowinstance = this;
             BindingOperations.EnableCollectionSynchronization(ConfigStore.StaticConfig.accountList, new object());
-            NowPlaying.PipeListener.staticpipelistener.OnMusicPlay += UpdatePlayingSongView;
-            if (NowPlaying.PipeListener.staticpipelistener.LastPlayedSong != null)
-                UpdatePlayingSongView(NowPlaying.PipeListener.staticpipelistener.LastPlayedSong);
+            PipeListener.staticpipelistener.OnMusicPlay += UpdatePlayingSongView;
+            if (PipeListener.staticpipelistener.LastPlayedSong != null)
+                UpdatePlayingSongView(PipeListener.staticpipelistener.LastPlayedSong);
             if(ConfigStore.StaticConfig.HintDiagClosed) HintBoxGrid.Visibility = Visibility.Hidden;
         }
 
-        private void UpdatePlayingSongView(NowPlaying.SongInfo songInfo)
+        private void UpdatePlayingSongView(SongInfo songInfo)
         {
             songView = new Model4SongView(songInfo);
             Dispatcher.Invoke(() =>
@@ -86,7 +88,7 @@ namespace NowPlayingV2.UI
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            NowPlaying.PipeListener.staticpipelistener.OnMusicPlay -= UpdatePlayingSongView;
+            PipeListener.staticpipelistener.OnMusicPlay -= UpdatePlayingSongView;
             windowinstance = null;
             ConfigStore.SaveConfig(ConfigStore.StaticConfig);
         }

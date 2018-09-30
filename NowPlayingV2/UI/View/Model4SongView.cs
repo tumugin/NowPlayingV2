@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using NowPlayingCore.Matsuri;
+using NowPlayingCore.NowPlaying;
 using NowPlayingV2.Matsuri;
-using NowPlayingV2.NowPlaying;
 
 namespace NowPlayingV2.UI.View
 {
-    public class Model4SongView : NowPlaying.SongInfo
+    public class Model4SongView : SongInfo
     {
         public Model4SongView(SongInfo sbase)
         {
@@ -35,7 +36,7 @@ namespace NowPlayingV2.UI.View
                 try
                 {
                     if (!IsAlbumArtAvaliable()) return null;
-                    return ImageTool.ToImageSource(GetAlbumArt());
+                    return GdiUtils.ToImageSource(GetAlbumArt());
                 }
                 catch
                 {

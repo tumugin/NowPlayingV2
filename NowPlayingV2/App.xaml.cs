@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using NowPlayingCore.NowPlaying;
+using NowPlayingV2.Core;
 using NowPlayingV2.UI.NotifyIcon;
 using NowPlayingV2.Updater;
 
@@ -15,9 +17,7 @@ namespace NowPlayingV2
         protected override void OnStartup(StartupEventArgs e)
         {
             //Start Pipe Listener
-            NowPlaying.PipeListener.MkStaticInstance();
-            //Start Auto Tweet
-            NowPlaying.AutoTweet.Autotweetsigleton.InitListner(NowPlaying.PipeListener.staticpipelistener);
+            PipeListener.MkStaticInstance();
             //Load config
             if (Core.ConfigStore.ConfigExists())
             {
@@ -29,6 +29,8 @@ namespace NowPlayingV2
                 Core.ConfigStore.StaticConfig.Theme.CurrentTheme.ApplyTheme();
                 UI.MainWindow.OpenSigletonWindow();
             }
+            //Start Auto Tweet
+            AutoTweet.AutoTweetSingleton.InitListner(PipeListener.staticpipelistener, ConfigStore.StaticConfig);
             //Init Notify Icon
             NotifyIconManager.NotifyIconSingleton.InitIcon();
             //Check update
@@ -41,9 +43,9 @@ namespace NowPlayingV2
             //Save Config
             Core.ConfigStore.SaveConfig(Core.ConfigStore.StaticConfig);
             //Stop Pipe Listener
-            NowPlaying.PipeListener.staticpipelistener?.StopPipeListener();
+            PipeListener.staticpipelistener?.StopPipeListener();
             //Stop all tweet job
-            NowPlaying.AutoTweet.Autotweetsigleton.StopAllTask();
+            AutoTweet.AutoTweetSingleton.StopAllTask();
             //Delete Icon
             NotifyIconManager.NotifyIconSingleton.DeleteIcon();
             //Stop iTunes Plugin

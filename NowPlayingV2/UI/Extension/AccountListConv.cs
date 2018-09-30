@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using NowPlayingCore.Core;
 using NowPlayingV2.Core;
 
 namespace NowPlayingV2.UI.Extension

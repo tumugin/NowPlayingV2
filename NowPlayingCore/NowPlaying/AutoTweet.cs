@@ -5,23 +5,38 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using NowPlayingV2.Core;
+using NowPlayingCore.Core;
 
-namespace NowPlayingV2.NowPlaying
+namespace NowPlayingCore.NowPlaying
 {
     public class AutoTweet
     {
-        public static AutoTweet Autotweetsigleton = new AutoTweet();
-        private Config appconfig => ConfigStore.StaticConfig;
+        private ConfigBase appconfig;
         private Task tweetTask;
         private AutoResetEvent resetevent = new AutoResetEvent(false);
         private CancellationTokenSource cancellationToken = new CancellationTokenSource();
         private SongInfo lastplayedsong;
         private DateTime lasttweettime;
+        private PipeListener pipelistener;
+        private static AutoTweet singletonautoTweet;
 
-        public void InitListner(PipeListener pl)
+        public static AutoTweet AutoTweetSingleton => singletonautoTweet ?? (singletonautoTweet = new AutoTweet());
+        public bool isInitialized = false;
+
+        public void InitListner(PipeListener pl, ConfigBase cb)
         {
-            pl.OnMusicPlay += OnMusicPlay;
+            if (appconfig != null) throw new Exception("DO NOT RE-INITIALIZE.");
+            pipelistener = pl;
+            pipelistener.OnMusicPlay += OnMusicPlay;
+            appconfig = cb;
+            isInitialized = true;
+        }
+
+        public void UnInitListner()
+        {
+            pipelistener.OnMusicPlay -= OnMusicPlay;
+            appconfig = null;
+            isInitialized = false;
         }
 
         private void OnMusicPlay(SongInfo songInfo)
@@ -42,7 +57,7 @@ namespace NowPlayingV2.NowPlaying
                 //can't reuse this
                 cancellationToken = new CancellationTokenSource();
                 //start task
-                tweetTask = Task.Run(() =>
+                tweetTask = Task.Run(async () =>
                 {
                     try
                     {
@@ -81,7 +96,7 @@ namespace NowPlayingV2.NowPlaying
                             if (lasttweettime != default(DateTime))
                             {
                                 if (!(DateTime.Now - lasttweettime >=
-                                      new TimeSpan(0, 0, appconfig.TimePostDelayMin, 0)))
+                                      new TimeSpan(0, 0, appconfig.TimePostDelayMin, appconfig.TimePostDelaySec)))
                                 {
                                     Trace.WriteLine($"[AutoTweet]Canceled tweet.(reason=EnableTimePostDelay)");
                                     return;
@@ -94,7 +109,7 @@ namespace NowPlayingV2.NowPlaying
                         lasttweettime = DateTime.Now;
 
                         //tweet it!
-                        Task.Run(() =>
+                        await Task.Run(() =>
                         {
                             try
                             {
@@ -111,11 +126,26 @@ namespace NowPlayingV2.NowPlaying
                                     //tweet
                                     if (enablealbumart)
                                     {
-                                        accCont.UpdateStatus(tweettext, songInfo.AlbumArtBase64);
+                                        if (accCont is MastodonAccount mastodonAccount)
+                                        {
+                                            mastodonAccount.UpdateStatus(tweettext, songInfo.AlbumArtBase64,
+                                                appconfig.MastodonTootVisibility);
+                                        }
+                                        else
+                                        {
+                                            accCont.UpdateStatus(tweettext, songInfo.AlbumArtBase64);
+                                        }
                                     }
                                     else
                                     {
-                                        accCont.UpdateStatus(tweettext);
+                                        if (accCont is MastodonAccount mastodonAccount)
+                                        {
+                                            mastodonAccount.UpdateStatus(tweettext, appconfig.MastodonTootVisibility);
+                                        }
+                                        else
+                                        {
+                                            accCont.UpdateStatus(tweettext);
+                                        }
                                     }
 
                                     Trace.WriteLine($"[AutoTweet]Sent tweet for account @{accCont.ID}.");

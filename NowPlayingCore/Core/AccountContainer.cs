@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace NowPlayingV2.Core
+namespace NowPlayingCore.Core
 {
     public abstract class AccountContainer : INotifyPropertyChanged
     {

@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NowPlayingV2.Core;
-using NowPlayingV2.NowPlaying;
-using NowPlayingV2.Tsumugi;
+using NowPlayingCore.Core;
+using NowPlayingCore.NowPlaying;
+using NowPlayingCore.Tsumugi;
 
 namespace NowPlayingV2UTest
 {

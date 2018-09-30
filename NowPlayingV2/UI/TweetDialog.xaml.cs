@@ -13,9 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using NowPlayingCore.Core;
+using NowPlayingCore.Matsuri;
+using NowPlayingCore.NowPlaying;
+using NowPlayingCore.Tsumugi;
 using NowPlayingV2.Core;
 using NowPlayingV2.Matsuri;
-using NowPlayingV2.NowPlaying;
+using Reactive.Bindings;
+using Visibility = Mastonet.Visibility;
 
 namespace NowPlayingV2.UI
 {
@@ -26,16 +31,33 @@ namespace NowPlayingV2.UI
     {
         private SongInfo _songcache;
 
+        private ReactiveProperty<Mastonet.Visibility> _mastodonVisibility { get; } =
+            new ReactiveProperty<Visibility>(Mastonet.Visibility.Public);
+
         public TweetDialog()
         {
             InitializeComponent();
             AccountListComboBox.ItemsSource = ConfigStore.StaticConfig.accountList;
+            MastodonVisibilitySelector.DataContext = _mastodonVisibility;
+            AccountListComboBox.SelectionChanged += AccountListComboBox_SelectionChanged;
             if (ConfigStore.StaticConfig.accountList.Count > 0) AccountListComboBox.SelectedIndex = 0;
+        }
+
+        private void AccountListComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (AccountListComboBox.SelectedItem is MastodonAccount)
+            {
+                MastodonVisibilitySelector.IsEnabled = true;
+            }
+            else
+            {
+                MastodonVisibilitySelector.IsEnabled = false;
+            }
         }
 
         private async void WindowLoaded(object sender, RoutedEventArgs e)
         {
-            var songInfo = NowPlaying.PipeListener.staticpipelistener.LastPlayedSong;
+            var songInfo = PipeListener.staticpipelistener.LastPlayedSong;
             _songcache = songInfo?.Clone() as SongInfo;
             if (songInfo == null)
             {
@@ -43,12 +65,13 @@ namespace NowPlayingV2.UI
                 this.Close();
                 return;
             }
+
             var isource = new Func<BitmapSource>(() =>
             {
                 try
                 {
                     if (!songInfo.IsAlbumArtAvaliable()) return null;
-                    return ImageTool.ToImageSource(songInfo.GetAlbumArt());
+                    return GdiUtils.ToImageSource(songInfo.GetAlbumArt());
                 }
                 catch
                 {
@@ -56,7 +79,7 @@ namespace NowPlayingV2.UI
                 }
             })();
             AlbumArtImage.Source = isource;
-            TweetTextBox.Text = Tsumugi.TweetConverter.SongInfoToString(ConfigStore.StaticConfig.TweetFormat, songInfo);
+            TweetTextBox.Text = TweetConverter.SongInfoToString(ConfigStore.StaticConfig.TweetFormat, songInfo);
             TweetTextBox.Focus();
         }
 
@@ -69,21 +92,43 @@ namespace NowPlayingV2.UI
             var tweetext = TweetTextBox.Text;
             try
             {
-                if(acc == null) throw new Exception("アカウントが何も追加されていない状態でツイートすることはできません。");
+                if (acc == null) throw new Exception("アカウントが何も追加されていない状態でツイートすることはできません。");
                 if (EnableImageTweetCBox.IsChecked.Value)
                 {
-                    await Task.Run(() => acc.UpdateStatus(tweetext,_songcache.AlbumArtBase64));
+                    await Task.Run(() =>
+                    {
+                        if (acc is MastodonAccount account)
+                        {
+                            account.UpdateStatus(tweetext, _songcache.AlbumArtBase64,
+                                _mastodonVisibility.Value);
+                        }
+                        else
+                        {
+                            acc.UpdateStatus(tweetext, _songcache.AlbumArtBase64);
+                        }
+                    });
                 }
                 else
                 {
-                    await Task.Run(() => acc.UpdateStatus(tweetext));
+                    await Task.Run(() =>
+                    {
+                        if (acc is MastodonAccount account)
+                        {
+                            account.UpdateStatus(tweetext, _mastodonVisibility.Value);
+                        }
+                        else
+                        {
+                            acc.UpdateStatus(tweetext);
+                        }
+                    });
                 }
+
                 await loadingview.CloseAsync();
                 this.Close();
             }
             catch (Exception ex)
             {
-                await this.ShowMessageAsync("エラー", $"ツイート中にエラーが発生しました。\n{ex.Message}");
+                await this.ShowMessageAsync("エラー", $"ツイート中にエラーが発生しました。\n{ex}");
                 await loadingview.CloseAsync();
             }
         }

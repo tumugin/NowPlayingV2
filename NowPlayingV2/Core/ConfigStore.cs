@@ -38,9 +38,15 @@ namespace NowPlayingV2.Core
             {
                 //try migration for new config file
                 var jobj = JObject.Parse(rawjson);
-                var newProperty = new JProperty("$type", "NowPlayingV2.Core.TwitterAccount, NowPlayingV2");
-                jobj["accountList"].Where(i => i["$type"] == null).ToList().ForEach(i =>
-                    i.First.AddBeforeSelf(newProperty));
+                jobj["accountList"]
+                    .Where(i => i["$type"] == null ||
+                                i["$type"]?.Value<String>() == "NowPlayingV2.Core.TwitterAccount, NowPlayingV2")
+                    .ToList()
+                    .ForEach(i => { i["$type"] = "NowPlayingCore.Core.TwitterAccount, NowPlayingCore"; });
+                jobj["accountList"]
+                    .Where(i => i["$type"]?.Value<String>() == "NowPlayingV2.Core.MastodonAccount, NowPlayingV2")
+                    .ToList()
+                    .ForEach(i => { i["$type"] = "NowPlayingCore.Core.MastodonAccount, NowPlayingCore"; });
                 return JsonConvert.DeserializeObject<Config>(jobj.ToString(), desirializer_settings);
             }
         }

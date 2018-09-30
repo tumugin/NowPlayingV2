@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using NowPlayingCore.Core;
 using NowPlayingV2.Core;
 using NowPlayingV2.UI.View;
 

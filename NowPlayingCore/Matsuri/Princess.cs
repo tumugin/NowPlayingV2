@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NowPlayingV2.Matsuri
+namespace NowPlayingCore.Matsuri
 {
     class Princess
     {

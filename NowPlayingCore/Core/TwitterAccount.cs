@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CoreTweet;
 
-namespace NowPlayingV2.Core
+namespace NowPlayingCore.Core
 {
     public class TwitterAccount : AccountContainer
     {
@@ -30,19 +30,20 @@ namespace NowPlayingV2.Core
 
         public override void UpdateCache()
         {
-            AuthToken.Account.VerifyCredentials();
+            AuthToken.Account.VerifyCredentialsAsync().Wait();
             UpdateName();
         }
 
         public override void UpdateStatus(string UpdateText)
         {
-            AuthToken.Statuses.Update(status: UpdateText);
+            AuthToken.Statuses.UpdateAsync(status: UpdateText).Wait();
         }
 
         public override void UpdateStatus(string UpdateText, string base64image)
         {
-            var imgresult = AuthToken.Media.Upload(media_data: base64image);
-            AuthToken.Statuses.Update(status: UpdateText, media_ids: new[] {imgresult.MediaId});
+            byte[] data = Convert.FromBase64String(base64image);
+            var imgresult = AuthToken.Media.UploadAsync(media => data).Result;
+            AuthToken.Statuses.UpdateAsync(status: UpdateText, media_ids: new[] {imgresult.MediaId});
         }
 
         public override int CountText(string text) => CountTextStatic(text);
@@ -61,6 +62,6 @@ namespace NowPlayingV2.Core
             return scount;
         }
 
-        private void UpdateName() => Name = AuthToken.Users.Show(user_id: AuthToken.UserId).Name;
+        private void UpdateName() => Name = AuthToken.Users.ShowAsync(user_id: AuthToken.UserId).Result.Name;
     }
 }

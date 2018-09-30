@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NowPlayingV2.Core;
-using NowPlayingV2.Matsuri;
-using NowPlayingV2.NowPlaying;
-using NowPlayingV2.UI.Extension;
+using NowPlayingCore.Core;
+using NowPlayingCore.NowPlaying;
 
-namespace NowPlayingV2.Tsumugi
+namespace NowPlayingCore.Tsumugi
 {
     public class TweetConverter
     {

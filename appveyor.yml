@@ -6,7 +6,10 @@ install:
 
     nuget restore
 before_build:
-- cmd: dotnet sln remove iTunesNPPlugin\iTunesNPPlugin.csproj
+- cmd: >-
+    dotnet sln remove iTunesNPPlugin\iTunesNPPlugin.csproj
+    
+    dotnet sln remove NowPlaying4Mac\NowPlaying4Mac.csproj
 build:
   project: NowPlayingV2.sln
   parallel: true
