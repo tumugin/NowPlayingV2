@@ -142,7 +142,7 @@
                                               IsChecked="{Binding EnableAutoDeleteText140}" />
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="トゥートの公開範囲:" />
-                                        <rio:MastodonVisibilitySelector DataContext="{Binding MastodonTootVisibility}"/>
+                                        <rio:MastodonVisibilitySelector MastodonVisibility="{Binding MastodonTootVisibility}"/>
                                     </StackPanel>
                                     <Label Content="アプリケーションのスタイル" FontSize="20" FontWeight="Bold" />
                                     <ComboBox x:Name="ThemeSelector" Width="400" HorizontalAlignment="Left"
