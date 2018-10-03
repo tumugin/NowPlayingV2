@@ -124,7 +124,7 @@ namespace NowPlayingCore.NowPlaying
                                         throw new Exception(
                                             $"[AutoTweet]Tweet text was over {accCont.MaxTweetLength} chars.");
                                     //tweet
-                                    if (enablealbumart)
+                                    if (enablealbumart && songInfo.IsAlbumArtAvaliable())
                                     {
                                         if (accCont is MastodonAccount mastodonAccount)
                                         {
