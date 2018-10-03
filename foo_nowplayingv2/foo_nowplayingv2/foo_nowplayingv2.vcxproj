@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{E47A8046-BB50-449F-9B2A-E59BC058C00B}</ProjectGuid>
     <RootNamespace>foo_nowplayingv2</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -70,16 +70,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Qt\static\5.9-msvc2017-x86\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Qt\qt5basestatic\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Qt\static\5.9-msvc2017-x86\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Qt\qt5basestatic\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Qt\static\5.9-msvc2017-x86\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Qt\qt5basestatic\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Qt\static\5.9-msvc2017-x86\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Qt\qt5basestatic\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -89,7 +89,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>../SDK/foobar2000/shared/shared.lib;C:\Qt\static\5.9-msvc2017-x86\lib\Qt5Core.lib;C:\Qt\static\5.9-msvc2017-x86\lib\Qt5SystemInfo.lib;C:\Qt\static\5.9-msvc2017-x86\lib\qtpcre2.lib;C:\Qt\static\5.9-msvc2017-x86\lib\Qt5Network.lib;ws2_32.lib;version.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../SDK/foobar2000/shared/shared.lib;C:\Qt\qt5basestatic\lib\Qt5Cored.lib;C:\Qt\qt5basestatic\lib\qtpcre2d.lib;C:\Qt\qt5basestatic\lib\Qt5Networkd.lib;netapi32.lib;userenv.lib;ws2_32.lib;version.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -100,7 +100,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>../SDK/foobar2000/shared/shared.lib;C:\Qt\static\5.9-msvc2017-x86\lib\Qt5Core.lib;C:\Qt\static\5.9-msvc2017-x86\lib\Qt5SystemInfo.lib;C:\Qt\static\5.9-msvc2017-x86\lib\qtpcre2.lib;C:\Qt\static\5.9-msvc2017-x86\lib\Qt5Network.lib;ws2_32.lib;version.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../SDK/foobar2000/shared/shared.lib;C:\Qt\qt5basestatic\lib\Qt5Cored.lib;C:\Qt\qt5basestatic\lib\qtpcre2d.lib;C:\Qt\qt5basestatic\lib\Qt5Networkd.lib;netapi32.lib;userenv.lib;ws2_32.lib;version.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -115,7 +115,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>../SDK/foobar2000/shared/shared.lib;C:\Qt\static\5.9-msvc2017-x86\lib\Qt5Core.lib;C:\Qt\static\5.9-msvc2017-x86\lib\Qt5SystemInfo.lib;C:\Qt\static\5.9-msvc2017-x86\lib\qtpcre2.lib;C:\Qt\static\5.9-msvc2017-x86\lib\Qt5Network.lib;ws2_32.lib;version.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../SDK/foobar2000/shared/shared.lib;C:\Qt\qt5basestatic\lib\Qt5Core.lib;C:\Qt\qt5basestatic\lib\qtpcre2.lib;C:\Qt\qt5basestatic\lib\Qt5Network.lib;netapi32.lib;userenv.lib;ws2_32.lib;version.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,7 +130,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>../SDK/foobar2000/shared/shared.lib;C:\Qt\static\5.9-msvc2017-x86\lib\Qt5Core.lib;C:\Qt\static\5.9-msvc2017-x86\lib\Qt5SystemInfo.lib;C:\Qt\static\5.9-msvc2017-x86\lib\qtpcre2.lib;C:\Qt\static\5.9-msvc2017-x86\lib\Qt5Network.lib;ws2_32.lib;version.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../SDK/foobar2000/shared/shared.lib;C:\Qt\qt5basestatic\lib\Qt5Core.lib;C:\Qt\qt5basestatic\lib\qtpcre2.lib;C:\Qt\qt5basestatic\lib\Qt5Network.lib;netapi32.lib;userenv.lib;ws2_32.lib;version.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
