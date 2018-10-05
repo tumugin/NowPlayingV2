@@ -57,6 +57,7 @@ namespace NowPlayingCore.NowPlaying
         public bool IsAlbumArtAvaliable()
         {
             if (String.IsNullOrEmpty(AlbumArtBase64) && String.IsNullOrEmpty(AlbumArtPath)) return false;
+            if (cachebitmap != null) return true;
             try
             {
                 CreateAlbumArt();

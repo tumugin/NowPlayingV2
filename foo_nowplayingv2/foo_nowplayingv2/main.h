@@ -1,9 +1,5 @@
 ﻿#pragma once
 #include "stdafx.h"
-#include <QtCore/QString>
-#include <QtCore/QJsonObject>
-#include <QtCore/QJsonDocument>
-#include <QtNetwork/QLocalSocket>
 
 class play_callback_minato_yukina : public play_callback {
 public:
