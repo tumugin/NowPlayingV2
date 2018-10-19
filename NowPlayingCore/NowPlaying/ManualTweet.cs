@@ -30,13 +30,28 @@ namespace NowPlayingCore.NowPlaying
                     if (account.CountText(tweettext) > account.MaxTweetLength)
                         throw new Exception($"投稿可能な最大文字数({account.MaxTweetLength}文字)を超えたため、投稿出来ませんでした。");
                     //tweet
-                    if (config.EnableTweetWithAlbumArt)
+                    if (config.EnableTweetWithAlbumArt && songcache.IsAlbumArtAvaliable())
                     {
-                        account.UpdateStatus(tweettext, songcache.AlbumArtBase64);
+                        if (account is MastodonAccount mastodonAccount)
+                        {
+                            mastodonAccount.UpdateStatus(tweettext, songcache.AlbumArtBase64,
+                                config.MastodonTootVisibility);
+                        }
+                        else
+                        {
+                            account.UpdateStatus(tweettext, songcache.AlbumArtBase64);
+                        }
                     }
                     else
                     {
-                        account.UpdateStatus(tweettext);
+                        if (account is MastodonAccount mastodonAccount)
+                        {
+                            mastodonAccount.UpdateStatus(tweettext, config.MastodonTootVisibility);
+                        }
+                        else
+                        {
+                            account.UpdateStatus(tweettext);
+                        }
                     }
                 });
             });
