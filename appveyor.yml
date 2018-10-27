@@ -5,6 +5,8 @@ environment:
     secure: i/HKbZ8JhJ2F2fHquUyevuCCx0nXEbWffqvlIqPfO6jcnfswZoXXqYMtvnN0u72K
 cache:
   - ReSharperCLT2018.2.3
+  - packages
+  - vendor/bundler
 install:
 - cmd: >-
     set PATH=C:\Ruby25-x64\bin;%PATH%
@@ -36,7 +38,7 @@ test:
     except:
       - PluginTest
 after_test:
-- cmd: >-
-    ReSharperCLT2018.2.3/InspectCode.exe -o=report.xml NowPlayingV2.sln
+- ps: >-
+    ./ReSharperCLT2018.2.3/InspectCode.exe -o=report.xml NowPlayingV2.sln
 
     bundle exec danger
