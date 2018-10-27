@@ -1,10 +1,27 @@
 version: 1.2.{build}
 image: Visual Studio 2017
+environment:
+  DANGER_GITHUB_API_TOKEN:
+    secure: i/HKbZ8JhJ2F2fHquUyevuCCx0nXEbWffqvlIqPfO6jcnfswZoXXqYMtvnN0u72K
+cache:
+  - ReSharperCLT2018.2.3
 install:
 - cmd: >-
+    set PATH=C:\Ruby25-x64\bin;%PATH%
+
     git submodule update --init --recursive
 
     nuget restore
+
+    bundle install
+- ps: >-
+    if(![System.IO.File]::Exists("ReSharperCLT2018.2.3/")){
+    
+    Invoke-WebRequest -Uri https://download.jetbrains.com/resharper/ReSharperUltimate.2018.2.3/JetBrains.ReSharper.CommandLineTools.2018.2.3.zip -OutFile JetBrains.ReSharper.CommandLineTools.2018.2.3.zip
+
+    Expand-Archive JetBrains.ReSharper.CommandLineTools.2018.2.3.zip -DestinationPath ReSharperCLT2018.2.3/
+
+    }
 before_build:
 - cmd: >-
     dotnet sln remove iTunesNPPlugin\iTunesNPPlugin.csproj
@@ -18,3 +35,8 @@ test:
   categories:
     except:
       - PluginTest
+after_test:
+- cmd: >-
+    ReSharperCLT2018.2.3/InspectCode.exe -o=report.xml NowPlayingV2.sln
+
+    bundle exec danger
