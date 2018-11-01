@@ -37,6 +37,7 @@ namespace NowPlayingV2
             new UpdateChecker(NotifyIconManager.NotifyIconSingleton).CheckUpdateAsync();
             //Start iTunes Plugin
             Plugin.ITunesPlugin.Start();
+            var hagehogehage = 12345;
         }
         protected override void OnExit(ExitEventArgs e)
         {
