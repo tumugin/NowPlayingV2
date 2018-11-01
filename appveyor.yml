@@ -17,7 +17,7 @@ install:
 
     bundle install
 - ps: >-
-    if(![System.IO.File]::Exists("ReSharperCLT2018.2.3/")){
+    if(![System.IO.Directory]::Exists((pwd).Path + "\ReSharperCLT2018.2.3")){
     
     Invoke-WebRequest -Uri https://download.jetbrains.com/resharper/ReSharperUltimate.2018.2.3/JetBrains.ReSharper.CommandLineTools.2018.2.3.zip -OutFile JetBrains.ReSharper.CommandLineTools.2018.2.3.zip
 
