@@ -16,4 +16,7 @@
     <ProjectReference Include="..\NowPlayingCore\NowPlayingCore.csproj" />
     <ProjectReference Include="..\NowPlayingV2\NowPlayingV2.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
 </Project>
