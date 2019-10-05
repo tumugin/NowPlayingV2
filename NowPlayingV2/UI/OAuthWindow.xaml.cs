@@ -3,6 +3,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +41,12 @@ namespace NowPlayingV2.UI
                 await Task.Run(() =>
                 {
                     session = OAuth.Authorize(APIKey.CONSUMER_KEY, APIKey.CONSUMER_SECRET);
-                    System.Diagnostics.Process.Start(session.AuthorizeUri.AbsoluteUri);
+                    var processStartInfo = new ProcessStartInfo(session.AuthorizeUri.AbsoluteUri)
+                    {
+                        UseShellExecute = true,
+                        Verb = "open"
+                    };
+                    System.Diagnostics.Process.Start(processStartInfo);
                 });
                 WindowTab.SelectedIndex = 1;
             }
