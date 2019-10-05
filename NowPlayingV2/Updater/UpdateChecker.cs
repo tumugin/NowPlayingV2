@@ -36,7 +36,15 @@ namespace NowPlayingV2.Updater
                 var updateseparetor =
                     (LogicalTreeHelper.FindLogicalNode(nim.NPIcon.ContextMenu, "UpdateMenuSeparator") as Separator);
                 (new Control[] {updateseparetor, updatemenu}).ToList().ForEach(i => i.Visibility = Visibility.Visible);
-                updatemenu.Click += (sender, e) => { Process.Start(vc.UpdateNotifyUrl); };
+                updatemenu.Click += (sender, e) =>
+                {
+                    var processStartInfo = new ProcessStartInfo(vc.UpdateNotifyUrl)
+                    {
+                        UseShellExecute = true,
+                        Verb = "open"
+                    };
+                    Process.Start(processStartInfo);
+                };
             }
             catch (Exception ex)
             {

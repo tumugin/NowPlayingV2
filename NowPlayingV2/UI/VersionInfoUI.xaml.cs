@@ -52,7 +52,12 @@ namespace NowPlayingV2.UI
                         $"{vc.UpdateMessage}\n\nアップデートページを開きますか？", MessageDialogStyle.AffirmativeAndNegative);
                     if (diagret == MessageDialogResult.Affirmative)
                     {
-                        Process.Start(vc.UpdateNotifyUrl);
+                        var processStartInfo = new ProcessStartInfo(vc.UpdateNotifyUrl)
+                        {
+                            UseShellExecute = true,
+                            Verb = "open"
+                        };
+                        Process.Start(processStartInfo);
                     }
                 }
                 else
@@ -74,7 +79,12 @@ namespace NowPlayingV2.UI
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            var processStartInfo = new ProcessStartInfo(e.Uri.AbsoluteUri)
+            {
+                UseShellExecute = true,
+                Verb = "open"
+            };
+            Process.Start(processStartInfo);
         }
     }
 }

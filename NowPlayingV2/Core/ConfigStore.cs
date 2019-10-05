@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JsonNet.PrivateSettersContractResolvers;
+using JsonNet.ContractResolvers;
 using Newtonsoft.Json.Linq;
 
 namespace NowPlayingV2.Core

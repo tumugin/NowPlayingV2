@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,7 +62,12 @@ namespace NowPlayingV2.UI
                 await Task.Run(() =>
                 {
                     var url = authClient.OAuthUrl();
-                    System.Diagnostics.Process.Start(url);
+                    var processStartInfo = new ProcessStartInfo(url)
+                    {
+                        UseShellExecute = true,
+                        Verb = "open"
+                    };
+                    System.Diagnostics.Process.Start(processStartInfo);
                 });
                 WindowTab.SelectedIndex = 2;
             }

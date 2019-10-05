@@ -10,7 +10,6 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:rio="clr-namespace:NowPlayingV2.UI.Controls"
                       fw:AcrylicWindow.Enabled="{DynamicResource UseAcrylic}"
-                      fw:AcrylicWindow.ShowTitleBar="False"
                       fw:AcrylicWindow.TintColor="{DynamicResource WhiteColor}"
                       fw:AcrylicWindow.FallbackColor="{DynamicResource WhiteColor}"
                       fw:AcrylicWindow.TintOpacity="{DynamicResource AcrylicOpacity}"
