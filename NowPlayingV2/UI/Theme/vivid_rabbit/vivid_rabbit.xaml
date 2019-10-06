@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:NowPlayingV2.UI.Theme.vivid_rabbit">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../acrylic/DisableAcrylic.xaml"/>
         <ResourceDictionary Source="BasePurple.xaml"/>
         <ResourceDictionary Source="AnnaPurple.xaml"/>
     </ResourceDictionary.MergedDictionaries>
