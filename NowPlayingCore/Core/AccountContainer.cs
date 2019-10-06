@@ -20,7 +20,7 @@ namespace NowPlayingCore.Core
 
         [JsonIgnore] public abstract int MaxTweetLength { get; }
 
-        public abstract void UpdateCache();
+        public abstract Task UpdateCache();
 
         public abstract void UpdateStatus(string UpdateText);
 

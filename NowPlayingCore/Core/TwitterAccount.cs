@@ -21,17 +21,16 @@ namespace NowPlayingCore.Core
         public TwitterAccount(Tokens token)
         {
             AuthToken = token;
-            UpdateName();
         }
 
         public override string ID => AuthToken.ScreenName;
 
         public override int MaxTweetLength => 280;
 
-        public override void UpdateCache()
+        public override async Task UpdateCache()
         {
-            AuthToken.Account.VerifyCredentialsAsync().Wait();
-            UpdateName();
+            await AuthToken.Account.VerifyCredentialsAsync();
+            await UpdateName();
         }
 
         public override void UpdateStatus(string UpdateText)
@@ -62,6 +61,6 @@ namespace NowPlayingCore.Core
             return scount;
         }
 
-        private void UpdateName() => Name = AuthToken.Users.ShowAsync(user_id: AuthToken.UserId).Result.Name;
+        private async Task UpdateName() => Name = (await AuthToken.Users.ShowAsync(user_id: AuthToken.UserId)).Name;
     }
 }

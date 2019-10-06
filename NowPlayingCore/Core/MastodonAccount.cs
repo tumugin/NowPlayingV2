@@ -23,7 +23,6 @@ namespace NowPlayingCore.Core
         public MastodonAccount(MastodonClient client)
         {
             mastodonClient = client;
-            UpdateCache();
         }
 
         [JsonProperty] private string IDCache = "";
@@ -31,9 +30,9 @@ namespace NowPlayingCore.Core
 
         public override int MaxTweetLength => 500;
 
-        public override void UpdateCache()
+        public override async Task UpdateCache()
         {
-            var account = mastodonClient.GetCurrentUser().Result;
+            var account = await mastodonClient.GetCurrentUser();
             IDCache = account.UserName;
             Name = account.DisplayName;
         }
@@ -56,7 +55,7 @@ namespace NowPlayingCore.Core
         public void UpdateStatus(string UpdateText, string base64image, Visibility visibility)
         {
             byte[] data = System.Convert.FromBase64String(base64image);
-            MemoryStream ms = new MemoryStream(data);
+            var ms = new MemoryStream(data);
             var filetype = Matsuri.ImageTool.GetFileTypeFromBytes(data);
             var attachment = mastodonClient.UploadMedia(ms, $"nowplaying.{filetype}").Result;
             ms.Dispose();
