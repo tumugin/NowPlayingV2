@@ -13,7 +13,6 @@
     <PackageReference Include="CoreTweet">
       <Version>1.0.0.483</Version>
     </PackageReference>
-    <PackageReference Include="FluentWPF" Version="0.7.0" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf">
       <Version>1.0.8</Version>
     </PackageReference>
