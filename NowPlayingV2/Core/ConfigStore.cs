@@ -24,7 +24,7 @@ namespace NowPlayingV2.Core
         {
             var bary = System.IO.File.ReadAllBytes(ConfigPath);
             var rawjson = Encoding.UTF8.GetString(bary);
-            var desirializer_settings = new JsonSerializerSettings()
+            var deserializerSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
@@ -32,7 +32,7 @@ namespace NowPlayingV2.Core
             };
             try
             {
-                return JsonConvert.DeserializeObject<Config>(rawjson, desirializer_settings);
+                return JsonConvert.DeserializeObject<Config>(rawjson, deserializerSettings);
             }
             catch
             {
@@ -47,7 +47,7 @@ namespace NowPlayingV2.Core
                     .Where(i => i["$type"]?.Value<String>() == "NowPlayingV2.Core.MastodonAccount, NowPlayingV2")
                     .ToList()
                     .ForEach(i => { i["$type"] = "NowPlayingCore.Core.MastodonAccount, NowPlayingCore"; });
-                return JsonConvert.DeserializeObject<Config>(jobj.ToString(), desirializer_settings);
+                return JsonConvert.DeserializeObject<Config>(jobj.ToString(), deserializerSettings);
             }
         }
 

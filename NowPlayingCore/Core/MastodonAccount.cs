@@ -7,60 +7,63 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Mastonet;
+using Mastonet.Entities;
 using Newtonsoft.Json;
+using NowPlayingCore.ConfigConverter;
 
 namespace NowPlayingCore.Core
 {
     public class MastodonAccount : AccountContainer
     {
-        public MastodonClient mastodonClient;
+        [JsonConverter(typeof(MastodonClientConverter))]
+        public MastodonClient MastodonClient { get; set; }
 
         //Will be called on Json.NET deserialization
+        [JsonConstructor]
         private MastodonAccount()
         {
         }
 
         public MastodonAccount(MastodonClient client)
         {
-            mastodonClient = client;
+            MastodonClient = client;
         }
 
         [JsonProperty] private string IDCache = "";
-        public override string ID => $"{IDCache}({mastodonClient.Instance})";
+        public override string ID => $"{IDCache}({MastodonClient.Instance})";
 
         public override int MaxTweetLength => 500;
 
         public override async Task UpdateCache()
         {
-            var account = await mastodonClient.GetCurrentUser();
+            var account = await MastodonClient.GetCurrentUser();
             IDCache = account.UserName;
             Name = account.DisplayName;
         }
 
-        public override void UpdateStatus(string UpdateText)
+        public override async Task UpdateStatus(string UpdateText)
         {
-            mastodonClient.PostStatus(UpdateText, Visibility.Public).Wait();
+            await MastodonClient.PostStatus(UpdateText, Visibility.Public);
         }
 
-        public override void UpdateStatus(string UpdateText, string base64image)
+        public override async Task UpdateStatus(string UpdateText, string base64image)
         {
-            UpdateStatus(UpdateText, base64image, Visibility.Public);
+            await UpdateStatus(UpdateText, base64image, Visibility.Public);
         }
 
-        public void UpdateStatus(string UpdateText, Visibility visibility)
+        public async Task UpdateStatus(string UpdateText, Visibility visibility)
         {
-            mastodonClient.PostStatus(UpdateText, visibility).Wait();
+            await MastodonClient.PostStatus(UpdateText, visibility);
         }
 
-        public void UpdateStatus(string UpdateText, string base64image, Visibility visibility)
+        public async Task UpdateStatus(string UpdateText, string base64image, Visibility visibility)
         {
             byte[] data = System.Convert.FromBase64String(base64image);
             var ms = new MemoryStream(data);
             var filetype = Matsuri.ImageTool.GetFileTypeFromBytes(data);
-            var attachment = mastodonClient.UploadMedia(ms, $"nowplaying.{filetype}").Result;
+            var attachment = await MastodonClient.UploadMedia(ms, $"nowplaying.{filetype}");
             ms.Dispose();
-            mastodonClient.PostStatus(UpdateText, mediaIds: new[] {attachment.Id}, visibility: visibility)
-                .Wait();
+            await MastodonClient.PostStatus(UpdateText, mediaIds: new[] {attachment.Id}, visibility: visibility);
         }
 
         public override int CountText(string text) => CountTextStatic(text);

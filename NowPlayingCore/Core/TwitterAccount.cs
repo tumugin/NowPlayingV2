@@ -6,11 +6,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CoreTweet;
+using Newtonsoft.Json;
+using NowPlayingCore.ConfigConverter;
 
 namespace NowPlayingCore.Core
 {
     public class TwitterAccount : AccountContainer
     {
+        [JsonConverter(typeof(TwitterAuthTokenConverter))]
         public Tokens AuthToken { get; set; }
 
         //Will be called on Json.NET deserialization
@@ -33,16 +36,16 @@ namespace NowPlayingCore.Core
             await UpdateName();
         }
 
-        public override void UpdateStatus(string UpdateText)
+        public override async Task UpdateStatus(string UpdateText)
         {
-            AuthToken.Statuses.UpdateAsync(status: UpdateText).Wait();
+            await AuthToken.Statuses.UpdateAsync(status: UpdateText);
         }
 
-        public override void UpdateStatus(string UpdateText, string base64image)
+        public override async Task UpdateStatus(string UpdateText, string base64image)
         {
             byte[] data = Convert.FromBase64String(base64image);
-            var imgresult = AuthToken.Media.UploadAsync(media => data).Result;
-            AuthToken.Statuses.UpdateAsync(status: UpdateText, media_ids: new[] {imgresult.MediaId});
+            var imgresult = await AuthToken.Media.UploadAsync(media => data);
+            await AuthToken.Statuses.UpdateAsync(status: UpdateText, media_ids: new[] {imgresult.MediaId});
         }
 
         public override int CountText(string text) => CountTextStatic(text);

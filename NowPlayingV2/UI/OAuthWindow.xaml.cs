@@ -67,13 +67,10 @@ namespace NowPlayingV2.UI
             var pincode = PinCodeTextBox.Text;
             try
             {
-                await Task.Run(async () =>
-                {
-                    var token = session.GetTokens(pincode);
-                    var container = new TwitterAccount(token);
-                    await container.UpdateCache();
-                    Core.ConfigStore.StaticConfig.accountList.Add(container);
-                });
+                var token = session.GetTokens(pincode);
+                var container = new TwitterAccount(token);
+                await container.UpdateCache();
+                Core.ConfigStore.StaticConfig.accountList.Add(container);
                 await progdiag.CloseAsync();
                 this.Close();
             }
