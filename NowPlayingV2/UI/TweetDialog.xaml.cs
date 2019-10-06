@@ -95,32 +95,26 @@ namespace NowPlayingV2.UI
                 if (acc == null) throw new Exception("アカウントが何も追加されていない状態でツイートすることはできません。");
                 if (EnableImageTweetCBox.IsChecked.Value)
                 {
-                    await Task.Run(() =>
+                    if (acc is MastodonAccount account)
                     {
-                        if (acc is MastodonAccount account)
-                        {
-                            account.UpdateStatus(tweetext, _songcache.AlbumArtBase64,
-                                _mastodonVisibility.Value);
-                        }
-                        else
-                        {
-                            acc.UpdateStatus(tweetext, _songcache.AlbumArtBase64);
-                        }
-                    });
+                        await account.UpdateStatus(tweetext, _songcache.AlbumArtBase64,
+                            _mastodonVisibility.Value);
+                    }
+                    else
+                    {
+                        await acc.UpdateStatus(tweetext, _songcache.AlbumArtBase64);
+                    }
                 }
                 else
                 {
-                    await Task.Run(() =>
+                    if (acc is MastodonAccount account)
                     {
-                        if (acc is MastodonAccount account)
-                        {
-                            account.UpdateStatus(tweetext, _mastodonVisibility.Value);
-                        }
-                        else
-                        {
-                            acc.UpdateStatus(tweetext);
-                        }
-                    });
+                        await account.UpdateStatus(tweetext, _mastodonVisibility.Value);
+                    }
+                    else
+                    {
+                        await acc.UpdateStatus(tweetext);
+                    }
                 }
 
                 await loadingview.CloseAsync();

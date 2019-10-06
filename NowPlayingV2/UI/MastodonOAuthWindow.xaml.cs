@@ -88,12 +88,10 @@ namespace NowPlayingV2.UI
             try
             {
                 var tokens = await authClient.ConnectWithCode(PinCodeTextBox.Text);
-                await Task.Run(() =>
-                {
-                    var client = new MastodonClient(registeredApp, tokens);
-                    var container = new MastodonAccount(client);
-                    Core.ConfigStore.StaticConfig.accountList.Add(container);
-                });
+                var client = new MastodonClient(registeredApp, tokens);
+                var container = new MastodonAccount(client);
+                await container.UpdateCache();
+                Core.ConfigStore.StaticConfig.accountList.Add(container);
                 await progdiag.CloseAsync();
                 this.Close();
             }
