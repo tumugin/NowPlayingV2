@@ -5,6 +5,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>UI\NotifyIcon\nowplayingv2.ico</ApplicationIcon>
     <Version>1.5.0</Version>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="UI\NotifyIcon\nowplayingv2.ico" />
