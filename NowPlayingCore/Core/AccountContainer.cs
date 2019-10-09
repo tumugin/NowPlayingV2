@@ -16,7 +16,7 @@ namespace NowPlayingCore.Core
 
         [JsonIgnore] public abstract string ID { get; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
         [JsonIgnore] public abstract int MaxTweetLength { get; }
 
@@ -28,9 +28,9 @@ namespace NowPlayingCore.Core
 
         public abstract int CountText(string text);
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged = default!;
 
-        protected virtual void OnPropertyChanged(string propertyName = null)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

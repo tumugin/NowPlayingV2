@@ -30,25 +30,8 @@ namespace NowPlayingV2.Core
                 ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
                 ContractResolver = new PrivateSetterContractResolver()
             };
-            try
-            {
-                return JsonConvert.DeserializeObject<Config>(rawjson, deserializerSettings);
-            }
-            catch
-            {
-                //try migration for new config file
-                var jobj = JObject.Parse(rawjson);
-                jobj["accountList"]
-                    .Where(i => i["$type"] == null ||
-                                i["$type"]?.Value<String>() == "NowPlayingV2.Core.TwitterAccount, NowPlayingV2")
-                    .ToList()
-                    .ForEach(i => { i["$type"] = "NowPlayingCore.Core.TwitterAccount, NowPlayingCore"; });
-                jobj["accountList"]
-                    .Where(i => i["$type"]?.Value<String>() == "NowPlayingV2.Core.MastodonAccount, NowPlayingV2")
-                    .ToList()
-                    .ForEach(i => { i["$type"] = "NowPlayingCore.Core.MastodonAccount, NowPlayingCore"; });
-                return JsonConvert.DeserializeObject<Config>(jobj.ToString(), deserializerSettings);
-            }
+            return JsonConvert.DeserializeObject<Config>(rawjson, deserializerSettings) ??
+                   throw new Exception("null config is not allowed!!!!");
         }
 
         public static void SaveConfig(Config cfg)

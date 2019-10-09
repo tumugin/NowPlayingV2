@@ -23,30 +23,46 @@ namespace NowPlayingCore.ConfigConverter
 
             writer.WritePropertyName("AppRegistration");
             writer.WriteStartObject();
-            writer.WritePropertyName("ClientId");
-            writer.WriteValue(mastodonClient.AppRegistration.ClientId);
-            writer.WritePropertyName("ClientSecret");
-            writer.WriteValue(mastodonClient.AppRegistration.ClientSecret);
-            writer.WritePropertyName("Id");
-            writer.WriteValue(mastodonClient.AppRegistration.Id);
-            writer.WritePropertyName("Instance");
-            writer.WriteValue(mastodonClient.AppRegistration.Instance);
-            writer.WritePropertyName("RedirectUri");
-            writer.WriteValue(mastodonClient.AppRegistration.RedirectUri);
-            writer.WritePropertyName("Scope");
-            writer.WriteValue(mastodonClient.AppRegistration.Scope);
+            if (mastodonClient.AppRegistration != null)
+            {
+                writer.WritePropertyName("ClientId");
+                writer.WriteValue(mastodonClient.AppRegistration.ClientId);
+                writer.WritePropertyName("ClientSecret");
+                writer.WriteValue(mastodonClient.AppRegistration.ClientSecret);
+                writer.WritePropertyName("Id");
+                writer.WriteValue(mastodonClient.AppRegistration.Id);
+                writer.WritePropertyName("Instance");
+                writer.WriteValue(mastodonClient.AppRegistration.Instance);
+                writer.WritePropertyName("RedirectUri");
+                writer.WriteValue(mastodonClient.AppRegistration.RedirectUri);
+                writer.WritePropertyName("Scope");
+                writer.WriteValue(mastodonClient.AppRegistration.Scope);
+            }
+            else
+            {
+                writer.WriteNull();
+            }
+
             writer.WriteEndObject();
 
             writer.WritePropertyName("AuthToken");
             writer.WriteStartObject();
-            writer.WritePropertyName("AccessToken");
-            writer.WriteValue(mastodonClient.AuthToken.AccessToken);
-            writer.WritePropertyName("TokenType");
-            writer.WriteValue(mastodonClient.AuthToken.TokenType);
-            writer.WritePropertyName("Scope");
-            writer.WriteValue(mastodonClient.AuthToken.Scope);
-            writer.WritePropertyName("CreatedAt");
-            writer.WriteValue(mastodonClient.AuthToken.CreatedAt);
+            if (mastodonClient.AuthToken != null)
+            {
+                writer.WritePropertyName("AccessToken");
+                writer.WriteValue(mastodonClient.AuthToken.AccessToken);
+                writer.WritePropertyName("TokenType");
+                writer.WriteValue(mastodonClient.AuthToken.TokenType);
+                writer.WritePropertyName("Scope");
+                writer.WriteValue(mastodonClient.AuthToken.Scope);
+                writer.WritePropertyName("CreatedAt");
+                writer.WriteValue(mastodonClient.AuthToken.CreatedAt);
+            }
+            else
+            {
+                writer.WriteNull();
+            }
+
             writer.WriteEndObject();
 
             writer.WriteEndObject();

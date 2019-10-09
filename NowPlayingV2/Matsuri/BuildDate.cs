@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace NowPlayingV2.Matsuri
 {
+    /**
+     * .NET Core 3.0移行後、ぶっ壊れているので消すか直す必要がある
+     */
     public class BuildDate
     {
         #region Gets the build date and time (by reading the COFF header)
@@ -43,6 +46,7 @@ namespace NowPlayingV2.Matsuri
                 var pinnedBuffer = GCHandle.Alloc(buffer, GCHandleType.Pinned);
                 try
                 {
+#nullable disable
                     var coffHeader = (_IMAGE_FILE_HEADER)Marshal.PtrToStructure(pinnedBuffer.AddrOfPinnedObject(), typeof(_IMAGE_FILE_HEADER));
 
                     return TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1) + new TimeSpan(coffHeader.TimeDateStamp * TimeSpan.TicksPerSecond));
