@@ -41,9 +41,9 @@ namespace NowPlayingV2.UI
         {
             windowinstance = this;
             BindingOperations.EnableCollectionSynchronization(ConfigStore.StaticConfig.accountList, new object());
-            PipeListener.staticpipelistener.OnMusicPlay += UpdatePlayingSongView;
-            if (PipeListener.staticpipelistener.LastPlayedSong != null)
-                UpdatePlayingSongView(PipeListener.staticpipelistener.LastPlayedSong);
+            PipeListener.StaticPipeListener.OnMusicPlay += UpdatePlayingSongView;
+            if (PipeListener.StaticPipeListener.LastPlayedSong != null)
+                UpdatePlayingSongView(PipeListener.StaticPipeListener.LastPlayedSong);
             if(ConfigStore.StaticConfig.HintDiagClosed) HintBoxGrid.Visibility = Visibility.Hidden;
         }
 
@@ -88,7 +88,7 @@ namespace NowPlayingV2.UI
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            PipeListener.staticpipelistener.OnMusicPlay -= UpdatePlayingSongView;
+            PipeListener.StaticPipeListener.OnMusicPlay -= UpdatePlayingSongView;
             windowinstance = null;
             ConfigStore.SaveConfig(ConfigStore.StaticConfig);
         }

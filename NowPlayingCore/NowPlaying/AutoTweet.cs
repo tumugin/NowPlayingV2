@@ -11,46 +11,61 @@ namespace NowPlayingCore.NowPlaying
 {
     public class AutoTweet
     {
-        private ConfigBase appconfig;
-        private Task tweetTask;
-        private AutoResetEvent resetevent = new AutoResetEvent(false);
+        private ConfigBase appConfig = default!;
+        private Task? tweetTask;
+        private readonly AutoResetEvent resetEvent = new AutoResetEvent(false);
         private CancellationTokenSource cancellationToken = new CancellationTokenSource();
-        private SongInfo lastplayedsong;
-        private DateTime lasttweettime;
-        private PipeListener pipelistener;
-        private static AutoTweet singletonautoTweet;
+        private SongInfo? lastPlayedSong;
+        private DateTime lastTweetTime;
+        private PipeListener? pipeListener;
+        private static AutoTweet? singletonAutoTweet;
 
-        public static AutoTweet AutoTweetSingleton => singletonautoTweet ?? (singletonautoTweet = new AutoTweet());
-        public bool isInitialized = false;
+        public static AutoTweet AutoTweetSingleton => singletonAutoTweet ?? (singletonAutoTweet = new AutoTweet());
+        public bool IsInitialized { get; private set; } = false;
 
         public void InitListner(PipeListener pl, ConfigBase cb)
         {
-            if (appconfig != null) throw new Exception("DO NOT RE-INITIALIZE.");
-            pipelistener = pl;
-            pipelistener.OnMusicPlay += OnMusicPlay;
-            appconfig = cb;
-            isInitialized = true;
+            if (IsInitialized)
+            {
+                throw new Exception("DO NOT RE-INITIALIZE.");
+            }
+
+            pipeListener = pl;
+            pipeListener.OnMusicPlay += OnMusicPlay;
+            appConfig = cb;
+            IsInitialized = true;
         }
 
         public void UnInitListner()
         {
-            pipelistener.OnMusicPlay -= OnMusicPlay;
-            appconfig = null;
-            isInitialized = false;
+            if (pipeListener != null)
+            {
+                pipeListener.OnMusicPlay -= OnMusicPlay;
+            }
+
+            IsInitialized = false;
         }
 
         private void OnMusicPlay(SongInfo songInfo)
         {
             Task.Run(async () =>
             {
-                if (!appconfig.EnableAutoTweet) return;
-                if (appconfig.EnablePostDelay && !(tweetTask?.IsCompleted ?? true))
+                if (!appConfig.EnableAutoTweet)
+                {
+                    return;
+                }
+
+                if (appConfig.EnablePostDelay && !(tweetTask?.IsCompleted ?? true))
                 {
                     //cancel tweet job
                     Trace.WriteLine($"[AutoTweet PostDelay]Cancel tweet task start.");
                     cancellationToken.Cancel();
-                    resetevent.Set();
-                    await tweetTask;
+                    resetEvent.Set();
+                    if (tweetTask != null)
+                    {
+                        await tweetTask;
+                    }
+
                     Trace.WriteLine($"[AutoTweet PostDelay]Cancel tweet task OK.");
                 }
 
@@ -62,10 +77,10 @@ namespace NowPlayingCore.NowPlaying
                     try
                     {
                         //check for album art
-                        var enableAlbumArt = appconfig.EnableTweetWithAlbumArt;
-                        if (appconfig.EnableNoAlbumArtworkOnSameAlbum)
+                        var enableAlbumArt = appConfig.EnableTweetWithAlbumArt;
+                        if (appConfig.EnableNoAlbumArtworkOnSameAlbum)
                         {
-                            if (songInfo.Album == lastplayedsong?.Album)
+                            if (songInfo.Album == lastPlayedSong?.Album)
                             {
                                 Trace.WriteLine($"[AutoTweet]Disabled album art tweet.(reason=same album)");
                                 enableAlbumArt = false;
@@ -73,9 +88,9 @@ namespace NowPlayingCore.NowPlaying
                         }
 
                         //same album check
-                        if (appconfig.EnableNoTweetOnSameAlbum)
+                        if (appConfig.EnableNoTweetOnSameAlbum)
                         {
-                            if (songInfo.Album == lastplayedsong?.Album)
+                            if (songInfo.Album == lastPlayedSong?.Album)
                             {
                                 Trace.WriteLine($"[AutoTweet]Canceled tweet.(reason=EnableNoTweetOnSameAlbum)");
                                 return;
@@ -83,20 +98,20 @@ namespace NowPlayingCore.NowPlaying
                         }
 
                         //post delay
-                        if (appconfig.EnablePostDelay)
+                        if (appConfig.EnablePostDelay)
                         {
                             Trace.WriteLine(
-                                $"[AutoTweet PostDelay]Waiting for {appconfig.PostDelaySecond * 1000}msec.");
-                            resetevent.WaitOne(appconfig.PostDelaySecond * 1000);
+                                $"[AutoTweet PostDelay]Waiting for {appConfig.PostDelaySecond * 1000}msec.");
+                            resetEvent.WaitOne(appConfig.PostDelaySecond * 1000);
                         }
 
                         //post delay(by last tweet time)
-                        if (appconfig.EnableTimePostDelay)
+                        if (appConfig.EnableTimePostDelay)
                         {
-                            if (lasttweettime != default(DateTime))
+                            if (lastTweetTime != default(DateTime))
                             {
-                                if (!(DateTime.Now - lasttweettime >=
-                                      new TimeSpan(0, 0, appconfig.TimePostDelayMin, appconfig.TimePostDelaySec)))
+                                if (!(DateTime.Now - lastTweetTime >=
+                                      new TimeSpan(0, 0, appConfig.TimePostDelayMin, appConfig.TimePostDelaySec)))
                                 {
                                     Trace.WriteLine($"[AutoTweet]Canceled tweet.(reason=EnableTimePostDelay)");
                                     return;
@@ -105,19 +120,19 @@ namespace NowPlayingCore.NowPlaying
                         }
 
                         cancellationToken.Token.ThrowIfCancellationRequested();
-                        lastplayedsong = (SongInfo) songInfo.Clone();
-                        lasttweettime = DateTime.Now;
+                        lastPlayedSong = (SongInfo) songInfo.Clone();
+                        lastTweetTime = DateTime.Now;
 
                         //tweet it!
                         try
                         {
                             //get account list(only enabled)
-                            appconfig.accountList.Where(itm => itm.Enabled).ToList().ForEach(async (accCont) =>
+                            appConfig.accountList.Where(itm => itm.Enabled).ToList().ForEach(async (accCont) =>
                             {
                                 //make tweet string
-                                var tweetText = Tsumugi.TweetConverter.SongInfoToString(appconfig.TweetFormat,
+                                var tweetText = Tsumugi.TweetConverter.SongInfoToString(appConfig.TweetFormat,
                                     songInfo,
-                                    appconfig.EnableAutoDeleteText140, accCont);
+                                    appConfig.EnableAutoDeleteText140, accCont);
                                 if (accCont.CountText(tweetText) > accCont.MaxTweetLength)
                                     throw new Exception(
                                         $"[AutoTweet]Tweet text was over {accCont.MaxTweetLength} chars.");
@@ -127,7 +142,7 @@ namespace NowPlayingCore.NowPlaying
                                     if (accCont is MastodonAccount mastodonAccount)
                                     {
                                         await mastodonAccount.UpdateStatus(tweetText, songInfo.AlbumArtBase64,
-                                            appconfig.MastodonTootVisibility);
+                                            appConfig.MastodonTootVisibility);
                                     }
                                     else
                                     {
@@ -138,7 +153,7 @@ namespace NowPlayingCore.NowPlaying
                                 {
                                     if (accCont is MastodonAccount mastodonAccount)
                                     {
-                                        await mastodonAccount.UpdateStatus(tweetText, appconfig.MastodonTootVisibility);
+                                        await mastodonAccount.UpdateStatus(tweetText, appConfig.MastodonTootVisibility);
                                     }
                                     else
                                     {
@@ -169,7 +184,7 @@ namespace NowPlayingCore.NowPlaying
         public void StopAllTask()
         {
             cancellationToken.Cancel();
-            resetevent.Set();
+            resetEvent.Set();
         }
     }
 }

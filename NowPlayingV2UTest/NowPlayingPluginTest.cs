@@ -47,7 +47,7 @@ namespace NowPlayingV2UTest
         {
             var waitHandle = new ManualResetEvent(false);
             PipeListener.MkStaticInstance();
-            PipeListener.staticpipelistener.OnMusicPlay += (songinfo) =>
+            PipeListener.StaticPipeListener.OnMusicPlay += (songinfo) =>
             {
                 Assert.NotNull(songinfo.Album);
                 Assert.NotNull(songinfo.AlbumArtBase64);
@@ -64,7 +64,7 @@ namespace NowPlayingV2UTest
                 waitHandle.Set();
             };
             waitHandle.WaitOne(Timeout.Infinite);
-            PipeListener.staticpipelistener.StopPipeListener();
+            PipeListener.StaticPipeListener.StopPipeListener();
         }
 
         [Trait("Category", "PluginTest")]
@@ -73,7 +73,7 @@ namespace NowPlayingV2UTest
         {
             var waitHandle = new ManualResetEvent(false);
             PipeListener.MkStaticInstance();
-            PipeListener.staticpipelistener.OnMusicPlay += (songinfo) =>
+            PipeListener.StaticPipeListener.OnMusicPlay += (songinfo) =>
             {
                 if (songinfo.IsAlbumArtAvaliable())
                 {
@@ -87,7 +87,7 @@ namespace NowPlayingV2UTest
                 waitHandle.Set();
             };
             waitHandle.WaitOne(Timeout.Infinite);
-            PipeListener.staticpipelistener.StopPipeListener();
+            PipeListener.StaticPipeListener.StopPipeListener();
         }
     }
 }

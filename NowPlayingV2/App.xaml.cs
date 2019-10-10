@@ -30,7 +30,7 @@ namespace NowPlayingV2
                 UI.MainWindow.OpenSigletonWindow();
             }
             //Start Auto Tweet
-            AutoTweet.AutoTweetSingleton.InitListner(PipeListener.staticpipelistener, ConfigStore.StaticConfig);
+            AutoTweet.AutoTweetSingleton.InitListner(PipeListener.StaticPipeListener, ConfigStore.StaticConfig);
             //Init Notify Icon
             NotifyIconManager.NotifyIconSingleton.InitIcon();
             //Check update
@@ -43,7 +43,7 @@ namespace NowPlayingV2
             //Save Config
             Core.ConfigStore.SaveConfig(Core.ConfigStore.StaticConfig);
             //Stop Pipe Listener
-            PipeListener.staticpipelistener?.StopPipeListener();
+            PipeListener.StaticPipeListener?.StopPipeListener();
             //Stop all tweet job
             AutoTweet.AutoTweetSingleton.StopAllTask();
             //Delete Icon

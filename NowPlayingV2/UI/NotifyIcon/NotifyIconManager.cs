@@ -34,7 +34,7 @@ namespace NowPlayingV2.UI.NotifyIcon
                     try
                     {
                         await ManualTweet.RunManualTweet(ConfigStore.StaticConfig);
-                        var song = PipeListener.staticpipelistener.LastPlayedSong;
+                        var song = PipeListener.StaticPipeListener.LastPlayedSong;
                         NPIcon.ShowBalloonTip("投稿完了", $"{song.Title}\n{song.Artist}\n{song.Album}", BalloonIcon.Info);
                     }
                     catch (Exception exception)

@@ -57,7 +57,7 @@ namespace NowPlayingV2.UI
 
         private async void WindowLoaded(object sender, RoutedEventArgs e)
         {
-            var songInfo = PipeListener.staticpipelistener.LastPlayedSong;
+            var songInfo = PipeListener.StaticPipeListener.LastPlayedSong;
             _songcache = songInfo?.Clone() as SongInfo;
             if (songInfo == null)
             {

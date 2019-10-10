@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
+#nullable disable
 namespace NowPlayingV2.Matsuri
 {
     /**
@@ -46,7 +47,6 @@ namespace NowPlayingV2.Matsuri
                 var pinnedBuffer = GCHandle.Alloc(buffer, GCHandleType.Pinned);
                 try
                 {
-#nullable disable
                     var coffHeader = (_IMAGE_FILE_HEADER)Marshal.PtrToStructure(pinnedBuffer.AddrOfPinnedObject(), typeof(_IMAGE_FILE_HEADER));
 
                     return TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1) + new TimeSpan(coffHeader.TimeDateStamp * TimeSpan.TicksPerSecond));

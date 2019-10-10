@@ -13,5 +13,13 @@ namespace NowPlayingV2.UI.Controls
         public string Description { get; set; }
         public Mastonet.Visibility Visibility { get; set; }
         public ControlTemplate Icon { get; set; }
+
+        public VisibilityItem(string label, string description, Mastonet.Visibility visibility, ControlTemplate icon)
+        {
+            this.Label = label;
+            this.Description = description;
+            this.Visibility = visibility;
+            this.Icon = icon;
+        }
     }
 }
