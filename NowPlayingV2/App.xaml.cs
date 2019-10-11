@@ -27,7 +27,7 @@ namespace NowPlayingV2
             else
             {
                 Core.ConfigStore.StaticConfig.Theme.CurrentTheme.ApplyTheme();
-                UI.MainWindow.OpenSigletonWindow();
+                UI.MainWindow.OpenSingletonWindow();
             }
             //Start Auto Tweet
             AutoTweet.AutoTweetSingleton.InitListner(PipeListener.StaticPipeListener, ConfigStore.StaticConfig);

@@ -26,8 +26,8 @@ namespace NowPlayingV2.UI
     /// </summary>
     public partial class MastodonOAuthWindow : MetroWindow
     {
-        private AppRegistration registeredApp;
-        private AuthenticationClient authClient;
+        private AppRegistration registeredApp = default!;
+        private AuthenticationClient authClient = default!;
 
         public MastodonOAuthWindow()
         {

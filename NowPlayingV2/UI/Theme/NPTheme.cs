@@ -13,6 +13,12 @@ namespace NowPlayingV2.UI.Theme
         public string Name { get; set; }
         public Uri XamlSource { get; set; }
 
+        public NPTheme(string name, Uri xamlSource)
+        {
+            this.Name = name;
+            this.XamlSource = xamlSource;
+        }
+
         public void ApplyTheme()
         {
             Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() {Source = this.XamlSource});

@@ -12,7 +12,7 @@ namespace NowPlayingV2.UI.Extension
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var v = System.Convert.ToDouble(value);
-            var compareValue = double.Parse(parameter as string);
+            var compareValue = double.Parse(parameter as string ?? throw new ArgumentException());
             return v > compareValue;
         }
 

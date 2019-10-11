@@ -10,8 +10,8 @@ namespace NowPlayingV2.UI.Extension
 {
     public class HotchPotchConverter : IMultiValueConverter
     {
-        public IMultiValueConverter MultiConverter { get; set; }
-        public IValueConverter SingleConverter { get; set; }
+        public IMultiValueConverter MultiConverter { get; set; } = default!;
+        public IValueConverter SingleConverter { get; set; } = default!;
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

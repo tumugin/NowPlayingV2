@@ -28,15 +28,15 @@ namespace NowPlayingV2.Updater
             try
             {
                 var vc = await VersionClass.GetUpdaterAsync();
-                if (!vc.IsUpdateAvaliable()) return;
+                if (!vc.IsUpdateAvailable()) return;
                 //Show message
                 nim.NPIcon.ShowBalloonTip(vc.UpdateTitle, vc.UpdateMessage, BalloonIcon.Info);
                 //Set menu item
-                var updatemenu = (LogicalTreeHelper.FindLogicalNode(nim.NPIcon.ContextMenu, "UpdateMenu") as MenuItem);
-                var updateseparetor =
-                    (LogicalTreeHelper.FindLogicalNode(nim.NPIcon.ContextMenu, "UpdateMenuSeparator") as Separator);
-                (new Control[] {updateseparetor, updatemenu}).ToList().ForEach(i => i.Visibility = Visibility.Visible);
-                updatemenu.Click += (sender, e) =>
+                var updateMenu = (MenuItem) LogicalTreeHelper.FindLogicalNode(nim.NPIcon.ContextMenu, "UpdateMenu");
+                var updateSeparator =
+                    (Separator) LogicalTreeHelper.FindLogicalNode(nim.NPIcon.ContextMenu, "UpdateMenuSeparator");
+                (new Control[] {updateSeparator, updateMenu}).ToList().ForEach(i => i.Visibility = Visibility.Visible);
+                updateMenu.Click += (sender, e) =>
                 {
                     var processStartInfo = new ProcessStartInfo(vc.UpdateNotifyUrl)
                     {
