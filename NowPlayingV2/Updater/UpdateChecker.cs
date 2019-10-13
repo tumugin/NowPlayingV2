@@ -24,11 +24,19 @@ namespace NowPlayingV2.Updater
 
         public async void CheckUpdateAsync()
         {
-            if (!config.CheckUpdate) return;
+            if (!config.CheckUpdate)
+            {
+                return;
+            }
+
             try
             {
                 var vc = await VersionClass.GetUpdaterAsync();
-                if (!vc.IsUpdateAvailable()) return;
+                if (!vc.IsUpdateAvailable())
+                {
+                    return;
+                }
+
                 //Show message
                 nim.NPIcon.ShowBalloonTip(vc.UpdateTitle, vc.UpdateMessage, BalloonIcon.Info);
                 //Set menu item

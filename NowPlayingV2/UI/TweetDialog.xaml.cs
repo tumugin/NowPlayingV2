@@ -40,7 +40,10 @@ namespace NowPlayingV2.UI
             AccountListComboBox.ItemsSource = ConfigStore.StaticConfig.accountList;
             MastodonVisibilitySelector.DataContext = mastodonVisibility;
             AccountListComboBox.SelectionChanged += AccountListComboBox_SelectionChanged;
-            if (ConfigStore.StaticConfig.accountList.Count > 0) AccountListComboBox.SelectedIndex = 0;
+            if (ConfigStore.StaticConfig.accountList.Count > 0)
+            {
+                AccountListComboBox.SelectedIndex = 0;
+            }
         }
 
         private void AccountListComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -101,7 +104,11 @@ namespace NowPlayingV2.UI
             var tweetText = TweetTextBox.Text;
             try
             {
-                if (acc == null) throw new Exception("アカウントが何も追加されていない状態でツイートすることはできません。");
+                if (acc == null)
+                {
+                    throw new Exception("アカウントが何も追加されていない状態でツイートすることはできません。");
+                }
+
                 if (EnableImageTweetCBox.IsChecked ?? false)
                 {
                     if (acc is MastodonAccount account)

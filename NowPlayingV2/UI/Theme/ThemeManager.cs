@@ -27,7 +27,10 @@ namespace NowPlayingV2.UI.Theme
         protected ThemeManager(SerializationInfo info, StreamingContext context)
         {
             var theme = Themes.First(i => i.Name == info.GetString("ThemeName"));
-            if (theme != null) CurrentTheme = theme;
+            if (theme != null)
+            {
+                CurrentTheme = theme;
+            }
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
