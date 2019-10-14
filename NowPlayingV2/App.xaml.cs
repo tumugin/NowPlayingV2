@@ -29,8 +29,10 @@ namespace NowPlayingV2
                 Core.ConfigStore.StaticConfig.Theme.CurrentTheme.ApplyTheme();
                 UI.MainWindow.OpenSingletonWindow();
             }
+
             //Start Auto Tweet
-            AutoTweet.AutoTweetSingleton.InitListner(PipeListener.StaticPipeListener, ConfigStore.StaticConfig);
+            AutoTweet.AutoTweetSingleton.InitListner(
+                PipeListener.StaticPipeListener ?? throw new InvalidOperationException(), ConfigStore.StaticConfig);
             //Init Notify Icon
             NotifyIconManager.NotifyIconSingleton.InitIcon();
             //Check update
@@ -38,6 +40,7 @@ namespace NowPlayingV2
             //Start iTunes Plugin
             Plugin.ITunesPlugin.Start();
         }
+
         protected override void OnExit(ExitEventArgs e)
         {
             //Save Config
