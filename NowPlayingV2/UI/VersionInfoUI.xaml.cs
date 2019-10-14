@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,8 +31,8 @@ namespace NowPlayingV2.UI
         {
             var asm = System.Reflection.Assembly.GetExecutingAssembly();
             var ver = asm.GetName().Version?.ToString() ?? "unknown version";
-            var builddate = Matsuri.BuildDate.GetBuildDateTime(asm).ToString("R");
-            VersionLabel.Content = $"Version: {ver}\nBuildDate: {builddate}";
+            var buildDate = asm.GetCustomAttribute<BuildDateAttribute>()!.DateTime.ToString("R");
+            VersionLabel.Content = $"Version: {ver}\nBuildDate: {buildDate}";
         }
 
         private async void CheckUpdateButton_Click(object sender, RoutedEventArgs e)

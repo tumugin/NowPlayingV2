@@ -10,6 +10,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <AssemblyAttribute Include="BuildDateAttribute">
+      <_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="UI\NotifyIcon\nowplayingv2.ico" />
   </ItemGroup>
   <ItemGroup>
