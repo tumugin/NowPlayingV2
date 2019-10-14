@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Globalization;
 
-[AttributeUsage(AttributeTargets.Assembly)]
-internal class BuildDateAttribute : Attribute
+namespace NowPlayingV2
 {
-    public BuildDateAttribute(string value)
+    [AttributeUsage(AttributeTargets.Assembly)]
+    internal class BuildDateAttribute : Attribute
     {
-        DateTime = DateTime.ParseExact(value, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None);
-    }
+        public BuildDateAttribute(string value)
+        {
+            DateTime = DateTime.ParseExact(value, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None);
+        }
 
-    public DateTime DateTime { get; }
+        public DateTime DateTime { get; }
+    }
 }
