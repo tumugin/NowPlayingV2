@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 [AttributeUsage(AttributeTargets.Assembly)]
 internal class BuildDateAttribute : Attribute
