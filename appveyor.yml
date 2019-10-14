@@ -4,7 +4,7 @@ environment:
   DANGER_GITHUB_API_TOKEN:
     secure: i/HKbZ8JhJ2F2fHquUyevuCCx0nXEbWffqvlIqPfO6jcnfswZoXXqYMtvnN0u72K
 cache:
-  - ReSharperCLT2018.2.3
+  - ReSharperCLT2019.2.2
   - packages
   - vendor/bundler
 install:
@@ -17,7 +17,7 @@ install:
 
     bundle install
 - ps: >-
-    if(![System.IO.Directory]::Exists((pwd).Path + "\ReSharperCLT2018.2.3")){
+    if(![System.IO.Directory]::Exists((pwd).Path + "\ReSharperCLT2019.2.2")){
     
     Invoke-WebRequest -Uri https://download.jetbrains.com/resharper/ReSharperUltimate.2019.2.2/JetBrains.ReSharper.CommandLineTools.2019.2.2.zip -OutFile JetBrains.ReSharper.CommandLineTools.2019.2.2.zip
 
