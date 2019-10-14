@@ -19,9 +19,9 @@ install:
 - ps: >-
     if(![System.IO.Directory]::Exists((pwd).Path + "\ReSharperCLT2018.2.3")){
     
-    Invoke-WebRequest -Uri https://download.jetbrains.com/resharper/ReSharperUltimate.2018.2.3/JetBrains.ReSharper.CommandLineTools.2018.2.3.zip -OutFile JetBrains.ReSharper.CommandLineTools.2018.2.3.zip
+    Invoke-WebRequest -Uri https://download.jetbrains.com/resharper/ReSharperUltimate.2019.2.2/JetBrains.ReSharper.CommandLineTools.2019.2.2.zip -OutFile JetBrains.ReSharper.CommandLineTools.2019.2.2.zip
 
-    Expand-Archive JetBrains.ReSharper.CommandLineTools.2018.2.3.zip -DestinationPath ReSharperCLT2018.2.3/
+    Expand-Archive JetBrains.ReSharper.CommandLineTools.2019.2.2.zip -DestinationPath ReSharperCLT2019.2.2/
 
     }
 before_build:
@@ -39,6 +39,6 @@ test:
       - PluginTest
 after_test:
 - ps: >-
-    ./ReSharperCLT2018.2.3/InspectCode.exe -o="report.xml" ./NowPlayingV2.sln
+    ./ReSharperCLT2019.2.2/InspectCode.exe -o="report.xml" ./NowPlayingV2.sln
 
     bundle exec danger
