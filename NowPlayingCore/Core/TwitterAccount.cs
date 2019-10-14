@@ -17,9 +17,11 @@ namespace NowPlayingCore.Core
         public Tokens AuthToken { get; set; }
 
         //Will be called on Json.NET deserialization
+#nullable disable
         private TwitterAccount()
         {
         }
+#nullable enable
 
         public TwitterAccount(Tokens token)
         {

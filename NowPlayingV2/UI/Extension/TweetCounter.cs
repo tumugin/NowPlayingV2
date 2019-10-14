@@ -15,8 +15,8 @@ namespace NowPlayingV2.UI.Extension
         public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
         {
             var account = value[1] as AccountContainer;
-            return (account?.MaxTweetLength - account?.CountText(value[0] as string))?.ToString() ??
-                   (280 - TwitterAccount.CountTextStatic(value[0] as string)).ToString();
+            return (account?.MaxTweetLength - account?.CountText(value[0] as string ?? throw new ArgumentException()))?.ToString() ??
+                   (280 - TwitterAccount.CountTextStatic(value[0] as string ?? throw new ArgumentException())).ToString();
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

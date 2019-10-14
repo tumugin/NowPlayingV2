@@ -20,9 +20,11 @@ namespace NowPlayingCore.Core
 
         //Will be called on Json.NET deserialization
         [JsonConstructor]
+#nullable disable
         private MastodonAccount()
         {
         }
+#nullable enable
 
         public MastodonAccount(MastodonClient client)
         {

@@ -33,27 +33,27 @@ namespace NowPlayingV2.UI
 
         private async void AccDelButtonClick(object sender, RoutedEventArgs e)
         {
+            var senderButton = (Button) sender;
             //get parent Window
-            var window = Matsuri.SeaSlug.GetAncestorOfType<MetroWindow>(sender as Button);
-            var diagret = await window.ShowMessageAsync("確認", "本当にアカウントを削除しますか？", MessageDialogStyle.AffirmativeAndNegative);
-            if (diagret == MessageDialogResult.Negative) return;
+            var window = Matsuri.SeaSlug.GetAncestorOfType<MetroWindow>(senderButton)!;
+            var diagRet =
+                await window.ShowMessageAsync("確認", "本当にアカウントを削除しますか？", MessageDialogStyle.AffirmativeAndNegative);
+            if (diagRet == MessageDialogResult.Negative) return;
             //get parent item
-            var parentitem = Matsuri.SeaSlug.GetAncestorOfType<ListViewItem>(sender as Button);
+            var parentItem = Matsuri.SeaSlug.GetAncestorOfType<ListViewItem>(senderButton)!;
             //get list view
-            var parentlistview = Matsuri.SeaSlug.GetAncestorOfType<ListView>(sender as Button);
-            var list = (parentlistview.DataContext as AccountListViewModel).StarryMelody;
-            list.Remove(parentitem.DataContext as AccountContainer);
+            var parentListView = Matsuri.SeaSlug.GetAncestorOfType<ListView>(senderButton)!;
+            var list = ((AccountListViewModel) parentListView.DataContext).StarryMelody;
+            list.Remove((AccountContainer) parentItem.DataContext);
         }
 
         private void AccEnableButtonClick(object sender, RoutedEventArgs e)
         {
+            var senderButton = (Button) sender;
             //get parent item
-            var parentitem = Matsuri.SeaSlug.GetAncestorOfType<ListViewItem>(sender as Button);
-            //get list view
-            var parentlistview = Matsuri.SeaSlug.GetAncestorOfType<ListView>(sender as Button);
-            var listmodel = (parentlistview.DataContext as AccountListViewModel);
+            var parentItem = Matsuri.SeaSlug.GetAncestorOfType<ListViewItem>(senderButton)!;
             //update
-            var item = parentitem.DataContext as AccountContainer;
+            var item = (AccountContainer) parentItem.DataContext;
             item.Enabled = !item.Enabled;
             //refresh view
             item.ReDrawAllProperty();

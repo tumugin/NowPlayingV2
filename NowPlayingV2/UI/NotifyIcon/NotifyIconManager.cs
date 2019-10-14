@@ -15,26 +15,26 @@ namespace NowPlayingV2.UI.NotifyIcon
     {
         public static NotifyIconManager NotifyIconSingleton = new NotifyIconManager();
 
-        public TaskbarIcon NPIcon;
+        public TaskbarIcon NPIcon = default!;
 
         public void InitIcon()
         {
-            NPIcon = Application.Current.FindResource("NPIcon") as TaskbarIcon;
-            (LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnOpenSetting") as MenuItem).Click +=
-                (sender, e) => { UI.MainWindow.OpenSigletonWindow(); };
-            (LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnAppExit") as MenuItem).Click +=
+            NPIcon = (TaskbarIcon) Application.Current.FindResource("NPIcon");
+            ((MenuItem) LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnOpenSetting")).Click +=
+                (sender, e) => { UI.MainWindow.OpenSingletonWindow(); };
+            ((MenuItem) LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnAppExit")).Click +=
                 (sender, e) => { Application.Current.Shutdown(); };
-            (LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnTweetDialog") as MenuItem).Click +=
+            ((MenuItem) LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnTweetDialog")).Click +=
                 (sender, e) => { (new TweetDialog()).Show(); };
-            (LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "IsAutoTweetEnabledMenuItem") as MenuItem)
+            ((MenuItem) LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "IsAutoTweetEnabledMenuItem"))
                 .DataContext = Core.ConfigStore.StaticConfig;
-            (LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnTweetNow") as MenuItem).Click +=
+            ((MenuItem) LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "OnTweetNow")).Click +=
                 async (sender, e) =>
                 {
                     try
                     {
                         await ManualTweet.RunManualTweet(ConfigStore.StaticConfig);
-                        var song = PipeListener.staticpipelistener.LastPlayedSong;
+                        var song = PipeListener.StaticPipeListener!.LastPlayedSong!;
                         NPIcon.ShowBalloonTip("投稿完了", $"{song.Title}\n{song.Artist}\n{song.Album}", BalloonIcon.Info);
                     }
                     catch (Exception exception)

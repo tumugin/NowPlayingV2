@@ -7,8 +7,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
+#nullable disable
 namespace NowPlayingV2.Matsuri
 {
+    /**
+     * .NET Core 3.0移行後、ぶっ壊れているので消すか直す必要がある
+     */
     public class BuildDate
     {
         #region Gets the build date and time (by reading the COFF header)

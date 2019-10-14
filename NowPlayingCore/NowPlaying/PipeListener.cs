@@ -14,33 +14,33 @@ namespace NowPlayingCore.NowPlaying
     public class PipeListener
     {
         //for static instance
-        public static PipeListener staticpipelistener;
+        public static PipeListener? StaticPipeListener;
 
         public static void MkStaticInstance()
         {
-            if (staticpipelistener == null)
+            if (StaticPipeListener == null)
             {
-                staticpipelistener = new PipeListener();
-                staticpipelistener.StartPipeListener();
+                StaticPipeListener = new PipeListener();
+                StaticPipeListener.StartPipeListener();
             }
         }
 
         //delegate
         public delegate void OnMusicPlayDelegate(SongInfo songInfo);
-        public event OnMusicPlayDelegate OnMusicPlay = (songinfo) => { };
+        public event OnMusicPlayDelegate OnMusicPlay = (songInfo) => { };
 
         //property
-        public SongInfo LastPlayedSong { get; private set; } = null;
+        public SongInfo? LastPlayedSong { get; private set; } = null;
 
         //pipe listener
-        private ManualResetEvent stopevent = new ManualResetEvent(false);
-        private AutoResetEvent StreamStopWait = new AutoResetEvent(false);
-        private Task listenertask = null;
+        private readonly ManualResetEvent stopEvent = new ManualResetEvent(false);
+        private readonly AutoResetEvent streamStopWait = new AutoResetEvent(false);
+        private Task? listenerTask = null;
         public void StartPipeListener()
         {
             //do not start more than 1 task.
-            if (!new TaskStatus?[] { TaskStatus.RanToCompletion, TaskStatus.Faulted, TaskStatus.WaitingForChildrenToComplete, null }.Contains(listenertask?.Status)) return;
-            listenertask = Task.Run(() =>
+            if (!new TaskStatus?[] { TaskStatus.RanToCompletion, TaskStatus.Faulted, TaskStatus.WaitingForChildrenToComplete, null }.Contains(listenerTask?.Status)) return;
+            listenerTask = Task.Run(() =>
             {
                 while (true)
                 {
@@ -51,10 +51,10 @@ namespace NowPlayingCore.NowPlaying
                         stream.BeginWaitForConnection(ar =>
                         {
                             //WaitOne(0) returns true when state is set
-                            if (stopevent.WaitOne(0))
+                            if (stopEvent.WaitOne(0))
                             {
                                 //Called when stopping task.
-                                StreamStopWait.Set();
+                                streamStopWait.Set();
                                 return;
                             }
                             //Must do this to connect to client.
@@ -79,9 +79,9 @@ namespace NowPlayingCore.NowPlaying
 
                         //Wait for stop event
                         //WaitAny will return index of WaitHandle array.(Can distingulish which ResetEvent was set.)
-                        if (WaitHandle.WaitAny(new WaitHandle[] { resetStreamEvent, stopevent }) == 1)
+                        if (WaitHandle.WaitAny(new WaitHandle[] { resetStreamEvent, stopEvent }) == 1)
                         {
-                            //When stopevent is called, close stream and escape listnertask.
+                            //When stopEvent is called, close stream and escape listnertask.
                             stream.Close();
                             return;
                         }
@@ -94,12 +94,12 @@ namespace NowPlayingCore.NowPlaying
 
         public void StopPipeListener()
         {
-            if (listenertask?.Status == TaskStatus.Running)
+            if (listenerTask?.Status == TaskStatus.Running)
             {
-                stopevent.Set();
+                stopEvent.Set();
                 //Wait until stream disposes successfully
-                StreamStopWait.WaitOne(Timeout.Infinite);
-                stopevent.Reset();
+                streamStopWait.WaitOne(Timeout.Infinite);
+                stopEvent.Reset();
             }
         }
     }

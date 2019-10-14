@@ -26,7 +26,7 @@ namespace NowPlayingV2.UI
     /// </summary>
     public partial class OAuthWindow : MetroWindow
     {
-        private OAuthSession session;
+        private OAuthSession session = default!;
 
         public OAuthWindow()
         {

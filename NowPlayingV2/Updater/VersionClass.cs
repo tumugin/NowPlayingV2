@@ -13,17 +13,18 @@ namespace NowPlayingV2.Updater
     {
         private const string UpdateUrl =
             "https://raw.githubusercontent.com/tumugin/NowPlayingV2/master/NowPlayingV2/Updater/version.json";
-        public string AppVersion { get; set; }
-        public string UpdateTitle { get; set; }
-        public string UpdateMessage { get; set; }
-        public string UpdateNotifyUrl { get; set; }
 
-        public bool IsUpdateAvaliable()
+        public string AppVersion { get; set; } = default!;
+        public string UpdateTitle { get; set; } = default!;
+        public string UpdateMessage { get; set; } = default!;
+        public string UpdateNotifyUrl { get; set; } = default!;
+
+        public bool IsUpdateAvailable()
         {
-            var newversion = new Version(AppVersion);
+            var newVersion = new Version(AppVersion);
             var asm = System.Reflection.Assembly.GetExecutingAssembly();
-            var currentver = asm.GetName().Version;
-            return newversion > currentver;
+            var currentVersion = asm.GetName().Version;
+            return newVersion > currentVersion;
         }
 
         public static Task<VersionClass> GetUpdaterAsync()
@@ -31,9 +32,9 @@ namespace NowPlayingV2.Updater
             return Task.Run(() =>
             {
                 var client = new WebClient();
-                var rawjsonbary = client.DownloadData(UpdateUrl);
-                var rawjson = Encoding.UTF8.GetString(rawjsonbary);
-                return JsonConvert.DeserializeObject<VersionClass>(rawjson);
+                var rawJsonBary = client.DownloadData(UpdateUrl);
+                var rawJson = Encoding.UTF8.GetString(rawJsonBary);
+                return JsonConvert.DeserializeObject<VersionClass>(rawJson);
             });
         }
     }

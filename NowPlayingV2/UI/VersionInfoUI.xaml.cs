@@ -29,7 +29,7 @@ namespace NowPlayingV2.UI
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             var asm = System.Reflection.Assembly.GetExecutingAssembly();
-            var ver = asm.GetName().Version.ToString();
+            var ver = asm.GetName().Version?.ToString() ?? "unknown version";
             var builddate = Matsuri.BuildDate.GetBuildDateTime(asm).ToString("R");
             VersionLabel.Content = $"Version: {ver}\nBuildDate: {builddate}";
         }
@@ -40,14 +40,14 @@ namespace NowPlayingV2.UI
             {
                 CheckUpdateButton.Content = "アップデートを確認しています.....";
                 var vc = await VersionClass.GetUpdaterAsync();
-                if (vc.IsUpdateAvaliable())
+                if (vc.IsUpdateAvailable())
                 {
                     //show updater screen
                     CheckUpdateButton.Content = "\u203Cアップデートが利用可能です";
                     CheckUpdateButton.Background =
                         new SolidColorBrush((Color) ColorConverter.ConvertFromString("#f5ad3b"));
                     //get parent Window
-                    var window = Matsuri.SeaSlug.GetAncestorOfType<MetroWindow>(sender as Button);
+                    var window = Matsuri.SeaSlug.GetAncestorOfType<MetroWindow>((Button) sender);
                     var diagret = await window.ShowMessageAsync($"バージョン{vc.AppVersion}が利用可能です",
                         $"{vc.UpdateMessage}\n\nアップデートページを開きますか？", MessageDialogStyle.AffirmativeAndNegative);
                     if (diagret == MessageDialogResult.Affirmative)

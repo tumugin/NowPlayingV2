@@ -29,18 +29,21 @@ namespace NowPlayingV2.UI
     /// </summary>
     public partial class TweetDialog : MetroWindow
     {
-        private SongInfo _songcache;
+        private SongInfo? songCache;
 
-        private ReactiveProperty<Mastonet.Visibility> _mastodonVisibility { get; } =
+        private ReactiveProperty<Mastonet.Visibility> mastodonVisibility { get; } =
             new ReactiveProperty<Visibility>(Mastonet.Visibility.Public);
 
         public TweetDialog()
         {
             InitializeComponent();
             AccountListComboBox.ItemsSource = ConfigStore.StaticConfig.accountList;
-            MastodonVisibilitySelector.DataContext = _mastodonVisibility;
+            MastodonVisibilitySelector.DataContext = mastodonVisibility;
             AccountListComboBox.SelectionChanged += AccountListComboBox_SelectionChanged;
-            if (ConfigStore.StaticConfig.accountList.Count > 0) AccountListComboBox.SelectedIndex = 0;
+            if (ConfigStore.StaticConfig.accountList.Count > 0)
+            {
+                AccountListComboBox.SelectedIndex = 0;
+            }
         }
 
         private void AccountListComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -57,8 +60,8 @@ namespace NowPlayingV2.UI
 
         private async void WindowLoaded(object sender, RoutedEventArgs e)
         {
-            var songInfo = PipeListener.staticpipelistener.LastPlayedSong;
-            _songcache = songInfo?.Clone() as SongInfo;
+            var songInfo = PipeListener.StaticPipeListener?.LastPlayedSong;
+            songCache = songInfo?.Clone() as SongInfo;
             if (songInfo == null)
             {
                 await this.ShowMessageAsync("メッセージ", "現在何も再生されていません。\n(注:アプリケーションが起動する前に再生されていた曲は取得できません)");
@@ -66,12 +69,16 @@ namespace NowPlayingV2.UI
                 return;
             }
 
-            var isource = new Func<BitmapSource>(() =>
+            var isource = new Func<BitmapSource?>(() =>
             {
                 try
                 {
-                    if (!songInfo.IsAlbumArtAvaliable()) return null;
-                    return GdiUtils.ToImageSource(songInfo.GetAlbumArt());
+                    if (!songInfo.IsAlbumArtAvaliable())
+                    {
+                        return null;
+                    }
+
+                    return GdiUtils.ToImageSource(songInfo.GetAlbumArt()!);
                 }
                 catch
                 {
@@ -83,47 +90,56 @@ namespace NowPlayingV2.UI
             TweetTextBox.Focus();
         }
 
-        private async void OnTweetClick(object sender, RoutedEventArgs e)
+        private async void OnTweetClick(object? sender, RoutedEventArgs? e)
         {
-            var loadingview = await this.ShowProgressAsync("Please wait...", "つぶやいています.....");
-            loadingview.SetIndeterminate();
+            if (songCache == null)
+            {
+                throw new InvalidOperationException("songCache must not be null!!");
+            }
+
+            var loadingView = await this.ShowProgressAsync("Please wait...", "つぶやいています.....");
+            loadingView.SetIndeterminate();
             //get current account
             var acc = AccountListComboBox.SelectedItem as AccountContainer;
-            var tweetext = TweetTextBox.Text;
+            var tweetText = TweetTextBox.Text;
             try
             {
-                if (acc == null) throw new Exception("アカウントが何も追加されていない状態でツイートすることはできません。");
-                if (EnableImageTweetCBox.IsChecked.Value)
+                if (acc == null)
+                {
+                    throw new Exception("アカウントが何も追加されていない状態でツイートすることはできません。");
+                }
+
+                if (EnableImageTweetCBox.IsChecked ?? false)
                 {
                     if (acc is MastodonAccount account)
                     {
-                        await account.UpdateStatus(tweetext, _songcache.AlbumArtBase64,
-                            _mastodonVisibility.Value);
+                        await account.UpdateStatus(tweetText, songCache.AlbumArtBase64,
+                            mastodonVisibility.Value);
                     }
                     else
                     {
-                        await acc.UpdateStatus(tweetext, _songcache.AlbumArtBase64);
+                        await acc.UpdateStatus(tweetText, songCache.AlbumArtBase64);
                     }
                 }
                 else
                 {
                     if (acc is MastodonAccount account)
                     {
-                        await account.UpdateStatus(tweetext, _mastodonVisibility.Value);
+                        await account.UpdateStatus(tweetText, mastodonVisibility.Value);
                     }
                     else
                     {
-                        await acc.UpdateStatus(tweetext);
+                        await acc.UpdateStatus(tweetText);
                     }
                 }
 
-                await loadingview.CloseAsync();
+                await loadingView.CloseAsync();
                 this.Close();
             }
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("エラー", $"ツイート中にエラーが発生しました。\n{ex}");
-                await loadingview.CloseAsync();
+                await loadingView.CloseAsync();
             }
         }
 

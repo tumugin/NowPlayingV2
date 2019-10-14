@@ -22,9 +22,9 @@ namespace NowPlayingV2.UI.View
         //Use this for DisplayMemberBinding
         public ObservableCollection<AccountContainer> StarryMelody => ConfigStore.StaticConfig.accountList;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public virtual void OnPropertyChanged(string propertyName = null)
+        public virtual void OnPropertyChanged(string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
