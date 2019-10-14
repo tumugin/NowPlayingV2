@@ -37,6 +37,9 @@ test:
   categories:
     except:
       - PluginTest
+  assemblies:
+    except:
+      - ReSharperCLT2019.2.2/**/*
 after_test:
 - ps: >-
     ./ReSharperCLT2019.2.2/InspectCode.exe -o="report.xml" ./NowPlayingV2.sln
