@@ -5,7 +5,7 @@
 #include <QtCore/QJsonDocument>
 #include <QtNetwork/QLocalSocket>
 
-DECLARE_COMPONENT_VERSION("foo_nowplayingv2", "1.4", "plugin for NowPlayingTunesV2");
+DECLARE_COMPONENT_VERSION("foo_nowplayingv2", "1.5", "plugin for NowPlayingTunesV2");
 
 void MinatoYukina::on_init()
 {
