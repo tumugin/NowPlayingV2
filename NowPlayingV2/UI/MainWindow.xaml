@@ -39,7 +39,7 @@
                                    VerticalAlignment="Top" Width="250" Source="{Binding BsImage}" />
                             <Grid x:Name="NothingPlayingGrid" Height="100" HorizontalAlignment="Stretch"
                                   Background="#99000000">
-                                <Label Content="現在何も再生されていません。" FontSize="20" HorizontalAlignment="Center"
+                                <Label Content="現在何も再生されていません" FontSize="20" HorizontalAlignment="Center"
                                        VerticalAlignment="Center" />
                             </Grid>
                             <Grid x:Name="HintBoxGrid" Width="500" HorizontalAlignment="Left"

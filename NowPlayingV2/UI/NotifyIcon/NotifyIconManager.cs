@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Hardcodet.Wpf.TaskbarNotification;
+using MahApps.Metro.Controls;
 using NowPlayingCore.NowPlaying;
 using NowPlayingV2.Core;
+using NowPlayingV2.UI.View;
 
 namespace NowPlayingV2.UI.NotifyIcon
 {
@@ -42,6 +44,20 @@ namespace NowPlayingV2.UI.NotifyIcon
                         NPIcon.ShowBalloonTip("エラー", exception.Message, BalloonIcon.Info);
                     }
                 };
+            ((UserControl)LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "SmallStatusView"))
+                .DataContext = null;
+            PipeListener.StaticPipeListener!.OnMusicPlay += StaticPipeListenerOnMusicPlay;
+        }
+
+        private void StaticPipeListenerOnMusicPlay(SongInfo songInfo)
+        {
+            // 表示用データを生成する
+            var songView = new Model4SongView(songInfo);
+            NPIcon.Invoke(() =>
+            {
+                ((UserControl) LogicalTreeHelper.FindLogicalNode(NPIcon.ContextMenu, "SmallStatusView"))
+                    .DataContext = songView;
+            });
         }
 
         public void DeleteIcon() => NPIcon.Dispose();
