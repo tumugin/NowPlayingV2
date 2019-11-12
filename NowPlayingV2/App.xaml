@@ -20,7 +20,6 @@
                 <!--Default UI Style-->
                 <ResourceDictionary Source="UI/Style/DefaultStyle.xaml"/>
                 <ResourceDictionary Source="UI/NotifyIcon/NotifyIconDic.xaml"/>
-                <ResourceDictionary Source="UI/Theme/acrylic/DisableAcrylic.xaml"/>
                 <!--SVG Converted Canvas-->
                 <ResourceDictionary Source="UI/Resources/CanvasResource.xaml"/>
             </ResourceDictionary.MergedDictionaries>

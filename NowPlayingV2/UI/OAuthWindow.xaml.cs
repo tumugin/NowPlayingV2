@@ -3,6 +3,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace NowPlayingV2.UI
     /// </summary>
     public partial class OAuthWindow : MetroWindow
     {
-        private OAuthSession session;
+        private OAuthSession session = default!;
 
         public OAuthWindow()
         {
@@ -40,7 +41,12 @@ namespace NowPlayingV2.UI
                 await Task.Run(() =>
                 {
                     session = OAuth.Authorize(APIKey.CONSUMER_KEY, APIKey.CONSUMER_SECRET);
-                    System.Diagnostics.Process.Start(session.AuthorizeUri.AbsoluteUri);
+                    var processStartInfo = new ProcessStartInfo(session.AuthorizeUri.AbsoluteUri)
+                    {
+                        UseShellExecute = true,
+                        Verb = "open"
+                    };
+                    System.Diagnostics.Process.Start(processStartInfo);
                 });
                 WindowTab.SelectedIndex = 1;
             }
@@ -61,12 +67,10 @@ namespace NowPlayingV2.UI
             var pincode = PinCodeTextBox.Text;
             try
             {
-                await Task.Run(() =>
-                {
-                    var token = session.GetTokens(pincode);
-                    var container = new TwitterAccount(token);
-                    Core.ConfigStore.StaticConfig.accountList.Add(container);
-                });
+                var token = session.GetTokens(pincode);
+                var container = new TwitterAccount(token);
+                await container.UpdateCache();
+                Core.ConfigStore.StaticConfig.accountList.Add(container);
                 await progdiag.CloseAsync();
                 this.Close();
             }

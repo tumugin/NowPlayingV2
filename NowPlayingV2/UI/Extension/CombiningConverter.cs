@@ -9,8 +9,8 @@ namespace NowPlayingV2.UI.Extension
 {
     public class CombiningConverter : IValueConverter
     {
-        public IValueConverter Converter1 { get; set; }
-        public IValueConverter Converter2 { get; set; }
+        public IValueConverter Converter1 { get; set; } = default!;
+        public IValueConverter Converter2 { get; set; } = default!;
 
         #region IValueConverter Members
 

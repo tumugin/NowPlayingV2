@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:NowPlayingV2.UI.Theme.dark">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../acrylic/DisableAcrylic.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
     </ResourceDictionary.MergedDictionaries>

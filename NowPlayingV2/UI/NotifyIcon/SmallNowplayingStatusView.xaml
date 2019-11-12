@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="NowPlayingV2.UI.NotifyIcon.SmallNowplayingStatusView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:NowPlayingV2.UI.NotifyIcon"
+             xmlns:extension="clr-namespace:NowPlayingV2.UI.Extension"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="250">
+    <UserControl.Resources>
+        <extension:NullVisibilityConverter x:Key="NullVisibilityConverter" />
+        <extension:NullVisibilityConverterReversed x:Key="NullVisibilityConverterReversed" />
+    </UserControl.Resources>
+    <StackPanel>
+        <Label HorizontalAlignment="Center" FontSize="14" Visibility="{Binding Converter={StaticResource NullVisibilityConverterReversed}}">現在何も再生されていません</Label>
+        <StackPanel Visibility="{Binding Converter={StaticResource NullVisibilityConverter}}">
+            <Image Height="150" Width="150" Source="{Binding BsImage}" />
+            <Label Name="SongNameLabel" FontSize="14">
+                <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                           Text="{Binding Title,FallbackValue='TRUE COLORS (M@STER VERSION)'}" />
+            </Label>
+            <Label Name="AlbumNameLabel" FontSize="10">
+                <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                           Text="{Binding Album,FallbackValue='THE IDOLM@STER CINDERELLA GIRLS STARLIGHT MASTER for the NEXT! 01 TRUE COLORS'}" />
+            </Label>
+            <Label Name="ArtistNameLabel" FontSize="10">
+                <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                           Text="{Binding Artist,FallbackValue='城ヶ崎美嘉 (CV: 佳村はるか)、高森藍子 (CV: 金子有希)、アナスタシア (CV: 上坂すみれ)、藤原肇 (CV: 鈴木みのり)、乙倉悠貴 (CV: 中島由貴)、黒埼ちとせ (CV: 佐倉薫)、白雪千夜 (CV: 関口理咲)、久川颯 (CV: 長江里加)、久川凪 (CV: 立花日菜)'}" />
+            </Label>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

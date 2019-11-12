@@ -6,44 +6,48 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CoreTweet;
+using Newtonsoft.Json;
+using NowPlayingCore.ConfigConverter;
 
 namespace NowPlayingCore.Core
 {
     public class TwitterAccount : AccountContainer
     {
+        [JsonConverter(typeof(TwitterAuthTokenConverter))]
         public Tokens AuthToken { get; set; }
 
         //Will be called on Json.NET deserialization
+#nullable disable
         private TwitterAccount()
         {
         }
+#nullable enable
 
         public TwitterAccount(Tokens token)
         {
             AuthToken = token;
-            UpdateName();
         }
 
         public override string ID => AuthToken.ScreenName;
 
         public override int MaxTweetLength => 280;
 
-        public override void UpdateCache()
+        public override async Task UpdateCache()
         {
-            AuthToken.Account.VerifyCredentialsAsync().Wait();
-            UpdateName();
+            await AuthToken.Account.VerifyCredentialsAsync();
+            await UpdateName();
         }
 
-        public override void UpdateStatus(string UpdateText)
+        public override async Task UpdateStatus(string UpdateText)
         {
-            AuthToken.Statuses.UpdateAsync(status: UpdateText).Wait();
+            await AuthToken.Statuses.UpdateAsync(status: UpdateText);
         }
 
-        public override void UpdateStatus(string UpdateText, string base64image)
+        public override async Task UpdateStatus(string UpdateText, string base64image)
         {
             byte[] data = Convert.FromBase64String(base64image);
-            var imgresult = AuthToken.Media.UploadAsync(media => data).Result;
-            AuthToken.Statuses.UpdateAsync(status: UpdateText, media_ids: new[] {imgresult.MediaId});
+            var imgresult = await AuthToken.Media.UploadAsync(media => data);
+            await AuthToken.Statuses.UpdateAsync(status: UpdateText, media_ids: new[] {imgresult.MediaId});
         }
 
         public override int CountText(string text) => CountTextStatic(text);
@@ -62,6 +66,6 @@ namespace NowPlayingCore.Core
             return scount;
         }
 
-        private void UpdateName() => Name = AuthToken.Users.ShowAsync(user_id: AuthToken.UserId).Result.Name;
+        private async Task UpdateName() => Name = (await AuthToken.Users.ShowAsync(user_id: AuthToken.UserId)).Name;
     }
 }

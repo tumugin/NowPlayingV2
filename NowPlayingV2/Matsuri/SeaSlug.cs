@@ -12,12 +12,15 @@ namespace NowPlayingV2.Matsuri
 {
     public class SeaSlug
     {
-        public static T GetAncestorOfType<T>(FrameworkElement child) where T : FrameworkElement
+        public static T? GetAncestorOfType<T>(FrameworkElement child) where T : class
         {
             var parent = VisualTreeHelper.GetParent(child);
             if (parent != null && !(parent is T))
-                return (T)GetAncestorOfType<T>((FrameworkElement)parent);
-            return (T)parent;
+            {
+                return GetAncestorOfType<T>((FrameworkElement) parent);
+            }
+
+            return parent as T;
         }
     }
 }

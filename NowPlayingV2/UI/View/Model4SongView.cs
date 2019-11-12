@@ -23,20 +23,24 @@ namespace NowPlayingV2.UI.View
                 if (isPresent != null)
                 {
                     //If present get the value and map it
-                    var value = sbase.GetType().GetProperty(property.Name).GetValue(sbase, null);
-                    this.GetType().GetProperty(property.Name).SetValue(this, value, null);
+                    var value = sbase.GetType().GetProperty(property.Name)!.GetValue(sbase, null);
+                    this.GetType().GetProperty(property.Name)!.SetValue(this, value, null);
                 }
             });
         }
 
-        public BitmapSource BsImage
+        public BitmapSource? BsImage
         {
             get
             {
                 try
                 {
-                    if (!IsAlbumArtAvaliable()) return null;
-                    return GdiUtils.ToImageSource(GetAlbumArt());
+                    if (!IsAlbumArtAvaliable())
+                    {
+                        return null;
+                    }
+
+                    return GdiUtils.ToImageSource(GetAlbumArt()!);
                 }
                 catch
                 {

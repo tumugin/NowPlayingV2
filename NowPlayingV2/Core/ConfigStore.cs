@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JsonNet.PrivateSettersContractResolvers;
+using JsonNet.ContractResolvers;
 using Newtonsoft.Json.Linq;
 
 namespace NowPlayingV2.Core
@@ -24,31 +24,14 @@ namespace NowPlayingV2.Core
         {
             var bary = System.IO.File.ReadAllBytes(ConfigPath);
             var rawjson = Encoding.UTF8.GetString(bary);
-            var desirializer_settings = new JsonSerializerSettings()
+            var deserializerSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
                 ContractResolver = new PrivateSetterContractResolver()
             };
-            try
-            {
-                return JsonConvert.DeserializeObject<Config>(rawjson, desirializer_settings);
-            }
-            catch
-            {
-                //try migration for new config file
-                var jobj = JObject.Parse(rawjson);
-                jobj["accountList"]
-                    .Where(i => i["$type"] == null ||
-                                i["$type"]?.Value<String>() == "NowPlayingV2.Core.TwitterAccount, NowPlayingV2")
-                    .ToList()
-                    .ForEach(i => { i["$type"] = "NowPlayingCore.Core.TwitterAccount, NowPlayingCore"; });
-                jobj["accountList"]
-                    .Where(i => i["$type"]?.Value<String>() == "NowPlayingV2.Core.MastodonAccount, NowPlayingV2")
-                    .ToList()
-                    .ForEach(i => { i["$type"] = "NowPlayingCore.Core.MastodonAccount, NowPlayingCore"; });
-                return JsonConvert.DeserializeObject<Config>(jobj.ToString(), desirializer_settings);
-            }
+            return JsonConvert.DeserializeObject<Config>(rawjson, deserializerSettings) ??
+                   throw new Exception("null config is not allowed!!!!");
         }
 
         public static void SaveConfig(Config cfg)

@@ -46,7 +46,7 @@ namespace NowPlayingV2.UI.Controls
             VisibilityComboBox.DataContext = mastodonVisibilitySelectorVm;
             VisibilityComboBox.SelectionChanged += (sender, args) =>
             {
-                MastodonVisibility = (VisibilityComboBox.SelectedItem as VisibilityItem).Visibility;
+                MastodonVisibility = ((VisibilityItem) VisibilityComboBox.SelectedItem).Visibility;
             };
         }
     }

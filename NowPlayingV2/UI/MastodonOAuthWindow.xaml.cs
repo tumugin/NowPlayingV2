@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +26,8 @@ namespace NowPlayingV2.UI
     /// </summary>
     public partial class MastodonOAuthWindow : MetroWindow
     {
-        private AppRegistration registeredApp;
-        private AuthenticationClient authClient;
+        private AppRegistration registeredApp = default!;
+        private AuthenticationClient authClient = default!;
 
         public MastodonOAuthWindow()
         {
@@ -61,7 +62,12 @@ namespace NowPlayingV2.UI
                 await Task.Run(() =>
                 {
                     var url = authClient.OAuthUrl();
-                    System.Diagnostics.Process.Start(url);
+                    var processStartInfo = new ProcessStartInfo(url)
+                    {
+                        UseShellExecute = true,
+                        Verb = "open"
+                    };
+                    System.Diagnostics.Process.Start(processStartInfo);
                 });
                 WindowTab.SelectedIndex = 2;
             }
@@ -82,12 +88,10 @@ namespace NowPlayingV2.UI
             try
             {
                 var tokens = await authClient.ConnectWithCode(PinCodeTextBox.Text);
-                await Task.Run(() =>
-                {
-                    var client = new MastodonClient(registeredApp, tokens);
-                    var container = new MastodonAccount(client);
-                    Core.ConfigStore.StaticConfig.accountList.Add(container);
-                });
+                var client = new MastodonClient(registeredApp, tokens);
+                var container = new MastodonAccount(client);
+                await container.UpdateCache();
+                Core.ConfigStore.StaticConfig.accountList.Add(container);
                 await progdiag.CloseAsync();
                 this.Close();
             }

@@ -16,18 +16,18 @@ namespace NowPlayingV2.UI
 {
     public partial class MainWindow
     {
-        private static MainWindow windowinstance;
-        private Model4SongView songView;
+        private static MainWindow? windowInstance;
+        private Model4SongView? songView;
 
-        public static void OpenSigletonWindow()
+        public static void OpenSingletonWindow()
         {
-            if (windowinstance == null)
+            if (windowInstance == null)
             {
                 (new MainWindow()).Show();
             }
             else
             {
-                windowinstance.Activate();
+                windowInstance.Activate();
             }
         }
 
@@ -39,12 +39,24 @@ namespace NowPlayingV2.UI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            windowinstance = this;
+            if (PipeListener.StaticPipeListener == null)
+            {
+                throw new InvalidOperationException(
+                    "PipeListener.StaticPipeListener must be initialized before calling this method.");
+            }
+
+            windowInstance = this;
             BindingOperations.EnableCollectionSynchronization(ConfigStore.StaticConfig.accountList, new object());
-            PipeListener.staticpipelistener.OnMusicPlay += UpdatePlayingSongView;
-            if (PipeListener.staticpipelistener.LastPlayedSong != null)
-                UpdatePlayingSongView(PipeListener.staticpipelistener.LastPlayedSong);
-            if(ConfigStore.StaticConfig.HintDiagClosed) HintBoxGrid.Visibility = Visibility.Hidden;
+            PipeListener.StaticPipeListener.OnMusicPlay += UpdatePlayingSongView;
+            if (PipeListener.StaticPipeListener.LastPlayedSong != null)
+            {
+                UpdatePlayingSongView(PipeListener.StaticPipeListener.LastPlayedSong);
+            }
+
+            if (ConfigStore.StaticConfig.HintDiagClosed)
+            {
+                HintBoxGrid.Visibility = Visibility.Hidden;
+            }
         }
 
         private void UpdatePlayingSongView(SongInfo songInfo)
@@ -88,8 +100,14 @@ namespace NowPlayingV2.UI
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            PipeListener.staticpipelistener.OnMusicPlay -= UpdatePlayingSongView;
-            windowinstance = null;
+            if (PipeListener.StaticPipeListener == null)
+            {
+                throw new InvalidOperationException(
+                    "PipeListener.StaticPipeListener must be initialized before calling this method.");
+            }
+
+            PipeListener.StaticPipeListener.OnMusicPlay -= UpdatePlayingSongView;
+            windowInstance = null;
             ConfigStore.SaveConfig(ConfigStore.StaticConfig);
         }
 

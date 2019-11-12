@@ -24,19 +24,35 @@ namespace NowPlayingV2.Updater
 
         public async void CheckUpdateAsync()
         {
-            if (!config.CheckUpdate) return;
+            if (!config.CheckUpdate)
+            {
+                return;
+            }
+
             try
             {
                 var vc = await VersionClass.GetUpdaterAsync();
-                if (!vc.IsUpdateAvaliable()) return;
+                if (!vc.IsUpdateAvailable())
+                {
+                    return;
+                }
+
                 //Show message
                 nim.NPIcon.ShowBalloonTip(vc.UpdateTitle, vc.UpdateMessage, BalloonIcon.Info);
                 //Set menu item
-                var updatemenu = (LogicalTreeHelper.FindLogicalNode(nim.NPIcon.ContextMenu, "UpdateMenu") as MenuItem);
-                var updateseparetor =
-                    (LogicalTreeHelper.FindLogicalNode(nim.NPIcon.ContextMenu, "UpdateMenuSeparator") as Separator);
-                (new Control[] {updateseparetor, updatemenu}).ToList().ForEach(i => i.Visibility = Visibility.Visible);
-                updatemenu.Click += (sender, e) => { Process.Start(vc.UpdateNotifyUrl); };
+                var updateMenu = (MenuItem) LogicalTreeHelper.FindLogicalNode(nim.NPIcon.ContextMenu, "UpdateMenu");
+                var updateSeparator =
+                    (Separator) LogicalTreeHelper.FindLogicalNode(nim.NPIcon.ContextMenu, "UpdateMenuSeparator");
+                (new Control[] {updateSeparator, updateMenu}).ToList().ForEach(i => i.Visibility = Visibility.Visible);
+                updateMenu.Click += (sender, e) =>
+                {
+                    var processStartInfo = new ProcessStartInfo(vc.UpdateNotifyUrl)
+                    {
+                        UseShellExecute = true,
+                        Verb = "open"
+                    };
+                    Process.Start(processStartInfo);
+                };
             }
             catch (Exception ex)
             {

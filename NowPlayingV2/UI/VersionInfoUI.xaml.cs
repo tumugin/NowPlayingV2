@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,9 +30,9 @@ namespace NowPlayingV2.UI
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             var asm = System.Reflection.Assembly.GetExecutingAssembly();
-            var ver = asm.GetName().Version.ToString();
-            var builddate = Matsuri.BuildDate.GetBuildDateTime(asm).ToString("R");
-            VersionLabel.Content = $"Version: {ver}\nBuildDate: {builddate}";
+            var ver = asm.GetName().Version?.ToString() ?? "unknown version";
+            var buildDate = asm.GetCustomAttribute<BuildDateAttribute>()!.DateTime.ToString("R");
+            VersionLabel.Content = $"Version: {ver}\nBuildDate: {buildDate}";
         }
 
         private async void CheckUpdateButton_Click(object sender, RoutedEventArgs e)
@@ -40,19 +41,24 @@ namespace NowPlayingV2.UI
             {
                 CheckUpdateButton.Content = "アップデートを確認しています.....";
                 var vc = await VersionClass.GetUpdaterAsync();
-                if (vc.IsUpdateAvaliable())
+                if (vc.IsUpdateAvailable())
                 {
                     //show updater screen
                     CheckUpdateButton.Content = "\u203Cアップデートが利用可能です";
                     CheckUpdateButton.Background =
                         new SolidColorBrush((Color) ColorConverter.ConvertFromString("#f5ad3b"));
                     //get parent Window
-                    var window = Matsuri.SeaSlug.GetAncestorOfType<MetroWindow>(sender as Button);
+                    var window = Matsuri.SeaSlug.GetAncestorOfType<MetroWindow>((Button) sender);
                     var diagret = await window.ShowMessageAsync($"バージョン{vc.AppVersion}が利用可能です",
                         $"{vc.UpdateMessage}\n\nアップデートページを開きますか？", MessageDialogStyle.AffirmativeAndNegative);
                     if (diagret == MessageDialogResult.Affirmative)
                     {
-                        Process.Start(vc.UpdateNotifyUrl);
+                        var processStartInfo = new ProcessStartInfo(vc.UpdateNotifyUrl)
+                        {
+                            UseShellExecute = true,
+                            Verb = "open"
+                        };
+                        Process.Start(processStartInfo);
                     }
                 }
                 else
@@ -74,7 +80,12 @@ namespace NowPlayingV2.UI
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            var processStartInfo = new ProcessStartInfo(e.Uri.AbsoluteUri)
+            {
+                UseShellExecute = true,
+                Verb = "open"
+            };
+            Process.Start(processStartInfo);
         }
     }
 }

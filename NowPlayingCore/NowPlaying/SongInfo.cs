@@ -13,73 +13,88 @@ namespace NowPlayingCore.NowPlaying
     [Serializable()]
     public class SongInfo : ICloneable
     {
-        [JsonProperty("title")]
-        public string Title { get; protected set; }
-        [JsonProperty("albumartist")]
-        public string AlbumArtist { get; protected set; }
-        [JsonProperty("album")]
-        public string Album { get; protected set; }
-        [JsonProperty("trackcount")]
-        public string TrackCount { get; protected set; }
-        [JsonProperty("albumart")]
-        public string AlbumArtBase64 { get; protected set; }
-        [JsonProperty("albumartpath")]
-        public string AlbumArtPath { get; protected set; }
-        [JsonProperty("artist")]
-        public string Artist { get; protected set; }
-        [JsonProperty("composer")]
-        public string Composer { get; protected set; }
-        [JsonProperty("year")]
-        public string Year { get; protected set; }
-        [JsonProperty("group")]
-        public string Group { get; protected set; }
+        [JsonProperty("title")] public string Title { get; protected set; }
+        [JsonProperty("albumartist")] public string AlbumArtist { get; protected set; }
+        [JsonProperty("album")] public string Album { get; protected set; }
+        [JsonProperty("trackcount")] public string TrackCount { get; protected set; }
+        [JsonProperty("albumart")] public string AlbumArtBase64 { get; protected set; }
+        [JsonProperty("albumartpath")] public string AlbumArtPath { get; protected set; }
+        [JsonProperty("artist")] public string Artist { get; protected set; }
+        [JsonProperty("composer")] public string Composer { get; protected set; }
+        [JsonProperty("year")] public string Year { get; protected set; }
+        [JsonProperty("group")] public string Group { get; protected set; }
 
-        private Bitmap cachebitmap = null;
+        private Bitmap? cacheBitmap = null;
 
-        public SongInfo(){}
+#nullable disable
+        public SongInfo()
+        {
+        }
+#nullable enable
 
-        public SongInfo(Dictionary<String,String> kvp){
+#nullable disable
+        public SongInfo(Dictionary<String, String> kvp)
+        {
             kvp.ToList().ForEach(item =>
             {
                 var property = GetType().GetProperty(item.Key);
                 property.SetValue(this, item.Value);
             });
         }
+#nullable enable
 
-        public Bitmap GetAlbumArt()
+        public Bitmap? GetAlbumArt()
         {
-            if (cachebitmap != null) return cachebitmap;
-            if (!IsAlbumArtAvaliable()) return null;
+            if (cacheBitmap != null)
+            {
+                return cacheBitmap;
+            }
+
+            if (!IsAlbumArtAvaliable())
+            {
+                return null;
+            }
+
             CreateAlbumArt();
-            return cachebitmap;
+            return cacheBitmap;
         }
 
         public bool IsAlbumArtAvaliable()
         {
-            if (String.IsNullOrEmpty(AlbumArtBase64) && String.IsNullOrEmpty(AlbumArtPath)) return false;
-            if (cachebitmap != null) return true;
+            if (String.IsNullOrEmpty(AlbumArtBase64) && String.IsNullOrEmpty(AlbumArtPath))
+            {
+                return false;
+            }
+
+            if (cacheBitmap != null)
+            {
+                return true;
+            }
+
             try
             {
                 CreateAlbumArt();
                 return true;
             }
-            catch {
+            catch
+            {
                 return false;
             }
         }
 
-        public void CreateAlbumArt(){
+        public void CreateAlbumArt()
+        {
             if (!String.IsNullOrEmpty(AlbumArtPath))
             {
                 var bary = File.ReadAllBytes(AlbumArtPath);
                 var ms = new MemoryStream(bary);
-                cachebitmap = new Bitmap(ms);
+                cacheBitmap = new Bitmap(ms);
             }
             else
             {
                 var bary = Convert.FromBase64String(AlbumArtBase64);
                 var ms = new MemoryStream(bary);
-                cachebitmap = new Bitmap(ms);
+                cacheBitmap = new Bitmap(ms);
             }
         }
 
@@ -88,7 +103,7 @@ namespace NowPlayingCore.NowPlaying
             using (var ms = new MemoryStream())
             {
                 var bformatter = new BinaryFormatter();
-                bformatter.Serialize(ms,this);
+                bformatter.Serialize(ms, this);
                 ms.Position = 0;
                 return bformatter.Deserialize(ms);
             }

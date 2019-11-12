@@ -5,17 +5,16 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NowPlayingCore.Core;
 using NowPlayingCore.NowPlaying;
 using NowPlayingCore.Tsumugi;
+using Xunit;
 
 namespace NowPlayingV2UTest
 {
-    [TestClass]
     public class TweetConverterTest
     {
-        [TestMethod]
+        [Fact]
         public void TestAutoShortenTweet()
         {
             //setup test instance
@@ -43,17 +42,17 @@ namespace NowPlayingV2UTest
                     .OrderBy((k => Guid.NewGuid())).ToArray().First();
             });
             //Test Twitter counter
-            Assert.IsTrue(twitteraccount.CountText(testtext280) == 280);
+            Assert.True(twitteraccount.CountText(testtext280) == 280);
             var testconvtext1 = TweetConverter.SongInfoToString(testtext280, dummysong, true, twitteraccount);
-            Assert.IsTrue(testconvtext1 == testtext280);
+            Assert.True(testconvtext1 == testtext280);
             var testconvtext2 = TweetConverter.SongInfoToString(testtext288, dummysong, true, twitteraccount);
-            Assert.IsTrue(twitteraccount.CountText(testconvtext2) == 279);
+            Assert.True(twitteraccount.CountText(testconvtext2) == 279);
             //Test Mastodon counter
-            Assert.IsTrue(mastodonaccount.CountText(testtext500) == 500);
+            Assert.True(mastodonaccount.CountText(testtext500) == 500);
             var testconvtext3 = TweetConverter.SongInfoToString(testtext500, dummysong, true, mastodonaccount);
-            Assert.IsTrue(mastodonaccount.CountText(testconvtext3) == 500);
+            Assert.True(mastodonaccount.CountText(testconvtext3) == 500);
             var testconvtext4 = TweetConverter.SongInfoToString(testtext765, dummysong, true, mastodonaccount);
-            Assert.IsTrue(mastodonaccount.CountText(testconvtext4) == 500);
+            Assert.True(mastodonaccount.CountText(testconvtext4) == 500);
         }
     }
 }
